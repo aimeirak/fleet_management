@@ -103,6 +103,7 @@ if (isset($_REQUEST['username'])) {
                 }   
                 if($sent){
                     $success = 'please check the link we sent to your email and verify your self , thank you!';
+                     header('location:include/verification.php');
 
                 }
 
