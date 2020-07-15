@@ -78,7 +78,7 @@ if (isset($_REQUEST['username'])) {
                 $sender_name = "ishyiga Freet Managiment system ";
                 $m   = password_hash($email,PASSWORD_DEFAULT);
                 $to  = $email;
-                $contents = '<a background-color = "#007bff" border-color= "#007bff"  border-radius = ".25rem" color="#fff" href="http://localhost/fleet/include/verification.php?verKey='.$varKey.'">verify my email</a>'; 
+                $contents = '<a background-color = "#007bff" border-color= "#007bff"  border-radius = ".25rem" color="#fff" href="http://localhost/fleet/include/verification.php?verKey='.$varKey.'">verify my email</a> '; 
                
                 $isSent = sendEmail($subject,$sender,$sender_name,$to,$contents);
                 //will be changed manuel 
@@ -103,6 +103,7 @@ if (isset($_REQUEST['username'])) {
                 }   
                 if($sent){
                     $success = 'please check the link we sent to your email and verify your self , thank you!';
+                    header('location:include/verification.php');
 
                 }
 

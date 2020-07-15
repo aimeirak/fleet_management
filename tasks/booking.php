@@ -159,10 +159,10 @@ ini_set('display_errors', 'On');
                        //$toAdm = $row['email'];
                        $sender = "ishyigasoftware900@gmail.com";
                        $sender_name = "ishyiga Freet Managiment system ";
-                       $to  = 'sezeranochrisostom123@gmail.com';
+                       $to  = 'sezeranochrisostom123@gmail.com';//must be the driver
                        include '../tasks/emailSender.php';
-                      // $request = sendEmail($subject,$sender,$sender_name,$to,$messagesq);
-                       $request = true;
+                       $request = sendEmail($subject,$sender,$sender_name,$to,$messagesq);
+                    //    $request = true; when no internet
  
                        if($request){
                          $success =  'your request is sent';  
@@ -359,16 +359,7 @@ ini_set('display_errors', 'On');
 
                                     
                                     ?>
-                                    <!-- <select id="departure" class="myselect form-control" name="departure"  >
-                                    </select>
-
-                                     <div class="input-group-append">
-                                        <button type="button" class="btn btn-primary btn-number" data-type="plus" data-target="#addModal" data-toggle="modal">
-                                            <span class="fa fa-plus"></span>
-                                            </button>
-                                                        </span>
-                                        </div>
-                                </div> -->
+                                    
 
                                    
 

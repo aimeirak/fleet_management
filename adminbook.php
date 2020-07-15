@@ -9,7 +9,7 @@ include('authenticate.php'); ?>
 <?php
 if ($_SESSION['role'] != 20) {
 
-    header("location: ui.php");
+    header("location: uiupdate.php");
 }
 ?>
 
