@@ -144,10 +144,7 @@ ini_set('display_errors', 'On');
                         <td><h1></h1></td>
                       </tr>
                     </table>
-                    <a class="btn btn-success" href="http://localhost:8888/test_car/confirm_booking.php?id=' . $id . '">Confirm this booking now</a>
-                    
-                    <a class="btn btn-danger" href="http://localhost:8888/test_car/permission.php?id=' . $id . '">Go to booking </a>
-                   ';
+                     ';
                    try{
                     $role = 10;
                     $select = "SELECT email from fluid_user where id_subcompany =?  and role = ? ";

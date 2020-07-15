@@ -161,7 +161,7 @@
                 <span class="sr-only">Success:</span>
                 <span class="msg"><?=$success?></span>
             </div>
-                <?php }?>
+                <?php }}?>
                         <?php
                         
                         $rS = mysqli_query($connection, $sql);
