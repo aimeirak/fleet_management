@@ -130,5 +130,5 @@ if($already || $read){ ?>
 <?php } ?>
 
 <?php
-include 'footer.php';
+include 'footerui.php';
 
