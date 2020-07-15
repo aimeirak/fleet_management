@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b637be36-c161-4da6-9016-896a7308f969" name="Default" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="navSideadmin.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/navSideadmin.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="122">
+              <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+              <folding>
+                <marker date="1515393261220" expanded="true" signature="338:814" ph="..." />
+                <marker date="1515393261220" expanded="true" signature="418:814" ph="..." />
+                <marker date="1515393261220" expanded="true" signature="485:528" ph="SELECT count... fluid_booking" />
+                <marker date="1515393261220" expanded="true" signature="1015:1508" ph="..." />
+                <marker date="1515393261220" expanded="true" signature="1051:1508" ph="..." />
+                <marker date="1515393261220" expanded="true" signature="1126:1508" ph="..." />
+                <marker date="1515393261220" expanded="true" signature="1188:1228" ph="SELECT count... fluid_user" />
+                <marker date="1515393261220" expanded="true" signature="1711:1817" ph="..." />
+                <marker date="1515393261220" expanded="true" signature="1916:1941" ph="..." />
+                <marker date="1515393261220" expanded="true" signature="1916:2012" ph="..." />
+                <marker date="1515393261220" expanded="true" signature="2114:2139" ph="..." />
+                <marker date="1515393261220" expanded="true" signature="2114:2248" ph="..." />
+                <marker date="1515393261220" expanded="true" signature="2413:2832" ph="..." />
+                <marker date="1515393261220" expanded="true" signature="2489:2585" ph="..." />
+                <marker date="1515393261220" expanded="true" signature="2525:2574" ph="..." />
+                <marker date="1515393261220" expanded="true" signature="2651:2814" ph="..." />
+                <marker date="1515393261220" expanded="true" signature="3056:3652" ph="..." />
+                <marker date="1515393261220" expanded="true" signature="3132:3235" ph="..." />
+                <marker date="1515393261220" expanded="true" signature="3175:3224" ph="..." />
+                <marker date="1515393261220" expanded="true" signature="3301:3634" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="distance.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/distance.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="186">
+              <caret line="22" column="18" lean-forward="false" selection-start-line="22" selection-start-column="18" selection-end-line="22" selection-end-column="18" />
+              <folding>
+                <marker date="1515396283070" expanded="true" signature="415:593" ph="..." />
+                <marker date="1515396283070" expanded="true" signature="501:508" ph="×" />
+                <marker date="1515396283070" expanded="true" signature="1121:1279" ph="INSERT into fluid_distance... " />
+                <marker date="1515396283070" expanded="true" signature="1821:1853" ph="SELECT id,na... fluid_sector" />
+                <marker date="1515396283070" expanded="true" signature="2509:2541" ph="SELECT id,na... fluid_sector" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="generalreport.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/generalreport.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="222">
+              <caret line="100" column="44" lean-forward="false" selection-start-line="100" selection-start-column="44" selection-end-line="100" selection-end-column="44" />
+              <folding>
+                <marker date="1515394005262" expanded="true" signature="3473:4398" ph="SELECT fluid... fluid_car" />
+                <marker date="1515394005262" expanded="true" signature="4783:5207" ph="..." />
+                <marker date="1515394005262" expanded="true" signature="5364:6211" ph="SELECT fluid... fluid_car" />
+                <marker date="1515394005262" expanded="true" signature="6489:6913" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="carlist.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/carlist.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-873">
+              <caret line="57" column="20" lean-forward="false" selection-start-line="57" selection-start-column="20" selection-end-line="57" selection-end-column="31" />
+              <folding>
+                <marker date="1515395459131" expanded="true" signature="784:956" ph="..." />
+                <marker date="1515395459131" expanded="false" signature="870:877" ph="×" />
+                <marker date="1515395459131" expanded="true" signature="1697:1752" ph="SELECT subco... fluid_sub_company" />
+                <marker date="1515395459131" expanded="true" signature="2110:2622" ph="..." />
+                <marker date="1515395459131" expanded="true" signature="3532:3725" ph="INSERT into fluid_car... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="join.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/join.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-588">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <marker date="1506444730000" expanded="true" signature="1155:1235" ph="SELECT *FROM... booking" />
+                <marker date="1506444730000" expanded="true" signature="1892:2070" ph="INSERT into booking_row... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="login.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/login.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="509">
+              <caret line="70" column="9" lean-forward="false" selection-start-line="64" selection-start-column="8" selection-end-line="70" selection-end-column="9" />
+              <folding>
+                <marker date="1515394994241" expanded="true" signature="1982:2060" ph="SELECT * FRO... fluid_user" />
+                <marker date="1515394994241" expanded="true" signature="2597:2645" ph="UPDATE fluid_user... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="454">
+              <caret line="192" column="0" lean-forward="false" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
+              <folding>
+                <marker date="1515395073079" expanded="true" signature="7069:7147" ph="SELECT * FRO... fluid_user" />
+                <marker date="1515395073079" expanded="true" signature="7711:7759" ph="UPDATE fluid_user... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="header.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/header.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="574">
+              <caret line="49" column="87" lean-forward="false" selection-start-line="49" selection-start-column="87" selection-end-line="49" selection-end-column="87" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="logout.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/logout.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="3" column="23" lean-forward="false" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="navSide.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/navSide.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <marker date="1513928030505" expanded="true" signature="862:905" ph="SELECT count... fluid_booking" />
+                <marker date="1513928030505" expanded="true" signature="1428:1468" ph="SELECT count... fluid_user" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/connexion.php" />
+        <option value="$PROJECT_DIR$/ui.php" />
+        <option value="$PROJECT_DIR$/navSide.php" />
+        <option value="$PROJECT_DIR$/assets/css/custom.css" />
+        <option value="$PROJECT_DIR$/placelist.php" />
+        <option value="$PROJECT_DIR$/navSideadmin.php" />
+        <option value="$PROJECT_DIR$/header.php" />
+        <option value="$PROJECT_DIR$/generalreport.php" />
+        <option value="$PROJECT_DIR$/login.php" />
+        <option value="$PROJECT_DIR$/index.php" />
+        <option value="$PROJECT_DIR$/logout.php" />
+        <option value="$PROJECT_DIR$/carlist.php" />
+        <option value="$PROJECT_DIR$/distance.php" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="33" />
+    <option name="width" value="1440" />
+    <option name="height" value="807" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="test_car" type="b2602c69:ProjectViewProjectNode" />
+              <item name="test_car" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b637be36-c161-4da6-9016-896a7308f969" name="Default" comment="" />
+      <created>1513926034538</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1513926034538</updated>
+      <workItem from="1513926035900" duration="3836000" />
+      <workItem from="1515256044735" duration="6000000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="9836000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="33" width="1440" height="807" extended-state="0" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2532189" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/navSideadmin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1515393261220" expanded="true" signature="338:814" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="418:814" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="485:528" ph="SELECT count... fluid_booking" />
+            <marker date="1515393261220" expanded="true" signature="1015:1508" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="1051:1508" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="1126:1508" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="1188:1228" ph="SELECT count... fluid_user" />
+            <marker date="1515393261220" expanded="true" signature="1711:1817" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="1916:1941" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="1916:2012" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="2114:2139" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="2114:2248" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="2413:2832" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="2489:2585" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="2525:2574" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="2651:2814" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="3056:3652" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="3132:3235" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="3175:3224" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="3301:3634" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/company.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1511520050000" expanded="true" signature="847:1016" ph="..." />
+            <marker date="1511520050000" expanded="false" signature="933:940" ph="×" />
+            <marker date="1511520050000" expanded="true" signature="1960:2583" ph="..." />
+            <marker date="1511520050000" expanded="true" signature="3846:3971" ph="INSERT into fluid_company... " />
+            <marker date="1511520050000" expanded="true" signature="4341:4498" ph="INSERT into fluid_sub_company... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bookinglist.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1512380820000" expanded="true" signature="3364:3849" ph="SELECT fluid... fluid_booking" />
+            <marker date="1512380820000" expanded="true" signature="4237:4953" ph="..." />
+            <marker date="1512380820000" expanded="true" signature="5148:5603" ph="SELECT fluid... fluid_booking" />
+            <marker date="1512380820000" expanded="true" signature="6054:6770" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/authenticate.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="975">
+          <caret line="65" column="14" lean-forward="false" selection-start-line="65" selection-start-column="14" selection-end-line="65" selection-end-column="14" />
+          <folding>
+            <marker date="1515394994241" expanded="true" signature="1982:2060" ph="SELECT * FRO... fluid_user" />
+            <marker date="1515394994241" expanded="true" signature="2597:2645" ph="UPDATE fluid_user... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1035">
+          <caret line="69" column="21" lean-forward="false" selection-start-line="69" selection-start-column="21" selection-end-line="69" selection-end-column="21" />
+          <folding>
+            <marker date="1515395073079" expanded="true" signature="7069:7147" ph="SELECT * FRO... fluid_user" />
+            <marker date="1515395073079" expanded="true" signature="7711:7759" ph="UPDATE fluid_user... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/header.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="705">
+          <caret line="47" column="52" lean-forward="false" selection-start-line="47" selection-start-column="52" selection-end-line="47" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/placelist.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="9" lean-forward="false" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="9" />
+          <folding>
+            <marker date="1513930672535" expanded="true" signature="1182:1609" ph="SELECT fluid... fluid_place" />
+            <marker date="1513930672535" expanded="true" signature="1995:2664" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/css/custom.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2280">
+          <caret line="152" column="0" lean-forward="false" selection-start-line="152" selection-start-column="0" selection-end-line="152" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/css/bootstrap.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3225">
+          <caret line="215" column="5" lean-forward="false" selection-start-line="215" selection-start-column="4" selection-end-line="215" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/connexion.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="44" lean-forward="false" selection-start-line="2" selection-start-column="44" selection-end-line="2" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ui.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="2" column="31" lean-forward="false" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/css/styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/css/bootstrap.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3225">
+          <caret line="215" column="5" lean-forward="false" selection-start-line="215" selection-start-column="4" selection-end-line="215" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/css/custom.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2280">
+          <caret line="152" column="0" lean-forward="false" selection-start-line="152" selection-start-column="0" selection-end-line="152" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/company.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1511520050000" expanded="true" signature="847:1016" ph="..." />
+            <marker date="1511520050000" expanded="false" signature="933:940" ph="×" />
+            <marker date="1511520050000" expanded="true" signature="1960:2583" ph="..." />
+            <marker date="1511520050000" expanded="true" signature="3846:3971" ph="INSERT into fluid_company... " />
+            <marker date="1511520050000" expanded="true" signature="4341:4498" ph="INSERT into fluid_sub_company... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bookinglist.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1512380820000" expanded="true" signature="3364:3849" ph="SELECT fluid... fluid_booking" />
+            <marker date="1512380820000" expanded="true" signature="4237:4953" ph="..." />
+            <marker date="1512380820000" expanded="true" signature="5148:5603" ph="SELECT fluid... fluid_booking" />
+            <marker date="1512380820000" expanded="true" signature="6054:6770" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/authenticate.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/placelist.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="9" lean-forward="false" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="9" />
+          <folding>
+            <marker date="1513930672535" expanded="true" signature="1182:1609" ph="SELECT fluid... fluid_place" />
+            <marker date="1513930672535" expanded="true" signature="1995:2664" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/navSide.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1513928030505" expanded="true" signature="862:905" ph="SELECT count... fluid_booking" />
+            <marker date="1513928030505" expanded="true" signature="1428:1468" ph="SELECT count... fluid_user" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/generalreport.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="100" column="44" lean-forward="false" selection-start-line="100" selection-start-column="44" selection-end-line="100" selection-end-column="44" />
+          <folding>
+            <marker date="1515394005262" expanded="true" signature="3473:4398" ph="SELECT fluid... fluid_car" />
+            <marker date="1515394005262" expanded="true" signature="4783:5207" ph="..." />
+            <marker date="1515394005262" expanded="true" signature="5364:6211" ph="SELECT fluid... fluid_car" />
+            <marker date="1515394005262" expanded="true" signature="6489:6913" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/join.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-588">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1506444730000" expanded="true" signature="1155:1235" ph="SELECT *FROM... booking" />
+            <marker date="1506444730000" expanded="true" signature="1892:2070" ph="INSERT into booking_row... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="509">
+          <caret line="70" column="9" lean-forward="false" selection-start-line="64" selection-start-column="8" selection-end-line="70" selection-end-column="9" />
+          <folding>
+            <marker date="1515394994241" expanded="true" signature="1982:2060" ph="SELECT * FRO... fluid_user" />
+            <marker date="1515394994241" expanded="true" signature="2597:2645" ph="UPDATE fluid_user... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="454">
+          <caret line="192" column="0" lean-forward="false" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
+          <folding>
+            <marker date="1515395073079" expanded="true" signature="7069:7147" ph="SELECT * FRO... fluid_user" />
+            <marker date="1515395073079" expanded="true" signature="7711:7759" ph="UPDATE fluid_user... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/header.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="574">
+          <caret line="49" column="87" lean-forward="false" selection-start-line="49" selection-start-column="87" selection-end-line="49" selection-end-column="87" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logout.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="23" lean-forward="false" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/carlist.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-873">
+          <caret line="57" column="20" lean-forward="false" selection-start-line="57" selection-start-column="20" selection-end-line="57" selection-end-column="31" />
+          <folding>
+            <marker date="1515395459131" expanded="true" signature="784:956" ph="..." />
+            <marker date="1515395459131" expanded="false" signature="870:877" ph="×" />
+            <marker date="1515395459131" expanded="true" signature="1697:1752" ph="SELECT subco... fluid_sub_company" />
+            <marker date="1515395459131" expanded="true" signature="2110:2622" ph="..." />
+            <marker date="1515395459131" expanded="true" signature="3532:3725" ph="INSERT into fluid_car... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/navSideadmin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+          <folding>
+            <marker date="1515393261220" expanded="true" signature="338:814" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="418:814" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="485:528" ph="SELECT count... fluid_booking" />
+            <marker date="1515393261220" expanded="true" signature="1015:1508" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="1051:1508" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="1126:1508" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="1188:1228" ph="SELECT count... fluid_user" />
+            <marker date="1515393261220" expanded="true" signature="1711:1817" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="1916:1941" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="1916:2012" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="2114:2139" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="2114:2248" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="2413:2832" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="2489:2585" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="2525:2574" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="2651:2814" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="3056:3652" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="3132:3235" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="3175:3224" ph="..." />
+            <marker date="1515393261220" expanded="true" signature="3301:3634" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/distance.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="22" column="18" lean-forward="false" selection-start-line="22" selection-start-column="18" selection-end-line="22" selection-end-column="18" />
+          <folding>
+            <marker date="1515396283070" expanded="true" signature="415:593" ph="..." />
+            <marker date="1515396283070" expanded="true" signature="501:508" ph="×" />
+            <marker date="1515396283070" expanded="true" signature="1121:1279" ph="INSERT into fluid_distance... " />
+            <marker date="1515396283070" expanded="true" signature="1821:1853" ph="SELECT id,na... fluid_sector" />
+            <marker date="1515396283070" expanded="true" signature="2509:2541" ph="SELECT id,na... fluid_sector" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
