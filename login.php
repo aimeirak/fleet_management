@@ -39,6 +39,7 @@ include('include/header.php');
         <i class="btn btn-md btn-primary btn-block" id="allow_me_bone" >Login</i>
         <a href="change.php"><p>Forgot your password?</p>
            <a class="btn btn-md btn-primary space-between" href="registrationform.php">Register</a>
+           <a class="btn btn-md btn-primary space-between" href="include/verification.php">verify email</a>
         </div>
 
 </form>

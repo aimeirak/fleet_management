@@ -53,61 +53,56 @@ if (isset($_REQUEST['username'])) {
                   } 
       
                  elseif($fullNameExist){
-                     $msg.="Email already exist "."</br>";
+                     $msg.="please change your full name already exist "."</br>";
                     
                  } else{
-                    $status = 1;
+                    $round = rand(100,900);
+                    $values = time().$round;
+                    
+                    $passwordh = md5($password);
+                    $passreset = md5(time().$round);
+                    $roundn = rand(10,700);
+                    $varKey = md5(time().$username.$roundn.$email);
+                    $verfied= 0;
+                    $id =  '';
+                    $subject = "ishyiga freet user verification ";
+                    $sender = "ishyigasoftware900@gmail.com";
+                    $sender_name = "ishyiga Freet Managiment system ";
+                    $m   = password_hash($email,PASSWORD_DEFAULT);
+                    $to  = $email;
+                    $contents = ''.$varKey.'  copy and past in you verfication in put';
+                    $isSent = sendEmail($subject,$sender,$sender_name,$to,$contents);
+                    //will be changed manuel 
+                   
+                    $sent = 0;
+                    $id_subcompany = '';
+                    if($isSent){
+                        $query  = "INSERT into fluid_user(id,id_subcompany,username,full_name,phone_number,password,passreset,email,vercod)  values (?,?,?,?,?,?,?,?,?)";
+            
+                        if ( $stmt   = $connection->prepare($query)) {
+                            $stmt->bind_param('iisssssss',$id,$id_subcompany,$username,$full_name,$phone_number,$passwordh,$passreset,$email,$varKey);
+                            $stmt->execute();       
+                            $sent = 1;                 
+        
+                        }else{
+                        $sent = 0;  
+                        $success =''; 
+                        $msg.="You have not yet been  registered "."</br>";
+                        }
+                    }else{
+                        $msg ="Please verify your email or network"."</br>";
+                    }   
+                    if($sent){
+                        $success = 'please check the link we sent to your email and verify your self , thank you!';
+                         header('location:include/verification.php');
+    
+                    }
 
                  }
                        
       
               }
-              if($status){
-                  
-                $round = rand(100,900);
-                $values = time().$round;
-                
-                $passwordh = md5($password);
-                $passreset = md5(time().$round);
-                $roundn = rand(10,700);
-                $varKey = md5(time().$username.$roundn.$email);
-                $verfied= 0;
-                $id =  '';
-                $subject = "ishyiga freet user verification ";
-                $sender = "ishyigasoftware900@gmail.com";
-                $sender_name = "ishyiga Freet Managiment system ";
-                $m   = password_hash($email,PASSWORD_DEFAULT);
-                $to  = $email;
-                $contents = ''.$varKey.'  copy and past in you verfication in put';
-                $isSent = sendEmail($subject,$sender,$sender_name,$to,$contents);
-                //will be changed manuel 
-               
-                $sent = 0;
-                $id_subcompany = '';
-                if($isSent){
-                    $query  = "INSERT into fluid_user(id,id_subcompany,username,full_name,phone_number,password,passreset,email,vercod)  values (?,?,?,?,?,?,?,?,?)";
-        
-                    if ( $stmt   = $connection->prepare($query)) {
-                        $stmt->bind_param('iisssssss',$id,$id_subcompany,$username,$full_name,$phone_number,$passwordh,$passreset,$email,$varKey);
-                        $stmt->execute();       
-                        $sent = 1;                 
-    
-                    }else{
-                    $sent = 0;  
-                    $success =''; 
-                    $msg.="You have not yet been  registered "."</br>";
-                    }
-                }else{
-                    $msg ="Please verify your email or network"."</br>";
-                }   
-                if($sent){
-                    $success = 'please check the link we sent to your email and verify your self , thank you!';
-                     header('location:include/verification.php');
-
-                }
-
-                            
-            }
+             
                  
              
       
@@ -174,8 +169,9 @@ include 'include/header.php'
                             <label>E-mail</label><br>
                             <input class="form-control" type="text" name="email" required class="span3" value="<?=isset($email)?$email:''?>">
 
-                            <br><a href="login.php"><input type="submit" value="Sign up"
-                                                           class="btn btn-primary pull-right"><br>
+                            
+                            <input type="submit" value="Sign up" class="btn btn-primary pull-right"><br>
+                            <br><a class="btn btn-success pull-right" href="login.php">login</a>
 
                 </form>
             </div>
