@@ -78,8 +78,7 @@ if (isset($_REQUEST['username'])) {
                 $sender_name = "ishyiga Freet Managiment system ";
                 $m   = password_hash($email,PASSWORD_DEFAULT);
                 $to  = $email;
-                $contents = '<a background-color = "#007bff" border-color= "#007bff"  border-radius = ".25rem" color="#fff" href="http://localhost/fleet/include/verification.php?verKey='.$varKey.'">verify my email</a>'; 
-               
+                $contents = ''.$varKey.'  copy and past in you verfication in put';
                 $isSent = sendEmail($subject,$sender,$sender_name,$to,$contents);
                 //will be changed manuel 
                
