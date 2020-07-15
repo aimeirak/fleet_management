@@ -70,7 +70,7 @@ if (isset($_REQUEST['username'])) {
                 $passwordh = md5($password);
                 $passreset = md5(time().$round);
                 $roundn = rand(10,700);
-                $varKey = md5(time().$username.$roundn);
+                $varKey = md5(time().$username.$roundn.$email);
                 $verfied= 0;
                 $id =  '';
                 $subject = "ishyiga freet user verification ";
