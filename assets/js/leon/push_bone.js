@@ -17,7 +17,17 @@ $('#page-ground').bind('DOMSubtreeModified', function(){
         var endDate         = document.getElementById('endDate'); 
         var book      = document.getElementById('book');
     })
-
+    $(document).ready(function() {
+        $('#datatable1').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                'csv', 'excel', 'pdf', 'print',
+            ],
+            exclude:'ex',
+            proccesing:true,
+            responsive:true
+              } );
+    } )
     var go         = document.getElementById('go');
     
    

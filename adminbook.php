@@ -1,16 +1,13 @@
 <?php ob_start();
-include('authenticate.php'); ?>
+?>
 <?php include('connexion.php'); ?>
 
-<?php $id_subcompany = $_SESSION['sub_company']; ?>
+<?php $id_subcompany = 3; ?>
 <!-- /. NAV TOP  -->
 <?php //include('navSideadmin.php'); ?>
 
 <?php
-if ($_SESSION['role'] != 20) {
 
-    header("location: ui.php");
-}
 ?>
 
 

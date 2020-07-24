@@ -29,7 +29,7 @@
                     <div class="row">
                         <div class="form-group col-md-5">
                             <div class='input-group date' id='datetimepicker1'>
-                                <input name='start_date' id="startDate" type='date' class="form-control" placeholder="From date" />
+                                <input name='start_date' id="startDate" type='text' class="form-control" placeholder="From date" />
                                 <span class="input-group-append btn btn-info">
                                     <span class="fa fa-calendar"></span>
                                 </span>
@@ -37,7 +37,7 @@
                         </div>
                         <div class="form-group col-md-5">
                             <div class='input-group date' id='datetimepicker2'>
-                                <input name='end_date' type='date' id="endDate" class="form-control  " placeholder="Until date" />
+                                <input name='end_date' type='text' id="endDate" class="form-control  " placeholder="Until date" />
                                 <span class="input-group-append btn btn-primary">
                                     <span class="fa fa-calendar"></span>
                                 </span>

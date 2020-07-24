@@ -52,6 +52,20 @@
     <script src="assets/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 
     <script src="assets/js/leon/push_bone.js"></script> 
+    <script>
+    
+  $(document).ready(function() {
+      $('#datatable1').DataTable( {
+          dom: 'Bfrtip',
+          buttons: [
+              'csv', 'excel', 'pdf', 'print',
+          ],
+          exclude:'ex',
+          proccesing:true,
+          responsive:true
+            } );
+  } )
+    </script>
 
   </body>
 </html>
