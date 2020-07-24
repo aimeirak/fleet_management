@@ -1,9 +1,9 @@
 <?php
-include('connection.php');
+include('connexion.php');
 $strSQL = "SELECT * FROM user";
 
   // Execute the query (the recordset $rs contains the result)
-  $rs = mysql_query($strSQL);
+  $rs = mysqli_query($strSQL);
 ?>
 
 <!DOCTYPE html>

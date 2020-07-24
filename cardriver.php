@@ -1,8 +1,12 @@
-<?php //ob_start();
-include('authenticate.php'); ?>
+<?php 
+include 'include/authant.php';
+ob_start();
+include 'include/header.php' ; ?>
 
-<?php include('connexion.php'); ?>
-<?php //include('header.php');?>
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+?>
 
 <?php $id_subcompany = $_SESSION['sub_company'];
 
@@ -11,10 +15,22 @@ $id_user = $_SESSION['id'];
 
 ?>
 
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+<!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
 
-<div id="page-wrapper">
+
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+    <?php
+    require_once('include/topbon.php');
+    ?>
+
     <div id="page-inner">
-        <h2>Cars</h2>
+        <h2  class="ml-2">Cars</h2>
         <div class="row">
 
 
@@ -29,22 +45,21 @@ $id_user = $_SESSION['id'];
         <div class="row" style="padding:10px;">
             <?php
             if (isset($_GET["success"])) {
-                echo "
-                <div class=\"alert alert-success alert-dismissable\">
-                 <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>
-                 <strong>Success!</strong>Car successfully updated.
-                
-                </div>";
+                echo "<div class=\"alert alert-success alert-dismissable\">
+<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>
+<strong>Success!</strong>Car successfully updated.
+</div>";
             }
             ?>
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover display" id="datatable1" cellspacing="0"
+            <div class="table-responsive p-4">
+                <table class="table table-striped table-bordered table-hover display"  id='datatable1' cellspacing="0"
                        width="100%">
                     <thead>
                     <tr>
 
-                        <th>PLAQUE</th>
+                       
                         <th>DRIVER</th>
+                        <th>PLAQUE</th>
 
 
                     </tr>
@@ -52,8 +67,9 @@ $id_user = $_SESSION['id'];
                     <body>
                     <?php
 
-                    $sql1 = " SELECT fluid_car.plaque, fluid_user.full_name from fluid_car inner join fluid_user on fluid_car.id_driver=fluid_user.id
-                              where fluid_car.id_subcompany = ".$id_subcompany."
+                    $sql1 = " 
+                              SELECT fluid_car.plaque, fluid_user.full_name from fluid_car inner join fluid_user on fluid_car.id_driver=fluid_user.id
+                              where fluid_car.id_subcompany=".$id_subcompany."
                     ";
 
                     $result1 = mysqli_query($connection, $sql1);
@@ -166,10 +182,11 @@ inner join fluid_user on fluid_car.id_subcompany=fluid_user.id where insurance_d
                         <div class="modal-dialog">
                             <div class="modal-content">
 
-                                <div class="modal-header">
+                                <div class="card-header justify-content-between d-flex">
+                                <h4 class="modal-title">Car - Driver</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i
                                                 class="fa fa-times"></i></button>
-                                    <h4 class="modal-title">Car - Driver</h4>
+                                    
                                 </div>
 
 
@@ -223,8 +240,8 @@ inner join fluid_user on fluid_car.id_subcompany=fluid_user.id where insurance_d
             </div>
         </div>
     </div>
-</div>
-
+   </div>
+                                                </div>
 
 <?php include('footer.php'); ?>
 

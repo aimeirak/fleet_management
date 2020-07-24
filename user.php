@@ -1,5 +1,11 @@
-<?php include('authenticate.php'); ?>
-<?php include('connexion.php'); ?>
+<?php 
+include 'include/authant.php';
+ob_start();
+include 'include/header.php' ; ?>
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+?>
 
 <?php $id_subcompany = $_SESSION['sub_company'];
 if ($_SESSION['role'] != 20) {
@@ -8,8 +14,20 @@ if ($_SESSION['role'] != 20) {
 ?>
 
 
-    <div id="page-wrapper">
-        <div id="page-inner">
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+
+  <!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
+
+
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+<?php
+require_once('include/topbon.php');
+?>
             <div class="row">
                 <div class="col-md-6">
                     <h2>Users</h2>
@@ -19,7 +37,7 @@ if ($_SESSION['role'] != 20) {
 
             <div class="row" style="padding:10px;">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover">
+                    <table class="table table-striped table-bordered table-hover" id = "datatable1">
                         <thead>
                         <tr>
 
@@ -30,6 +48,7 @@ if ($_SESSION['role'] != 20) {
 
                         </tr>
                         </thead>
+                        
                         <?php
                         $sql = "SELECT id_subcompany,full_name,phone_number,email from fluid_user where id_subcompany='" . $id_subcompany . "'";
                         $result = mysqli_query($connection, $sql);
@@ -37,13 +56,14 @@ if ($_SESSION['role'] != 20) {
 
                         if (mysqli_num_rows($result) > 0) {
                             // output data of each row
+                            echo '<tbody>';
 
                             while ($row = mysqli_fetch_array($result)) {
                                 //var_dump($row);
 
                                 echo(
 
-                                    '<tbody>
+                                    '
 
 
                                     <tr>' .
@@ -55,10 +75,11 @@ if ($_SESSION['role'] != 20) {
 
 
                                     '</tr>
-                                </tbody>'
+                               '
                                 );
 
                             }
+                            echo '</tbody>';
                         } else {
                             echo "0 results";
                         }
@@ -71,4 +92,4 @@ if ($_SESSION['role'] != 20) {
     </div>
 
 
-<?php include('footer.php'); ?>
+<?php include('include/footerui.php'); ?>

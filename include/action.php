@@ -23,7 +23,7 @@ function validateUser($userName,$password){
         wrongData('your password and username field is empty');
     }
    else{
-       $sql  = "SELECT * FROM  fluid_user WHERE username = ? ";
+       $sql  = "SELECT * FROM  fluid_user WHERE username = ?  ";
        if($stmt = $GLOBALS['conn']->prepare($sql)){
             $stmt->bind_param('s',$userName);
             $stmt->execute();

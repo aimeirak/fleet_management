@@ -23,225 +23,7 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
 
  <div id="wrapper">
    <!--sidbar start -->
-  
-<ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-<!-- Sidebar - Brand -->
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="uiupdate.php">
-  <div class="sidebar-brand-icon rotate-n-15">
-    <img src="assets/img/icon.png" alt="" srcset="">
-  </div>
-  <div class="sidebar-brand-text mx-3"><?= $_SESSION['blancName'] ?><sup>2</sup></div>
-</a>
-
-<!-- Divider -->
-<hr class="sidebar-divider my-0">
-
-<!-- Nav Item - Dashboard -->
-<li class="nav-item active">
-  <a class="nav-link" href="uiupdate.php">
-    <i class="fas fa-fw fa-forward"></i>
-    <span>SHORTCUT</span></a>
-</li>
-
-<hr class="sidebar-divider">
-
-
-<div class="sidebar-heading">
-  Modification
-</div>
-
-<li class="nav-item">
-  <a class="nav-link" href="#" id="Profile" >
-    <i class="fas fa-fw fa-user"></i>
-    <span>Profile</span></a>
-</li>
-<?php  if($_SESSION['role'] == 20){ ?>
-  <li class="nav-item">
-  <a class="nav-link" href="#" >
-    <i class="fas fa-fw fa-users"></i>
-    <span>Users</span></a>
-</li>
-
-<?php } ?>
-
-<!-- Divider -->
-<hr class="sidebar-divider">
-<?php  if($_SESSION['role'] === 30 ){ ?>
-<div class="sidebar-heading">
-  Cars
-</div>
-  <li class="nav-item" style='cursor:pointer'>
-  <a class="nav-link" id="LocateCars">
-    <i class="fa fa-location-arrow "></i>
-    <span> Car location</span></a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="#">
-    <i class="fa fa-car "></i>
-    <span> My Car </span></a>
-</li>
-
-<li class="nav-item">
-  <a class="nav-link" href="#">
-    <i class="fas fa-fw fa-tachometer-alt"></i>
-    <span> KMS count </span></a>
-</li>
-
-
-<?php } ?>
-
-<?php  if($_SESSION['role'] == 10 || $_SESSION['role'] == 20 ){ ?>
-
-  
- <!-- Heading -->
-<div class="sidebar-heading">
-  Bookings
-</div>
-
-<?php if($_SESSION['role'] == 20 ){  ?>
-<!-- Nav Item - Bookings -->
-
-<li class="nav-item">
-  <a class="nav-link" href="#" id="AllBookings">
-    <i class="fas fa-fw fa-table"></i>
-    <span>Bookings</span></a>
-</li>
-<?php } ?>
-
-<li class="nav-item">
-  <a class="nav-link" href="#" id="bookRide">
-    <i class="fas fa-fw fa-calendar"></i>
-    <span>Book</span></a>
-</li>
-
-
-<!-- end of book -->
-
-<hr class="sidebar-divider d-md-block">
-
-<div class="sidebar-heading">
-  place & routs
-</div>
-
-
-<!-- Nav Item - company  -->
-<li class="nav-item mb-2">
-  <a class="nav-link" href="#" id="OurRouts" >
-    <i class="fas fa-fw fa-road " ></i>
-    <span>Routs</span></a>
-</li>
-
-<!-- Nav Item - report -->
-<li class="nav-item">
-  <a class="nav-link" href="#" id="avaible">
-    <i class="fa fa-location-arrow "></i>
-    <span>Place </span></a>
-</li>
-<hr class="sidebar-divider  d-md-block">
-<?php if($_SESSION['role'] != 10){ ?>
-
-
-
-<div class="sidebar-heading">
-  Campany
-</div>
-
-
-<!-- Nav Item - company  -->
-<li class="nav-item mb-2">
-  <a class="nav-link" href="#">
-    <i class="fa fa-building "></i>
-    <span>Company</span></a>
-</li>
-
-<!-- Nav Item - report -->
-
-<li class="nav-item">
-  <a class="nav-link" href="#">
-    <i class="fas fa-fw fa-check-square "></i>
-    <span>Approave <sup class=" badge badge-danger " >1</sup></span></a>
-</li>
-<?php } ?>
-<hr class="sidebar-divider d-md-block">
-
-<div class="sidebar-heading">
-  Cars<?php if($_SESSION['role'] != 10){ ?> & report <?php } ?>
-</div>
-
-<!-- Nav Item - report -->
-<?php if($_SESSION['role'] != 10){ ?>
-<li class="nav-item">
-  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRepo" aria-expanded="true" aria-controls="collapsePages">
-    <i class="fas fa-fw fa-database"></i>
-    <span>Report</span>
-  </a>
-  <div id="collapseRepo" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-    <div class="bg-white py-2 collapse-inner rounded">
-      <h6 class="collapse-header">General</h6>
-      <a class="collapse-item" href="#">General report</a>
-      <a class="collapse-item" href="#">General report(employees)</a>
-      
-      <div class="collapse-divider"></div>
-      <h6 class="collapse-header">Report</h6>
-      
-      <a class="collapse-item" href="#">Daily Report </a>
-      <a class="collapse-item" href="#">Company Report <sup class="badge badge-danger badge-counter">3</sup><sup></a>
-      
-    </div>
-  </div>
-</li>
-<?php } ?>
-<!-- Nav Item - cars -->
-<li class="nav-item">
-  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-    <i class="fas fa-fw fa-car"></i>
-    <span>Cars</span>
-  </a>
-  <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-    <div class="bg-white py-2 collapse-inner rounded">
-      <?php if($_SESSION['role'] != 10){ ?>
-        <h6 class="collapse-header">Cars info:</h6>
-        <a class="collapse-item" href="#" id="OurCars">Car list</a>
-        <a class="collapse-item" href="#" id="LocateCars" >Car location</a>
-        <a class="collapse-item" href="#">Drivers </a>
-       
-        <div class="collapse-divider"></div>
-
-     <?php } ?>
-     <?php if($_SESSION['role'] != 20){ ?>
-      <h6 class="collapse-header">Cars info:</h6>
-      <a class="collapse-item" href="#" id="OurCars">Car list</a>
-      <a class="collapse-item" href="#" id="Drivers" >Drivers </a>
-
-      <?php } ?>
-      <h6 class="collapse-header">Car ploblems:</h6>
-      <a class="collapse-item" href="#" id="Unavailable" >Unavailable cars <sup class="badge badge-danger badge-counter">3</sup><sup></a>
-      
-    </div>
-  </div>
-</li>
-
-<!-- Nav Item - report -->
-
-<?php if($_SESSION['role'] != 10){ ?>
-<li class="nav-item">
-  <a class="nav-link" href="#">
-    <i class="fas fa-fw fa-tachometer-alt"></i>
-    <span>Fuel management</span></a>
-</li>
-
-<?php } ?>
-
-
-<?php } ?>
-
-
-
-<hr class="sidebar-divider mt-2 d-none d-md-block">
-
-
-</ul>
+  <?php include 'include/navbar.php' ?>
   <!--sidbar end-->
 
   <!--content-->
@@ -299,251 +81,122 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
             <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                   <div class="card p-3 ">
                       <div class="p-2 align-items-center d-flex justify-content-between">
-                          <div class='text-gray-700' >SHORTCUTS</div>  <div id="returnB" class="btn btn-secondary" >RETURN</div>
+                          <div class='text-gray-700' >SHORTCUTS</div>  <div id="returnB" class="btn btn-secondary" >CLEAR</div>
                       </div>
+
                     <div id="page-ground">
-              <?php  if($_SESSION['role'] != 30){?>
-                
+            <!--  task -->
                 <div class="row" id="task">
-                  <div class="col-6 mt-3  col-sm-12 col-md-3 " id='bookRide1'>
-                      <div class="card border-left-danger shadow h-100 py-2">
+              <?php  if($_SESSION['role'] == 20){?>
+                
+                 
+                  <div class="col-12 mt-3  col-sm-6 col-md-3 " id='carList'>
+                      <div class="card border-left-success shadow h-100 py-2">
                           <div class="card-body">
                           <div class="row no-gutters align-items-center">
                               <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-info text-uppercase mb-1"> Book ride</div>
+                              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Cars</div>
                               <div class="row no-gutters align-items-center">
                                               
                               </div>
                               </div>
                               <div class="col-auto">
-                              <span class="fa fa-plus"></span>
+                              <span class="fa fa-car"></span>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      
+                      </div>          
+                     
+                <?php } ?> 
+                <!-- driver content -->
+                <?php if($_SESSION['role'] == 30){ ?>
 
-                      <div class="col-6 mt-3  col-sm-12 col-md-3 " id="task">
-                        <div class="card border-left-primary shadow h-100 py-2" id='OurCars1'>
-                            <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Our cars</div>
-                                <div class="row no-gutters align-items-center">
-                                                
-                                </div>
-                                </div>
-                                <div class="col-auto">
-                                <span class="fa fa-car"></span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-6 mt-3  col-sm-12 col-md-3 " id="task" >
-                          <div class="card border-left-info shadow h-100 py-2" id='OurRouts1'>
-                              <div class="card-body">
-                              <div class="row no-gutters align-items-center">
-                                  <div class="col mr-2">
-                                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Our routs</div>
-                                  <div class="row no-gutters align-items-center">
-                                                  
-                                  </div>
-                                  </div>
-                                  <div class="col-auto">
-                                  <span class="fa fa-road"></span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div><br>
-                          <?php if($_SESSION['role'] == 20 ){ ?>
-
-                          <div class="col-6 mt-3  col-sm-12 col-md-3 " id="task">
-                            <div class="card border-left-success shadow h-100 py-2" id="AllBookings1">
-                                <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1"> All Bookings</div>
-                                    <div class="row no-gutters align-items-center">
-                                                    
-                                    </div>
-                                    </div>
-                                    <div class="col-auto">
-                                    <span class="fa fa-user"></span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <?php } ?>
-                            
-                          <div class="col-6 mt-3  col-sm-12 col-md-3 " id="task">
-                            <div class="card border-left-info shadow h-100 py-2" id="MyBookings1">
-                                <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1"> My Bookings</div>
-                                    <div class="row no-gutters align-items-center">
-                                                    
-                                    </div>
-                                    </div>
-                                    <div class="col-auto">
-                                    <span class="fa fa-file"></span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <?php if($_SESSION['role'] == 20 ){ ?>
-
-                              <div class="col-6 mt-3  col-sm-12 col-md-3 " id="task">
-                                <div class="card border-left-warning shadow h-100 py-2" id="NewPlace">
-                                    <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">New place</div>
-                                        <div class="row no-gutters align-items-center">
-                                                        
-                                        </div>
-                                        </div>
-                                        <div class="col-auto">
-                                        <span class="fa fa-plus"></span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-
-
-
-                        <?php    }  ?>
-
-                           
-
-                              <div class="col-6 mt-3  col-sm-12 col-md-3 " id="task">
-                                <div class="card border-left-secondary shadow h-100 py-2" id="LocateCars1">
-                                    <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Locate cars</div>
-                                        <div class="row no-gutters align-items-center">
-                                                        
-                                        </div>
-                                        </div>
-                                        <div class="col-auto">
-                                        <span class="fa fa-location-arrow"></span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-  
-
-                                <div class="col-6 mt-3  col-sm-12 col-md-3 " id="task" > 
-                                  <div class="card border-left-warning shadow h-100 py-2" id="avaible1">
-                                      <div class="card-body">
-                                      <div class="row no-gutters align-items-center">
-                                          <div class="col mr-2">
-                                          <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Our place</div>
-                                          <div class="row no-gutters align-items-center">
-                                                          
-                                          </div>
-                                          </div>
-                                          <div class="col-auto">
-                                          <span class="fa fa-chair"></span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                        
-                <?php } else{?> 
-
-                  <div class="col-12 mt-3  col-sm-12 col-md-6 " id="task">
-                    <div class="card border-left-danger shadow h-100 py-2" id="booked">
+                  <div class="col-12 mt-3  col-sm-6 col-md-3 " id='availability'>
+                    <div class="card border-left-success shadow h-100 py-2">
                         <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Daily Booked </div>
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">availability</div>
                             <div class="row no-gutters align-items-center">
                                             
                             </div>
                             </div>
                             <div class="col-auto">
-                            <span class="badge badge-counter badge-danger">3</span>
+                            <span class="fa fa-car text-success"></span>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    
-                  
 
-                                <div class="col-12 mt-3  col-sm-12 col-md-6 " id="task">
-                                  <div class="card border-left-warning shadow h-100 py-2" id="carstate">
-                                      <div class="card-body">
-                                      <div class="row no-gutters align-items-center">
-                                          <div class="col mr-2">
-                                          <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Car state</div>
-                                          <div class="row no-gutters align-items-center">
-                                                          
-                                          </div>
-                                          </div>
-                                          <div class="col-auto">
-                                          <span class="fa fa-car"></span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                 
-
-                              </div>
-                  
-                  
-                  <?php } ?>
-                  
-                  
-
-                        
-                          
-                          
-                          
-
-                        
-                          
-                          </div>
-                      </div>
-                          
-                                                        
-                              </div>
-                              <div class="col-12 text-center">
-                              <center>  <div class="col-6 col-sm-6 col-md-8 ">
-                                   <a href="logout.php" class="btn btn-success  btn-block mt-5" role="button"><span class="glyphicon glyphicon-"></span> Sign out</a>
-                                  </div></center>
-                              </div>
-                              </div>
-                      </div>
-                      <footer class="sticky-footer bg-white mt-5">
-                        <div class="container my-auto">
-                          <div class="copyright text-center my-auto">
-                            <span>Copyright © AlGORITHIM .inc 2020</span>
+                  <div class="col-12 mt-3  col-sm-6 col-md-3 " id='dailBook'>
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Booking</div>
+                            <div class="row no-gutters align-items-center">
+                                            
+                            </div>
+                            </div>
+                            <div class="col-auto">
+                            <span class="fa fa-calendar text-info"></span>
+                            </div>
                           </div>
                         </div>
-                      </footer>
-                
+                      </div>
+                    </div> 
+                    <div class="col-12 mt-3  col-sm-6 col-md-3 " id='rejected'>
+                      <div class="card border-left-danger shadow h-100 py-2">
+                          <div class="card-body">
+                          <div class="row no-gutters align-items-center">
+                              <div class="col mr-2">
+                              <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Rejected</div>
+                              <div class="row no-gutters align-items-center">
+                                              
+                              </div>
+                              </div>
+                              <div class="col-auto">
+                              <span class="fa fa-table text-danger"></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div> 
+                   
+                  <?php } ?> 
+                </div>
+                <!-- end task -->
+            <!-- firstResponse -->
+              <div class="row" id="dataRetrival">
+              </div>
+                <!-- end firstResponse -->
+
+            <!-- secondResponse -->
+            <div class="row" id="data2Retrival">
+            </div>
+              <!-- end secondResponse -->
+
+                        
+                          
+                          
+                          
+
+                        
+                          
+                                           </div>
+                                      </div>
+                          
+                                                        
+                                 </div>
+                              
+                            </div>
+                      </div>
+                                      
               </div>
               <!-- end of content wrapper -->              
-     </div>   
-          
-
-   
-
-  </div>
-  
+      
   <!--content end-->
 
 

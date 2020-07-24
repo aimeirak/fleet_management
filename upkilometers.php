@@ -1,13 +1,27 @@
-<?php ob_start();
+<?php 
+include 'include/authant.php';
+ob_start();
+include 'include/header.php' ; ?>
+
+<?php include('connexion.php');
 error_reporting(E_ALL);
-ini_set('display_errors','On');
+ini_set('display_errors', 'On');
 ?>
-<?php include('authenticate.php'); ?>
-<?php include('connexion.php'); ?>
+
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+<!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
 
 
-
-<div id="page-wrapper">
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+    <?php
+    require_once('include/topbon.php');
+    ?>
+    
     <div id="page-inner">
         <div class="row">
             <div class="col-md-4">
@@ -67,10 +81,10 @@ ini_set('display_errors','On');
         ?>
 
 
-        <div class="input-group">
+        
             <div class="row">
-                <div class="col-lg-12">
-                    <form action="upkilometers.php" method="post">
+                <div class="col-lg-9 p-4">
+                    <form class="card p-5"action="upkilometers.php" method="post">
 
                         <?php
 
@@ -111,17 +125,17 @@ ini_set('display_errors','On');
 
                         </br>
                         <div class="form-group">
-                            <button type="submit" name="submit" class="btn btn-default">Submit</button>
+                            <button type="submit" name="submit" class="btn btn-info">Submit</button>
                         </div>
                     </form>
-                </div>
+              
             </div>
         </div>
-
-
+        </div>
     </div>
-</div>
-<?php mysqli_close($connection); ?>
+    </div>
+
+
 
 <?php include('footer.php'); ?> 
 

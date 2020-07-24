@@ -15,8 +15,8 @@ include('include/header.php');
 <title>Ishyiga freet(ms) </title>
 </head>
 <body class="container">
-
-
+<div class="col-12  align-items-center ">
+<center><div class="col-12 col-sm-9 col-md-6 col-lg-4  ">
 <form class="form-signin card shadow mt-5" method="POST">
 
 <div class="card-header mb-3">
@@ -39,9 +39,12 @@ include('include/header.php');
         <i class="btn btn-md btn-primary btn-block" id="allow_me_bone" >Login</i>
         <a href="change.php"><p>Forgot your password?</p>
            <a class="btn btn-md btn-primary space-between" href="registrationform.php">Register</a>
+           <a class="btn btn-md btn-primary space-between" href="include/verification.php">verify email</a>
         </div>
 
-</form>
+</form></div>
+</center>
+</div>
 
 <script src="assets/js/jquery-1.10.2.js"></script>
 <script src="assets/js/leon/fruid_back_bone.js"></script>

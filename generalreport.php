@@ -1,10 +1,17 @@
-<?php ob_start();
-include('authenticate.php'); ?>
-<?php include('connexion.php'); ?>
+<?php 
+session_start();
+ob_start();
+include 'include/header.php' ; ?>
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+?>
+
 <?php
+
 $id_subcompany = $_SESSION['sub_company'];
 if ($_SESSION['role'] != 20) {
-    header("location: ui.php");
+    header("location: uiupdate.php");
 }
 ?>
 
@@ -24,8 +31,21 @@ if ($_SESSION['role'] != 20) {
     }
 </script>
 
-<div id="page-wrapper">
-    <div id="page-inner">
+<?php $id_subcompany = $_SESSION['sub_company']; ?>
+
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+<!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
+
+
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+<?php
+require_once('include/topbon.php');
+?>
         <div class="row">
             <div class="col-md-12">
                 <h2>General Report</h2>
@@ -36,21 +56,21 @@ if ($_SESSION['role'] != 20) {
                         <div class="form-group col-md-5">
                             <div class='input-group date' id='datetimepicker1'>
                                 <input name='start_date' type='text' class="form-control"/>
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
+                                <span class="input-group-addon btn btn-primary ">
+                                    <span class="fa fa-calendar"></span>
                                 </span>
                             </div>
                         </div>
                         <div class="form-group col-md-5">
                             <div class='input-group date' id='datetimepicker2'>
                                 <input name='end_date' type='text' class="form-control"/>
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
+                                <span class="input-group-addon btn btn-info">
+                                    <span class="fa fa-calendar"></span>
                                 </span>
                             </div>
                         </div>
                         <div class='form-group col-md-2'>
-                            <button type="submit" class="btn btn-default pull-right ">Go</button>
+                            <button type="submit" class="btn btn-outline-success pull-right ">Go</button>
                         </div>
                     </div>
                 </form>
@@ -180,7 +200,7 @@ LEFT JOIN fluid_sub_company ON fluid_car.id_subcompany=fluid_sub_company.id WHER
     </div>
 </div>
 
-<?php include('footer.php'); ?> 
+<?php include('include/footerui.php'); ?> 
 
 	
 	

@@ -1,8 +1,12 @@
-<?php //ob_start();
-include('authenticate.php'); ?>
+<?php 
+include 'include/authant.php';
+ob_start();
+include 'include/header.php' ; ?>
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+?>
 
-<?php include('connexion.php'); ?>
-<?php //include('header.php');?>
 
 <?php $id_subcompany = $_SESSION['sub_company'];
 $id_user = $_SESSION['id'];
@@ -10,21 +14,34 @@ $id_user = $_SESSION['id'];
 ?>
 
 
-<div id="page-wrapper">
-    <div id="page-inner">
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+  <!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
+
+
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+<?php
+require_once('include/topbon.php');
+?>
         <h2>Fuel Management</h2>
         <div class="row">
 
 
             <div class="col-md-12">
-                <a class="btn icon-btn btn-success pull-right" href="#" data-target="#addModal"
-                   data-toggle="modal"><span
-                            class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>Add</a>
-
+               
+                <span class="collapsed btn btn-primary ml-4  pull-right"  data-toggle="collapse" data-target="#kmsform" aria-expanded="true" aria-controls="joinform">
+           
+           <span>Add<i class="fas fa-fw fa-plus"></i></span> 
+           
+         </span>
             </div>
         </div>
 
-        <div class="row" style="padding:10px;">
+        <div class="row p-3" style="padding:10px;">
             <?php
             if (isset($_GET["success"])) {
                 echo "<div class=\"alert alert-success alert-dismissable\">
@@ -44,8 +61,9 @@ $id_user = $_SESSION['id'];
                         <th>LEFT</th>
                         <th>AMOUNT</th>
                         <th>LITERS</th>
+                        <?php if($_SESSION['role'] == 20 ){ ?>
                         <th>EDIT</th>
-
+                        <?php } ?>
 
                     </tr>
                     </thead>
@@ -66,7 +84,7 @@ $id_user = $_SESSION['id'];
                         while ($row = mysqli_fetch_array($result1)) {
 
 
-                            echo(
+                            echo
 
                                 '<tr>' .
 
@@ -74,13 +92,16 @@ $id_user = $_SESSION['id'];
                                 '<td>' . $row["theday"] . '</td>' .
                                 '<td>' . $row["lefton"] . '</td>' .
                                 '<td>' . $row["amount"] . '</td>' .
-                                '<td>' . $row["qty"] . '</td>' .
-                                '<td >' . '<a class="btn btn-primary a-btn-slide-text" href="updatekms.php?id=' . $row["id"] . '"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>'
-                                .' <a class="btn btn-primary a-btn-slide-text" href="view_invoice.php?id=' . $row["id"] . '"> <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>'.'</td>' .
+                                '<td>' . $row["qty"] . '</td>' ;
+                               
+                                if($_SESSION['role'] == 20 ){  
+                                    echo '<td >' . '<a class="btn btn-success a-btn-slide-text" href="updatekms.php?id=' . $row["id"] . '"> <span class="fa fa-edit" aria-hidden="true"></span></a>'
+                                .' <a class="btn btn-info a-btn-slide-text" href="view_invoice.php?id=' . $row["id"] . '"> <span class="fa fa-eye" aria-hidden="true"></span></a>'.'</td>' .
 
                                 '</tr>'
 
-                            );
+                            ;
+                            }
 
                         }
                     }
@@ -93,12 +114,13 @@ $id_user = $_SESSION['id'];
 
             <?php
 
-            $target_dir = "uploads/";
-            $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-            $uploadOk = 1;
-            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
+           
             if (isset($_POST['date'])) {
+                $target_dir = "uploads/";
+                $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                $uploadOk = 1;
+                $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    
 
                 $id_subcompany = $_SESSION['sub_company'];
                 $id_car = stripcslashes($_POST['plaque']);
@@ -169,14 +191,15 @@ $id_user = $_SESSION['id'];
                 <div class="row">
 
 
-                    <div class="modal" id="addModal" tabindex="-1" role="dialog">
+                    <div class="collapse ml-5" id="kmsform" tabindex="-1" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
 
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i
-                                                class="fa fa-times"></i></button>
+                                <div class="card-header d-flex justify-content-between">
+          
                                     <h4 class="modal-title">Upload fuel invoice</h4>
+                                    <button type="button" class="close" data-toggle="collapse" data-target="#kmsform" aria-expanded="true" aria-controls="joinform"><i
+                                                class="fa fa-times"></i></button>
                                 </div>
 
 
@@ -256,5 +279,5 @@ $id_user = $_SESSION['id'];
 </script>
 
 
-<?php include('footer.php'); ?>
+<?php include('include/footerui.php'); ?>
 

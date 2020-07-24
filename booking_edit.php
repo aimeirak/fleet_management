@@ -1,12 +1,10 @@
-<?php ob_start();
-include('authenticate.php'); ?>
-<?php include('connexion.php');
-error_reporting(E_ALL);
-ini_set('display_errors', 'On');
-?>
-
-
+<?php 
+include 'include/authant.php';
+include('include/header.php'); ?>
+<?php include('connexion.php');?>
 <?php $id_subcompany = $_SESSION['sub_company']; ?>
+
+<body  id="page-top"   >
 
 <?php
 $id = $_GET['id'];
@@ -17,27 +15,56 @@ $res = mysqli_query($connection, $STRsql);
 
 if (mysqli_num_rows($res) != '' || mysqli_num_rows($res) > 0) {
 $booking = mysqli_fetch_array($res);
-}
 
 $seats=$booking['seats'];
+
+}
+$validate = "SELECT id,id_user from fluid_booking where id = ? and id_user = ?  ";
+$stmt = $connection->prepare($validate);
+$stmt->bind_param('ii',$id,$_SESSION['id']);
+$stmt->execute();
+$stmt->store_result();
+$isBookingIdMine = $stmt->num_rows;
+if(!$isBookingIdMine){
+  echo"<script>window.open('bookinglist.php','_self');</script>";
+}
+
 ?>
 
-
-<div id="page-wrapper">
-    <div id="page-inner">
+<div id="wrapper">
+    <!--sidbar start -->
+    <?php include 'include/navbar.php'; ?>       
+    
+    <!--sidbar end--> 
+    <div id='content-wrapper' class="d-flex flex-column">
+        <?php
+        require_once('include/topbon.php');
+        ?> 
         <div class="row">
             <div class="col-md-12">
                 <h2>New booking</h2>
             </div>
 
-            <div class="col-md-12 msg-box" style="display: none">
-
-                <div class="alert alert-danger" role="alert">
-                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                    <span class="sr-only">Error:</span>
-                    <span class="msg"></span>
-                </div>
+            <?php 
+            
+            if( isset($_GET['error']) and trim($_GET['error'])!=''):
+            $msg = $_GET['error'];
+            ?>
+            <div class="alert alert-danger ml-5" role="alert">
+                <span class="fa fa-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                <span class="msg"><?=$msg?></span>
             </div>
+            <?php endif?>
+            <?php if(isset($_GET['success']) and trim($_GET['success']) !='' ):
+                $success=$_GET['success'];
+                ?>
+                 <div class="alert alert-success ml-5" role="alert">
+                <span class="fa fa-exclamation-sign" aria-hidden="true"></span>
+                
+                <span class="msg"><?=$success?></span>
+            </div>
+            <?php endif?>
 
         </div>
         <!-- /. ROW  -->
@@ -52,8 +79,17 @@ $seats=$booking['seats'];
 
             $user_id = intval($_SESSION['id']);
             $car_id = stripslashes($_POST['plaque']);
-            $start_time = stripslashes($_POST['start_time']);
-            $end_time = stripslashes($_POST['end_time']);
+
+            $startTime = stripslashes($_POST['startTime']);
+            $endTime   = stripslashes($_POST['endTime']);
+            
+            $startdate = stripslashes($_POST['start_time']);
+            $enddate = stripslashes($_POST['end_time']);
+
+            $start_time = $startdate.' '.$startTime ;
+            $end_time = $enddate.' '.$endTime ;
+
+
             $departure = intval(stripslashes($_POST['departure']));
             //$from = mysqli_real_escape_string($connection,$from);
             $destination = intval(stripslashes($_POST['destination']));
@@ -67,21 +103,25 @@ $seats=$booking['seats'];
             //$strSQL = "INSERT into `fluid_booking` (id_user,car_id,start_time,end_time,id_place0,id_placef,status_id,departments_id,description,rank) values(" . $user_id . "," . $car_id . ",'" . $start_time . "','" . $end_time . "'," . $departure . "," . $destination . "," . $status . "," . $departments_id . ",'" . $description . "','" . $rank . "')";
             //var_dump($strSQL);
 
-            echo $strSQL="
-                UPDATE `fluid_booking` 
-                SET car_id = $car_id, start_time = '$start_time', end_time='$end_time',id_place0=$departure,id_placef=$destination,status_id=$status,departments_id=$departments_id,description='$description',updated_at='$now'
-                WHERE id=$id
-            ";
-
-            //die();
-
-            $res = mysqli_query($connection, $strSQL);
-
-
+       
+            // $rows =$res->affected_rows();
             $base_url = "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+           
+            $strSQ="
+            UPDATE `fluid_booking` 
+            SET car_id = ?, start_time = ?, end_time=?,id_place0=?,id_placef=?,status_id=?,departments_id=?,description=?,updated_at=?
+            WHERE id=?
+        ";
+            $stmt = $connection->prepare($strSQ);
+            $stmt->bind_param('issiiiissi',$car_id,$start_time,$end_time,$departure,$destination,$status,$departments_id,$description,$now,$id);
+            $stmt->execute();
+            $bookingUpdated = $stmt->affected_rows;
+          
+
+            
 
 
-            if ($res) {
+            if ($bookingUpdated) {
 
                 $id = mysqli_insert_id($connection);
 
@@ -104,7 +144,7 @@ $seats=$booking['seats'];
                 $employee = $row['full_name'];
 
 
-                echo $message = '
+                 $message = '
                     <html>
                     <head>
                         <style type="text/css">
@@ -156,15 +196,47 @@ $seats=$booking['seats'];
                         <td><h1></h1></td>
                       </tr>
                     </table>
-                    <a class="button" href="http://localhost:8888/test_car/confirm_booking.php?id=' . $id . '">Confirm this booking now</a>
-                    
-                    <a class="button" href="http://localhost:8888/test_car/permission.php?id=' . $id . '">Go to booking </a>
                     </body>
                     </html>';
 
-                //$res = mail($to, $subject, $message, $headers);
+                    $sel ="SELECT email from fluid_user where role = ? and id_subcompany = ? ";
+                    $add= 20;
+                    $stmt = $connection->prepare($sel);
+                    $stmt->bind_param('ii',$add,$id_subcompany);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $adexist = $result->num_rows;
+                    if($adexist){
+                        $row = $result->fetch_assoc();
+                        $to =$row['email'];
+                        
+                    $subject = "ishyiga freet user booking update ";
+                    $sender = "ishyigasoftware900@gmail.com";
+                    $sender_name = " Bookings ";
+                   
+                    include 'include/emailSender.php';
+                    $requestSent = sendEmail($subject,$sender,$sender_name,$to,$message) ;
+                    $requestSent = true;
+                    if($requestSent){
+                        $success ='update request is sent ' ;
+                        echo'<script>window.open("bookinglist.php?success='.$success.'&id='.$id.'","_self")</script>';
+                    
+                        
+                    }else{  
+                    $msg ='request did not sent  ';
+                    echo'<script>window.open("booking_edit.php?error='.$msg.'&id='.$id.'","_self")</script>';
+                    
+                    }
 
-                header("Location: bookinglist.php");
+                    }else{
+                        $success ='admin does not exist' ;
+
+                    }
+            }
+            else{
+                $msg ='request did  not sent ';
+                echo'<script>window.open("booking_edit.php?error='.$msg.'&id='.$id.'","_self")</script>';
+                    
             }
         }
 
@@ -195,24 +267,81 @@ $seats=$booking['seats'];
                                 <?php
                                 while ($row = mysqli_fetch_array($rs2)) {
                                     echo '
-<option value=' . $row['id'] . ' >  ' . $row['plaque'] . '</option>
+<option value=' . $row['id'] . ' >  ' . $row['plaque'] . '</option>     
 ';
                                 }
                                 echo '</select>';
                                 ?>
-                                <label>Start time</label>
-                                <div class='input-group date' id='datetimepicker1'>
-                                    <input name='start_time' type='text' class="form-control" value="<?=$booking['start_time']?>" required/>
-                                    <span class="input-group-addon">
-<span class="glyphicon glyphicon-calendar"></span>
-</span>
+
+                                 
+                                    <?php $sel = 'SELECT  mid(start_time,1,10) as start_date , mid(start_time,11,6) as startTime from  fluid_booking where id = ? '; 
+                                            $stmt = $connection->prepare($sel);
+                                            $stmt->bind_param('i',$id);
+                                            $stmt->execute();
+                                            $result = $stmt->get_result();
+                                            $row = $result->fetch_assoc();
+                                            $start_date = $row['start_date'];
+                                            $time =  $row['startTime'];
+                                            echo"<label class= 'mt-3' >Start time (by leaving time empty will be set to current setted ".$time." )</label>
+                                            <div class='d-flex'>
+                                            <div  class='input-group date'  id='datetimepicker1'>";
+                                            echo ' <input name="start_time" type="text"  autocomplete="off" autocorrect="off" class="form-control" required value="'.$start_date.'" />'
+                                    ?>
+                                    
+
+                                   
+                                    <span class="input-group-addon btn btn-outline-default">
+                                        <span class="fa fa-calendar"></span>
+                                        </span>
                                 </div>
-                                <label>End time</label>
-                                <div class='input-group date' id='datetimepicker2'>
-                                    <input name='end_time' type='text' class="form-control" value="<?=$booking['end_time']?>" required/>
-                                    <span class="input-group-addon">
-<span class="glyphicon glyphicon-calendar"></span>
-</span>
+                                <?php $sel  = 'SELECT mid(start_time,11,6) as startTime from  fluid_booking where id = ?';
+                                      $stmt = $connection->prepare($sel);
+                                      $stmt->bind_param('i',$id);
+                                      $stmt->execute();
+                                      $result = $stmt->get_result();
+                                      $row = $result->fetch_assoc();
+                                      $startTime = $row['startTime'];
+                                      echo '<input name="startTime" type="time"   autocorrect="off" class="form-control" placeholder="12:04" required value="'.$startTime.'" />';
+
+                                ?>
+                                    
+                                               
+                                </div>
+
+                                <?php $sel = 'SELECT  mid(end_time,1,10) as end_date , mid(end_time,11,6) as endTime from  fluid_booking where id = ? '; 
+                                            $stmt = $connection->prepare($sel);
+                                            $stmt->bind_param('i',$id);
+                                            $stmt->execute();
+                                            $result = $stmt->get_result();
+                                            $row = $result->fetch_assoc();
+                                            $start_date = $row['end_date'];
+                                            $time =  $row['endTime'];
+                                            echo"<label class= 'mt-2' >End time (by leaving time empty will be set to current setted ".$time." )</label>
+                                            <div class='d-flex'>
+                                            <div  class='input-group date'  id='datetimepicker1'>";
+                                            echo ' <input name="start_time" type="text"  autocomplete="off" autocorrect="off" class="form-control" required value="'.$start_date.'" />'
+                                    ?>
+                               
+                                
+                              
+                               
+                                <span class="input-group-addon btn btn-outline-default">
+                                        <span class="fa fa-calendar"></span>
+                                        </span>
+                                </div>
+                                <?php $sel  = 'SELECT mid(end_time,11,6) as endTime from  fluid_booking where id = ?';
+                                      $stmt = $connection->prepare($sel);
+                                      $stmt->bind_param('i',$id);
+                                      $stmt->execute();
+                                      $result = $stmt->get_result();
+                                      $row = $result->fetch_assoc();
+                                      $endTime = $row['endTime'];
+                                      echo '<input name="endTime" type="time"   autocorrect="off" class="form-control"  required value="'.$endTime.'" />';
+
+                                ?>
+
+                                
+                                               
                                 </div>
 
                                 <script type="text/javascript">
@@ -220,14 +349,14 @@ $seats=$booking['seats'];
                                         $('#datetimepicker1').datetimepicker
                                         (
                                             {
-                                                format: "YYYY-MM-DD HH:mm",
+                                                format: "YYYY-MM-DD",
                                             }
                                         );
 
                                         $('#datetimepicker2').datetimepicker
                                         (
                                             {
-                                                format: "YYYY-MM-DD HH:mm",
+                                                format: "YYYY-MM-DD ",
                                                 useCurrent: false
                                             }
                                         );
@@ -321,8 +450,16 @@ order by name asc";
                                     ?>
                                     <label>description</label>
                                     <div class="required-field-block">
-    <textarea rows="3" class="form-control" name="description" placeholder=""
-              required><?=$booking['description']?></textarea>
+                                        <?php 
+                                        $STRsql = "SELECT fluid_car.seats,fluid_car.plaque,start_time,end_time,username,full_name,description,a.name AS 'departure',b.name AS 'destination' ,rank,id_place0,id_placef FROM `fluid_booking` inner join fluid_user on fluid_user.id=fluid_booking.id_user JOIN fluid_place AS a ON fluid_booking.id_place0=a.id JOIN fluid_place AS b ON fluid_booking.id_placef=b.id inner join fluid_car on fluid_booking.car_id=fluid_car.id WHERE fluid_booking.id=" . $id;
+
+                                        $res = mysqli_query($connection, $STRsql);
+                                        $row = $res->fetch_assoc();
+                                        echo '<textarea rows="3" class="form-control" name="description" placeholder="" required>
+                                            '.$row['description'].'
+                                        </textarea>';
+                                        ?>
+  
                                         <div class="required-icon">
                                             <div class="text">*</div>
                                         </div>
@@ -490,5 +627,6 @@ $json = json_encode($data);
         }
     });
 </script>
+<?php include 'include/footerui.php'; ?>
            
    

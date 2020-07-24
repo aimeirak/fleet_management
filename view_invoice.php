@@ -1,11 +1,27 @@
-<?php ob_start();
-include('authenticate.php'); ?>
-<?php include('connexion.php'); ?>
+<?php 
+include 'include/authant.php';
+ob_start();
+include 'include/header.php' ; ?>
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+?>
+
 <?php $id_subcompany = $_SESSION['sub_company']; ?>
 
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+    <!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
 
-<div id="page-wrapper">
-    <div id="page-inner">
+
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+<?php
+require_once('include/topbon.php');
+?>
 
         <!-- /. ROW  -->
 
@@ -98,9 +114,9 @@ include('authenticate.php'); ?>
         <div class="container">
             <div class="input-group">
                 <div class="row">
-                    <div class="col-lg-5">
+                    <div class="col-12 col-lg-12">
 
-                        <table class="table-responsive" style="width: 90%" >
+                        <table class=" table table-responsive table-striped " style="width: 90%" >
                             <tr>
                                 <td>Amount</td>
                                 <td><?= $row_t['amount'] ?> Rwf</td>
@@ -119,9 +135,9 @@ include('authenticate.php'); ?>
                 <div class="row">
 
 
-                    <div class="col-lg-6">
+                    <div class="col-4">
 
-                        <img class="img-responsive" src="uploads/<?= $row_t['picture'] ?>">
+                        <img class="img-responsive" src="uploads/<?= $row_t['picture'] ?>" style="width: 100%" >
 
                     </div>
 
@@ -136,5 +152,5 @@ include('authenticate.php'); ?>
 
 <?php mysqli_close($connection); ?>
 
-<?php include('footer.php'); ?> 
+<?php include('include/footerui.php'); ?> 
 

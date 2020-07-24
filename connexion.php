@@ -6,7 +6,7 @@ if (!$connection){
 }
 $select_db = mysqli_select_db($connection, 'ishyiga_fuit');
 if (!$select_db){
-    die("Database Selection Failed" . mysqli_error($connection));
+    die("Database Selection Failed" . mysqli_error($select_db));
 }
 
 $GLOBALS['conn'] = $connection;

@@ -1,5 +1,10 @@
 <?php ob_start();
-include('authenticate.php'); ?>
+include 'include/authant.php';
+include 'include/header.php' ;
+
+$id_subcompany = $_SESSION['sub_company'] ;
+ ?>
+
 <?php include('connexion.php');
 $SESSION_ID = $_SESSION['id'];
 ?>
@@ -7,14 +12,39 @@ $SESSION_ID = $_SESSION['id'];
 <!-- /. NAV TOP  -->
 <?php //include('navSide.php'); ?>
 
-
-<div id="page-wrapper">
+<body  id="page-top"   >
+    <div id="wrapper">
+        <!--sidbar start -->
+        <?php include 'include/navbar.php'; ?>
+        
+        
+        <!--sidbar end-->
+        <div id='content-wrapper' class="d-flex flex-column">
+            <?php
+            require_once('include/topbon.php');
+            ?>
     <div id="page-inner">
-        <div class="row">
-            <div class="col-md-6">
-                <h2>Bookings</h2>
+    <?php if(isset($msg) and trim($msg)!='' || isset($_GET['msg'])):?>
+            <div class="alert alert-danger" role="alert">
+                <span class="fa fa-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                <span class="msg"><?=$msg?></span>
             </div>
-            <div class="col-md-6">
+            <?php endif?>
+            <?php if(isset($_GET['success']) and trim($_GET['success']) !=''):
+                $success=$_GET['success'];
+                ?>
+                <div class="alert alert-success" role="alert">
+                <span class="fa fa-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only"></span>
+                <span class="msg"><?=$success?></span>
+            </div>
+
+<?php endif?>
+        <div class="row">
+            
+            <div class="col-md-12 d-flex justify-content-between mb-5">
+            <h2>Bookings</h2>
                 <a href="booking.php"><span class="btn btn-primary pull-right" style="bottom: opx;">add</span></a>
             </div>
         </div>
@@ -23,21 +53,21 @@ $SESSION_ID = $_SESSION['id'];
                 <div class="form-group col-md-5">
                     <div class='input-group date' id='datetimepicker1'>
                         <input name='start_date' type='text' class="form-control"/>
-                        <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
+                        <span class="input-group-addon input-group-append btn btn-info">
+                                    <span class="fa fa-calendar"></span>
                                 </span>
                     </div>
                 </div>
                 <div class="form-group col-md-5">
                     <div class='input-group date' id='datetimepicker2'>
                         <input name='end_date' type='text' class="form-control"/>
-                        <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
+                        <span class="input-group-addon input-group-append btn btn-primary">
+                                    <span class="fa fa-calendar"></span>
                                 </span>
                     </div>
                 </div>
                 <div class='form-group col-md-2'>
-                    <button type="submit" class="btn btn-default pull-right ">Go</button>
+                    <button type="submit" class="btn btn-outline-info pull-right ">Go</button>
                 </div>
             </div>
         </form>
@@ -135,7 +165,7 @@ $SESSION_ID = $_SESSION['id'];
 
                         $sql = "SELECT fluid_booking.id,created_at,start_time,end_time,username,a.name AS 'departure',b.name AS 'destination',statusname,name_dep,rank ,fluid_booking.id_user FROM `fluid_booking` inner join fluid_user on fluid_user.id=fluid_booking.id_user JOIN fluid_place AS a ON fluid_booking.id_place0=a.id JOIN fluid_place AS b ON fluid_booking.id_placef=b.id inner join fluid_status on fluid_status.id=fluid_booking.status_id inner join fluid_departments on fluid_departments.id=fluid_booking.Departments_id where fluid_user.id_subcompany=".$id_subcompany." AND fluid_booking.end_time>=NOW()";
                         //echo  $sql;
-                        echo "All bookings<br>";
+                        echo "All bookings";
                         $rS = mysqli_query($connection, $sql);
                         //var_dump($rS);
                         //die();
@@ -181,7 +211,7 @@ $SESSION_ID = $_SESSION['id'];
                     ?>
 
                     <script>
-                $json = json_encode($data);
+               <?= $json = json_encode($data);?>
                     var data = <?= $json?>;
                     
                     $(".myselect").select2({
@@ -193,6 +223,7 @@ $SESSION_ID = $_SESSION['id'];
                         $("#myForm").submit();
 
                     });
+                   
                 </script>
 
                  </body>
@@ -202,8 +233,9 @@ $SESSION_ID = $_SESSION['id'];
         </div>
     </div>
 </div>
+    </div>
 
-<?php include('footer.php'); ?> 
+<?php include('include/footerui.php'); ?> 
 
 	
 	

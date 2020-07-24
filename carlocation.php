@@ -1,14 +1,25 @@
-<?php //ob_start();
-include('authenticate.php'); ?>
+<?php 
+session_start();
+ob_start();
+include 'include/header.php' ; ?>
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+?>
 
-<?php $id_subcompany = $_SESSION['sub_company'];
-include('connexion.php'); ?>
-<?php // include('header.php'); ?>
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+   <!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
 
-<?php //include('navSide.php'); ?>
 
-
-
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+<?php
+require_once('include/topbon.php');
+?>
         <div class="row">
             <div class="col-md-12">
                 <h2>Car location</h2>
@@ -48,10 +59,10 @@ include('connexion.php'); ?>
                         </tr>
                         </thead>
                         <?php
-                            $sql = "SELECT fluid_car.id,fluid_car_location.id as pk ,id_place,fluid_sub_company.subcompany_name,fluid_car.plaque,fluid_car_location.id,fluid_place.name,comments,statusname,address from fluid_car_location 
-                        inner join fluid_place on fluid_place.id=fluid_car_location.id_place inner join fluid_status on fluid_status.id=fluid_car_location.status_id 
-                        inner join fluid_car on fluid_car_location.car_id=fluid_car.id
-                        inner join fluid_sub_company on fluid_car.id_subcompany=fluid_sub_company.id where id_subcompany='" . $id_subcompany . "'";
+                        $sql = "SELECT fluid_car.id,fluid_car_location.id as pk ,id_place,fluid_sub_company.subcompany_name,fluid_car.plaque,fluid_car_location.id,fluid_place.name,comments,statusname,address from fluid_car_location 
+                    inner join fluid_place on fluid_place.id=fluid_car_location.id_place inner join fluid_status on fluid_status.id=fluid_car_location.status_id 
+                    inner join fluid_car on fluid_car_location.car_id=fluid_car.id
+                    inner join fluid_sub_company on fluid_car.id_subcompany=fluid_sub_company.id where id_subcompany='" . $id_subcompany . "'";
 
                         $result = mysqli_query($connection, $sql);
 
@@ -74,7 +85,7 @@ include('connexion.php'); ?>
                                     '<td>' . $row["subcompany_name"] . '</td>' .
                                     '<td>' . $row["plaque"] . '</td>' .
 
-                                    '<td>' . '<a href="javascript:;"  class="location" data-type="select2"
+                                    '<td>' . '<a href="javascript:;" class="location" data-type="select2"
                                                        data-pk="'.$row['pk'].'" data-value="'.$row['id_place'].'"
                                                        data-original-title="Select place"> </a>' . '</td>' .
 
@@ -215,7 +226,9 @@ include('connexion.php'); ?>
                 </div>
             </div>
         </div>
-   
+    </div>
+</div>
+
 <?php
 $sql = "SELECT fluid_place.id,name FROM fluid_place INNER JOIN fluid_user ON fluid_place.id_user=fluid_user.id WHERE fluid_user.id_subcompany=" . $_SESSION['sub_company'];
 $res = mysqli_query($connection, $sql);
@@ -237,7 +250,7 @@ $json = json_encode($data);
     $('.location').editable({
         inputclass: 'form-control input-medium',
         source: data,
-        url:'../update_location.php',
+        url:'update_location.php',
     });
 
 </script>
@@ -247,5 +260,5 @@ $json = json_encode($data);
         min-width:180px;
     }
 </style>
-<?php include('footer.php'); ?>
+<?php include('include/footerui.php'); ?>
     

@@ -105,7 +105,8 @@
                             <input class="form-control" type="text" name="verKey" required class="span3" value="<?=isset($_GET['verKey'])?$_GET['verKey']:''?>">
                             </div>  
                             <div class="card-footer justify-content-space-bettwen">
-                              <button type="submit" class="btn btn-primary" name='verify'>verify</button> 
+                              <button type="submit" class="btn btn-primary btn-lg btn-block" name='verify'>verify</button>  
+                              <a href="../login.php" class="btn btn-success btn-lg btn-block">login</a> 
                             </div>
                                 
                                               
@@ -130,5 +131,5 @@ if($already || $read){ ?>
 <?php } ?>
 
 <?php
-include 'footer.php';
+include 'footerui.php';
 

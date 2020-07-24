@@ -1,11 +1,26 @@
-<?php ob_start();
-include('authenticate.php'); ?>
+<?php 
+session_start();
+ob_start();
+include 'include/header.php' ; ?>
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+?>
 
-<?php include('connexion.php'); ?>
+
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+    <!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
 
 
-<div id="page-wrapper">
-    <div id="page-inner">
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+<?php
+require_once('include/topbon.php');
+?>
         <div class="row">
             <div class="col-md-12 text-center">
                 <h2>Please update car</h2>
