@@ -129,8 +129,180 @@ function carsInfo($carId){
 
 //for driver
 
+function Booking($rank){
+  $now = date('Y-m-d H:m:s');
+  $tomorrow = date('Y-m-d H:m:s',strtotime('tomorrow') );
+
+
+  //my car
+  $DriverId = $_SESSION['id'];
+  
+  $sql = "SELECT fluid_booking.rank,fluid_car.id_driver,plaque,d.username as driver,p.username as passenger ,fluid_booking.id as bookId,fluid_booking.start_time, 
+           fluid_booking.end_time,a.name AS 'departure',b.name AS 'destination',statusname,name_dep from fluid_booking 
+          JOIN fluid_place AS a ON fluid_booking.id_place0=a.id
+          JOIN fluid_place AS b ON fluid_booking.id_placef=b.id 
+          inner join fluid_status on fluid_status.id=fluid_booking.status_id 
+          inner join fluid_departments on fluid_departments.id=fluid_booking.Departments_id 
+          inner join fluid_car on fluid_booking.car_id = fluid_car.id 
+          inner join fluid_user as d on d.id = fluid_car.id_driver 
+          inner join fluid_user as p  on p.id = fluid_booking.id_user
+          where   start_time between ? and ? and rank = ? and fluid_car.id_driver = ?";
+   $stmt = $GLOBALS['conn']->prepare($sql);
+   $stmt->bind_param('sssi',$now,$tomorrow,$rank,$DriverId);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $isThereMyAnyTrip = $result->num_rows;
+   if($isThereMyAnyTrip){
+      if($rank == 'confirmed'){
+        echo ' <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-4">
+        '.$now.' until '.$tomorrow.'        
+        <table class="table table-striped table-responsive table-bordered table-hover display " id="datatable1" cellspacing="0" 
+        width="100%">
+     <thead>
+         <tr>
+             
+             <th>StartTime</th>
+             <th>EndTime</th>
+             
+             <th>Passenger(m)</th>
+             <th>Depature</th>
+             <th>Destination</th>
+             <th>Action</th>
+         </tr>
+     </thead>
+     <body>
+        ';
+        while($fetchBooking =  $result->fetch_assoc()){
+          echo (
+            '
+
+
+                <tr>'.
+
+                    
+                    '<td>'.$fetchBooking["start_time"].'</td>'.
+                    '<td>'.$fetchBooking["end_time"].'</td>'.
+                   
+                    '<td>'.$fetchBooking["passenger"].'</td>'. 
+            
+                    '<td>'.$fetchBooking["departure"].'</td>'.
+                    '<td>'.$fetchBooking["destination"].'</td>'.
+                   
+                   
+                    '<td>'.'<span id="'.$fetchBooking["bookId"].'"   onClick ="action(this.id)" class="btn btn-primary">Yes</span>
+                    <span id="'.$fetchBooking["bookId"].'" onClick ="dismiss(this.id)" class="btn btn-danger">NO</span>
+                    '.'</td>'.
+
+                    
+                    
+                '</tr>
+            '
+        ); 
+        }
+        echo'
+        </body>
+
+        </table> 
+        </div>
+
+        ';   
+
+      }else{
+        echo ' <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-4">
+        '.$now.' until '.$tomorrow.'        
+        <table class="table table-striped table-responsive table-bordered table-hover display " id="datatable1" cellspacing="0" 
+        width="100%">
+     <thead>
+         <tr>
+             <th>#</th>
+             <th>Start time</th>
+             <th>End time</th>
+             
+             <th>Passenger(m)</th>
+             <th>Depature</th>
+             <th>Destination</th>
+            
+             <th>Rank</th>
+             <th>Action</th>
+         </tr>
+     </thead>
+     <body>
+        ';
+        while($fetchBooking =  $result->fetch_assoc()){
+          echo (
+            '
+
+
+                <tr>'.
+
+                    '<td>'.$fetchBooking["bookId"].'</td>'.
+                    '<td>'.$fetchBooking["start_time"].'</td>'.
+                    '<td>'.$fetchBooking["end_time"].'</td>'.
+                   
+                    '<td>'.$fetchBooking["passenger"].'</td>'. 
+            
+                    '<td>'.$fetchBooking["departure"].'</td>'.
+                    '<td>'.$fetchBooking["destination"].'</td>'.
+                   
+                    '<td>'.$fetchBooking["rank"].'</td>'.
+                    '<td>'.'<span id="'.$fetchBooking["bookId"].'"   onClick ="restore(this.id)" class="btn btn-primary">restore</span>
+                   
+                    '.'</td>'.
+
+                    
+                    
+                '</tr>
+            '
+        ); 
+        }
+        echo'
+        </body>
+
+        </table> 
+        </div>
+
+        ';  
+        }
+   }else{
+    if($rank == 'confirmed'){
+      echo 'no trip to day fo';
+    }else{
+      echo 'there is no rejeted booking in up comming hours';
+    }
+   }
+  
+}
+
 function carDriverPageInfo(){
-  echo 'car driver info ';
+  echo '<div class="col-12 col-md-9 mt-4" >
+           <div class="card shadow p-4">
+               <div class="card-header">
+                <h6>Not available from and to</h6>
+               </div>
+               <label>From</label>
+                                <div class=" d-block d-sm-flex">
+                                <div  class="input-group "  >
+                                    <input type="date"  autocomplete="off" autocorrect="off" class="form-control mb-2"  />
+                                    
+                                </div>
+                                    <input type="time"  autocomplete="off" autocorrect="off"class="form-control mb-3"    />
+                                               
+                                </div>
+                               
+                                <label>To</label>
+                                <div class="d-block d-sm-flex">
+                                <div class="input-group " >
+                                <input  type="date"  autocomplete="off" autocorrect="off"  class="form-control mb-2"   />
+                                     
+                                </div>
+                                    <input  type="time"  autocomplete="off" autocorrect="off" class="form-control mb-3 "    />
+                                               
+                                </div>
+
+                </div>
+
+           </div>
+      </div>';
 }
 
 if(isset($_POST['carListOnly']) and $_SESSION['role'] == 20 ){
@@ -140,8 +312,14 @@ if(isset($_POST['dataSent']) and isset($_POST['carIdentity']) and $_SESSION['rol
   carsInfo($_POST['carIdentity']);
 }
 
-if(isset($_POST['carDriver']) && isset($_POST['plate'])  ){
+if(isset($_POST['carDriver']) && isset($_POST['plate'])  and $_SESSION['role'] == 30 ){
   carDriverPageInfo();
+}
+if($_SESSION['role'] == 30 and isset($_POST['booking'])  ){
+  Booking('confirmed');
+}
+if($_SESSION['role'] == 30 and isset($_POST['rejected'])  ){
+  Booking('rejected');
 }
 
 ?>

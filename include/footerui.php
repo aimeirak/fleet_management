@@ -39,8 +39,12 @@
 <script src="assets/js/leon/carInfo.js"></script>
     <script>
 
-
-
+function action(placeToc){
+    console.log(`allow  ${placeToc}`);
+}
+function dismiss(placeToc){
+    console.log(`dismis   ${placeToc}`);
+}
 var clear =  document.getElementById('returnB');
 clear != null ? 
 clear.addEventListener('click',()=>{
@@ -51,12 +55,7 @@ clear.addEventListener('click',()=>{
 
     
   $(document).ready(function() {
-      $('#datatable1').DataTable( {
-          dom: 'Bfrtip',
-          buttons: [
-              'csv', 'excel', 'pdf', 'print',
-          ],
-          exclude:'ex',
+      $('#datatable1').DataTable( {          
           proccesing:true,
           responsive:true
             } );

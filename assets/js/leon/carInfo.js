@@ -44,7 +44,7 @@ var seconddataView = document.getElementById('data2Retrival');
 
 function getvalue(indi){
     var carPlate = indi; 
-      console.log(carPlate);
+    
 
       $.ajax({
         url:'cars_fluid/cardailydata.php',
@@ -87,5 +87,34 @@ if(!isNull(Avail)){
 }
 
 
-
+if(!isNull(dailBook)){
+    dailBook.addEventListener('click',()=>{
+   $.ajax({
+        url:'cars_fluid/cardailydata.php',
+        method:'POST',
+        data:{
+           
+            booking:1
+        },
+        success:(data)=>{
+            dataloader(seconddataView,data);
+        }
+   })
+})
+}
+if(!isNull(rejected)){
+    rejected.addEventListener('click',()=>{
+   $.ajax({
+        url:'cars_fluid/cardailydata.php',
+        method:'POST',
+        data:{
+           
+            rejected:1
+        },
+        success:(data)=>{
+            dataloader(seconddataView,data);
+        }
+   })
+})
+}
 //end driver

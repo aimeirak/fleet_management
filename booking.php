@@ -265,7 +265,7 @@ require_once('include/topbon.php');
 
                             <?php
                             $standard = 'Available';
-                             $privateDateEnd = date('m/d/y'); 
+                            $privateDateEnd = date('m/d/y'); 
                             $sql2 = "SELECT id,id_subcompany,plaque,standard FROM fluid_car where id_subcompany='" . $id_subcompany . "' and standard='Available' and id NOT IN (select id_car from fluid_private_usage where fluid_private_usage.to > '". $privateDateEnd ."' and live != 1) ;";
                            
                            $rs2 = mysqli_query($connection, $sql2); ?>
@@ -281,8 +281,8 @@ require_once('include/topbon.php');
                                 ?>
                                 <label>Start time</label>
                                 <div class='d-flex'>
-                                <div  class='input-group date'  id='datetimepicker1'>
-                                    <input name='start_time' type='text'  autocomplete="off" autocorrect="off" class="form-control" required value="<?=isset($start_time)?$start_time:''?>" />
+                                <div  class='input-group date'  id=''>
+                                    <input name='start_time' type='date'  autocomplete="off" autocorrect="off" class="form-control" required value="<?=isset($start_time)?$start_time:''?>" />
                                     <span class="input-group-addon btn btn-outline-default">
                                         <span class="fa fa-calendar"></span>
                                         </span>
@@ -293,8 +293,8 @@ require_once('include/topbon.php');
                                
                                 <label>End time</label>
                                 <div class='d-flex'>
-                                <div class='input-group date' id='datetimepicker2'>
-                                <input name='end_time' type='text'  autocomplete="off" autocorrect="off"  class="form-control" required value="<?=isset($end_time)?$end_time:''?>" />
+                                <div class='input-group date' id=''>
+                                <input name='end_time' type='date'  autocomplete="off" autocorrect="off"  class="form-control" required value="<?=isset($end_time)?$end_time:''?>" />
                                      <span class="input-group-addon btn btn-outline-default">
                                         <span class="fa fa-calendar"></span>
                                         </span>

@@ -92,7 +92,12 @@ include('include/header.php'); ?>
                     $end=stripslashes($_POST['end_date']);
 
                     
-                     $sql ="SELECT fluid_booking.id,start_time,end_time,username,a.name AS 'departure',b.name AS 'destination',statusname,name_dep,rank FROM `fluid_booking` inner join fluid_user on fluid_user.id=fluid_booking.id_user JOIN fluid_place AS a ON fluid_booking.id_place0=a.id JOIN fluid_place AS b ON fluid_booking.id_placef=b.id inner join fluid_status on fluid_status.id=fluid_booking.status_id inner join fluid_departments on fluid_departments.id=fluid_booking.Departments_id WHERE fluid_user.id_subcompany=".$id_subcompany." AND DATE(start_time) BETWEEN '".$start."' AND '".$end."'";
+                     $sql ="SELECT fluid_booking.id,start_time,end_time,username,a.name AS 'departure',b.name AS 'destination',statusname,name_dep,rank FROM `fluid_booking` inner join fluid_user on fluid_user.id=fluid_booking.id_user
+                          JOIN fluid_place AS a ON fluid_booking.id_place0=a.id
+                          JOIN fluid_place AS b ON fluid_booking.id_placef=b.id 
+                          inner join fluid_status on fluid_status.id=fluid_booking.status_id 
+                          inner join fluid_departments on fluid_departments.id=fluid_booking.Departments_id 
+                          WHERE fluid_user.id_subcompany=".$id_subcompany." AND DATE(start_time) BETWEEN '".$start."' AND '".$end."'";
 
                           echo "Bookings from ".$start." to ".$end."<br>";
                     $result = mysqli_query($connection,$sql);
