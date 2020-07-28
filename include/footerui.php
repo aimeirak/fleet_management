@@ -38,6 +38,69 @@
 <script src="assets/js/leon/badgecount.js"></script>
 <script src="assets/js/leon/carInfo.js"></script>
     <script>
+$("#dataRetrival").bind('DOMSubtreeModified', function() {
+    var saveAvail = document.getElementById('saveAvail'); 
+
+});
+
+if(!isNull(Avail)){
+    Avail.addEventListener('click',()=>{
+   $.ajax({
+        url:'include/avail.php',
+        method:'POST',
+        data:{
+            list:1,
+            plate:1
+        },
+        success:(data)=>{
+            dataloader(dataView,data);
+        }
+   })
+})
+}
+function getV(btn){
+    var saveAvail = document.getElementById('saveAvail'); 
+    var fromDate = document.getElementById('fromDate').value; 
+    var toDate = document.getElementById('toDate').value; 
+    var fromTime = document.getElementById('fromTime').value; 
+    var toTime = document.getElementById('toTime').value; 
+    var description = document.getElementById('description').value; 
+    var startData = fromDate+' '+fromTime; 
+    var endDate = toDate+' '+toTime; 
+  
+    saveAvail.addEventListener('click',()=>{
+      console.log(`from ${startData} to ${endDate}`);
+      $.ajax({
+          url:'include/avail.php', 
+          method:'POST',
+          data:{
+              driver:<?=$_SESSION['id']?>,
+              start:startData,
+              end:endDate,
+              descr:description,
+              
+          },
+          success:(data)=>{
+              dataloader(seconddataView,data);
+              $.ajax({
+                url:'include/avail.php',
+                method:'POST',
+                data:{
+                    list:1,
+                    plate:1
+            },
+          success:(data)=>{
+                dataloader(dataView,data);
+             }
+          });
+      }
+      })
+  })
+}
+
+
+
+
 
 function action(placeToc){
     console.log(`allow  ${placeToc}`);

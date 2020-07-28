@@ -46,9 +46,11 @@ require_once('include/topbon.php');
         <?php
 
 
-        if (isset($_POST['plaque'])) {
+        if (isset($_POST['submit']) and isset($_POST['plaque']) ) {
             // removes backslashes
             //var_dump($_POST);
+
+            
 
             $user_id = intval($_SESSION['id']);
             $car_id = stripslashes($_POST['plaque']);
@@ -59,26 +61,21 @@ require_once('include/topbon.php');
             $startdate = stripslashes($_POST['start_time']);
             $enddate = stripslashes($_POST['end_time']);
 
-            $start_time = $startdate.''.$startTime ;
-            $end_time = $enddate.''.$endTime ;
+            $start_time = $startdate.' '.$startTime ;
+            $end_time = $enddate.' '.$endTime ;
             $departure = intval(stripslashes($_POST['departure']));
             //$from = mysqli_real_escape_string($connection,$from);
             $destination = intval(stripslashes($_POST['destination']));
             $status = intval(stripslashes($_POST['status']));
             $departments_id = stripslashes($_POST['name_dep']);
-            $description = stripslashes($_POST['description']);
-            if($_SESSION['role'] == 20){
-                $rank = 'confirmed';
-            }else{
-                $rank = 'confirmed';
-            }
-           
-
+            $description = stripslashes($_POST['description']);          
+                $rank = 'confirmed'; 
             $now=date("Y-m-d H:i:s");
 
+       
+           
 
-
-            $sql_check = "SELECT id FROM fluid_booking WHERE ((rank!='confirmed') AND (car_id=$car_id) AND ((end_time > '$start_time') AND (start_time < '$end_time')))";
+            $sql_check = "SELECT id FROM fluid_booking WHERE ((rank ='confirmed') AND (car_id=$car_id) AND ((end_time > '$start_time') AND (start_time < '$end_time')))";
             $res_check = mysqli_query($connection, $sql_check);
 
             $msg="";
@@ -86,6 +83,12 @@ require_once('include/topbon.php');
                 $msg.="Time taken by an other booking"."</br>";
 
             }else {
+     //check if car shoosen is avaible
+     $live = 1;
+    
+     //== 
+     //==limite user for chossing wrong date 
+    
 
                 $strSQL = "INSERT into `fluid_booking` (id_user,car_id,start_time,end_time,id_place0,id_placef,status_id,departments_id,description,rank,created_at) values(" . $user_id . "," . $car_id . ",'" . $start_time . "','" . $end_time . "'," . $departure . "," . $destination . "," . $status . "," . $departments_id . ",'" . $description . "','" . $rank ."','" .$now. "')";
                 //var_dump($strSQL);
@@ -203,9 +206,9 @@ require_once('include/topbon.php');
                    
                     include 'include/deplicatSolver/emailSender.php';
                     $emailSent = sendEmail($subject,$sender,$sender_name,$to,$message);
-                  
+                    $emailSent= true;
                     if($emailSent){
-                        $success ='request is  sent ' ;
+                    $success ='request is  sent ' ;
                     header("Location: bookinglist.php?success=$success");
                         
                     }else{
@@ -281,26 +284,22 @@ require_once('include/topbon.php');
                                 ?>
                                 <label>Start time</label>
                                 <div class='d-flex'>
-                                <div  class='input-group date'  id=''>
-                                    <input name='start_time' type='date'  autocomplete="off" autocorrect="off" class="form-control" required value="<?=isset($start_time)?$start_time:''?>" />
-                                    <span class="input-group-addon btn btn-outline-default">
-                                        <span class="fa fa-calendar"></span>
-                                        </span>
+                                <div  class='d-block d-sm-flex"'  id=''>
+                                    <input name='start_time' type='date' id="sd"  autocomplete="off" autocorrect="off" class="form-control" required value="<?=isset($start_time)?$start_time:''?>" />
+                                    <input name='startTime' type='time' id="st"  autocomplete="off" autocorrect="off"class="form-control"  required value="<?=isset($startTime)?$startTime:''?>" />
+                                     
                                 </div>
-                                    <input name='startTime' type='time'  autocomplete="off" autocorrect="off"class="form-control"  required value="<?=isset($startTime)?$startTime:''?>" />
-                                               
+                                             
                                 </div>
                                
                                 <label>End time</label>
                                 <div class='d-flex'>
-                                <div class='input-group date' id=''>
-                                <input name='end_time' type='date'  autocomplete="off" autocorrect="off"  class="form-control" required value="<?=isset($end_time)?$end_time:''?>" />
-                                     <span class="input-group-addon btn btn-outline-default">
-                                        <span class="fa fa-calendar"></span>
-                                        </span>
+                                <div class='d-block d-sm-flex"' id=''>
+                                <input name='end_time' type='date' id="ed"  autocomplete="off" autocorrect="off"  class="form-control" required value="<?=isset($end_time)?$end_time:''?>" />
+                                <input name='endTime' type='time' id="et"   autocomplete="off" autocorrect="off" class="form-control"  required value="<?=isset($endTime)?$endTime:''?>" />
+                                      
                                 </div>
-                                    <input name='endTime' type='time'  autocomplete="off" autocorrect="off" class="form-control"  required value="<?=isset($endTime)?$endTime:''?>" />
-                                               
+                                           
                                 </div>
 
                                
@@ -539,9 +538,23 @@ $json = json_encode($data);
         //alert( "Handler for .submit() called." );
         var value1=$("#departure").val();
         var value2=$("#destination").val();
+        var sd =$("#sd").val();
+        var st =$("#st").val();
+
+        var start_time = sd+' '+st;
+
+        var ed =$("#ed").val();
+        var et =$("#et").val();
+
+        var end_time = ed+' '+et;
         if(value1==value2) {
             //alert
             $(".msg").html("Destination must be different from departure");
+            $(".msg-box").show();
+            event.preventDefault();
+        }
+        if(start_time == end_time){
+            $(".msg").html("start time must be different from end time");
             $(".msg-box").show();
             event.preventDefault();
         }

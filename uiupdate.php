@@ -31,7 +31,7 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
             <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow align-items-center d-flex justify-content-between"   >
             <div class="logo">
               
-              <a class="navbar-brand" href="#">
+              <a class="navbar-brand d-none d-sm-inline" href="#">
                   <img src="assets/img/logo.png" style="width:160px; border-radius: 3px;"/>
               </a></div>
           

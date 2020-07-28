@@ -77,15 +77,18 @@ if(!isNull(Avail)){
         method:'POST',
         data:{
             carDriver:1,
-            plate:1
+            plate:1,
+            list:1,
+            plate:1,
+            
         },
         success:(data)=>{
             dataloader(seconddataView,data);
+            
         }
    })
 })
 }
-
 
 if(!isNull(dailBook)){
     dailBook.addEventListener('click',()=>{
@@ -97,7 +100,8 @@ if(!isNull(dailBook)){
             booking:1
         },
         success:(data)=>{
-            dataloader(seconddataView,data);
+            dataloader(dataView,data);
+            dataloader(seconddataView,' ');
         }
    })
 })
@@ -107,12 +111,12 @@ if(!isNull(rejected)){
    $.ajax({
         url:'cars_fluid/cardailydata.php',
         method:'POST',
-        data:{
-           
+        data:{           
             rejected:1
         },
         success:(data)=>{
-            dataloader(seconddataView,data);
+            dataloader(dataView,data);
+            dataloader(seconddataView,' ');
         }
    })
 })

@@ -68,6 +68,17 @@ function carsInfo($carId){
     if($hasCarOnceBooked){
       
       // car km count
+      $company = $_SESSION['sub_company'];
+      $fuelCostQuery = "SELECT cost from fuel_cost where id_subcompany = ?";
+      $stmCost =  $GLOBALS['conn']->prepare($fuelCostQuery);
+      $stmCost->bind_param('i',$company);
+      $stmCost->execute();
+      
+      $result = $stmCost->get_result();;
+      $fuelCost =$result->fetch_assoc();
+      $fetchCost = $fuelCost['cost'];
+
+
       $live = 1;
       $kmcounQuery = " SELECT fluid_car.plaque,fluid_booking.start_time,fluid_booking.end_time,startp.name as startPlace,fluid_km_count.id_booking ,startp.id_sector0,endp.name,endp.id_sector0 
       ,kilometers,fluid_car.fuel_consumption  from fluid_km_count
@@ -83,11 +94,13 @@ function carsInfo($carId){
       $fetch = $stmt->get_result();      
       $kmst  = 0;
       $v = 24 ;
+     
       
       echo '<div class="card border shadow mt-3 ml-2" >' ;   
       while($fetchCar = $fetch->fetch_assoc()){
         $kmst += $fetchCar['kilometers'];
-        $cost = round(960 *($kmst/$carConsuption));
+        $lt   = $kmst/$carConsuption;
+        $cost = round($fetchCost *($lt));
       } 
 
       echo '
@@ -251,8 +264,7 @@ function Booking($rank){
 
                     
                     
-                '</tr>
-            '
+                '</tr> '
         ); 
         }
         echo'
@@ -282,22 +294,28 @@ function carDriverPageInfo(){
                <label>From</label>
                                 <div class=" d-block d-sm-flex">
                                 <div  class="input-group "  >
-                                    <input type="date"  autocomplete="off" autocorrect="off" class="form-control mb-2"  />
+                                    <input type="date" id="fromDate" autocomplete="off" autocorrect="off" class="form-control mb-2"  />
                                     
                                 </div>
-                                    <input type="time"  autocomplete="off" autocorrect="off"class="form-control mb-3"    />
+                                    <input type="time" id="fromTime" autocomplete="off" autocorrect="off"class="form-control mb-3"    />
                                                
                                 </div>
                                
                                 <label>To</label>
                                 <div class="d-block d-sm-flex">
                                 <div class="input-group " >
-                                <input  type="date"  autocomplete="off" autocorrect="off"  class="form-control mb-2"   />
+                                <input  type="date" id="toDate"  autocomplete="off" autocorrect="off"  class="form-control mb-2"   />
                                      
                                 </div>
-                                    <input  type="time"  autocomplete="off" autocorrect="off" class="form-control mb-3 "    />
-                                               
+                                    <input  type="time" id="toTime" autocomplete="off" autocorrect="off" class="form-control mb-3 "    />
+                                              
                                 </div>
+                                <label>description </label>
+                                <input type="text"  autocomplete="off" autocorrect="off" placeholder ="description" id="description"  class="form-control mb-3"/>
+                                
+                                <input type="button"  autocomplete="off" autocorrect="off" value="save" id="saveAvail" onClick="getV(this.id)"  class="btn btn-success"/>
+                                
+                                    
 
                 </div>
 
