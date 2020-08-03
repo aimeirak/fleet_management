@@ -69,7 +69,7 @@ require_once('include/topbon.php');
             $status = intval(stripslashes($_POST['status']));
             $departments_id = stripslashes($_POST['name_dep']);
             $description = stripslashes($_POST['description']);          
-                $rank = 'confirmed'; 
+            $rank = 'confirmed'; 
             $now=date("Y-m-d H:i:s");
 
        
@@ -80,18 +80,18 @@ require_once('include/topbon.php');
 
             $msg="";
             if (mysqli_num_rows($res_check)){
-                $msg.="Time taken by an other booking"."</br>";
+                echo $msg.="Time taken by an other booking"."</br>";
 
             }else {
-     //check if car shoosen is avaible
-     $live = 1;
-    
-     //== 
-     //==limite user for chossing wrong date 
+              //check if car shoosen is avaible
+                $live = 1;
+
+              //== 
+             //==limite user for chossing wrong date 
     
 
                 $strSQL = "INSERT into `fluid_booking` (id_user,car_id,start_time,end_time,id_place0,id_placef,status_id,departments_id,description,rank,created_at) values(" . $user_id . "," . $car_id . ",'" . $start_time . "','" . $end_time . "'," . $departure . "," . $destination . "," . $status . "," . $departments_id . ",'" . $description . "','" . $rank ."','" .$now. "')";
-                //var_dump($strSQL);
+               
                 $res = mysqli_query($connection, $strSQL);
 
                 $base_url = "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];

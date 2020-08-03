@@ -23,6 +23,8 @@ if(isset($_POST['list']) && isset($_POST['plate']) ){
     $stmt->execute();
     $result = $stmt->get_result();
     $available = $result->num_rows;
+    $i = 1;
+    $rand = rand(50,700);
     if(!$available){
         $yest = date('Y-m-d H:m:s',strtotime('-1day'));
         echo '<div class="lead ml-4 mt-3 "  >All day available'.$yest.'</div>';
@@ -30,7 +32,7 @@ if(isset($_POST['list']) && isset($_POST['plate']) ){
     }else{
          echo ' <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-4">
          <h5>Unavailable time</h5>     
-        <table class="table table-striped table-responsive  table-hover display " id="datatable1" cellspacing="0" 
+        <table class="table table-striped table-responsive  table-hover display "  cellspacing="0" 
         width="100%">
      <thead>
          <tr>
@@ -45,12 +47,13 @@ if(isset($_POST['list']) && isset($_POST['plate']) ){
         ';
 
       while($fetch = $result->fetch_assoc()){
+          $i++;
                 echo'
                 <tr>
                   <td>'.$fetch['from_time'].'</td>
                   <td>'.$fetch['to_time'].'</td>
                   <td>'.$fetch['discription'].'</td>
-                  <td><span class="btn btn-danger" id="'.$fetch['id'].'" onClick="endAvail(this.id)" >end</span></td>
+                  <td><span class="btn btn-danger" data-tanker="'.$fetch['id'].'" id="'.$i.$fetch['id'].$rand.'" onClick="endAvail(this.id)" >end</span></td>
                 </tr>
                 ';
       }
@@ -92,6 +95,20 @@ if(isset($_POST['driver']) && isset($_POST['start']) && isset($_POST['end'])){
 
     }
 
+}
+
+if(isset($_POST['d']) && $_POST['d'] == 1 && isset($_POST['dt']) && trim($_POST['dt']) != '' && isset($_POST['t'])){
+    $id = $_POST['dt'];
+    $live = 0;
+    $stmt = $connection->prepare('UPDATE fluid_driver_avail set live = ? where id = ?');
+    $stmt->bind_param('ii',$live,$id);
+    $stmt->execute();
+    $updated = $stmt->affected_rows;   
+    if($updated){
+        echo "<div class='alert alert-success p-3'>it is updated </div>" ;
+    }else{
+        echo "<div class='alert alert-danger p-3'>it is not updated </div>" ;
+    }
 }
 
 ?>

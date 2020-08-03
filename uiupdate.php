@@ -28,53 +28,8 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
 
   <!--content-->
   <div id='content-wrapper' class="d-flex flex-column">
-            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow align-items-center d-flex justify-content-between"   >
-            <div class="logo">
-              
-              <a class="navbar-brand d-none d-sm-inline" href="#">
-                  <img src="assets/img/logo.png" style="width:160px; border-radius: 3px;"/>
-              </a></div>
-          
-
-                
-            <div class="profile-place">
-            <ul>  
-              <li class="nav-item dropdown no-arrow">
-                 <!-- avatar -->
-                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="mr-2 d-none d-sm-inline text-gray-600 small"><?= $_SESSION['username'] ?></span>
-                  <img class="img-profile rounded-circle" src="uploads/default/maleavatar.png">
-               
-                </a>
-                    <!-- Dropdown - User Information -->
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                      <span class="dropdown-item" id="profile1">
-                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-700"></i>
-                        Profile
-                      </span>
-                      <a class="dropdown-item" href="#">
-                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-700"></i>
-                        Settings
-                      </a>
-                      <a class="dropdown-item" href="#">
-                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-700"></i>
-                        Activity Log
-                      </a>
-                      <div class="dropdown-divider"></div>
-                      <form action='logout.php' method="post"> 
-                      <button type="submit" name="logout" class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
-                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-700"></i>
-                        Logout
-                      </button>
-                    </form>
-                      
-                     
-                    </div>
-                  </li>
-                </ul>
-                </div>
-            
-          </nav>
+  <?php include 'include/topbon.php' ?>    
+  
             
             
             <div class="row m-2 mb-5">
@@ -166,6 +121,27 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                       </div> 
                    
                   <?php } ?> 
+                  <?php if($_SESSION['role'] == 10){ ?>
+
+                    <div class="col-12 mt-3  col-sm-6 col-md-3 " id='bookRide'>
+                    <div class="card border-left-secondary shadow h-100 py-2">
+                        <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Booking</div>
+                            <div class="row no-gutters align-items-center">
+                                            
+                            </div>
+                            </div>
+                            <div class="col-auto">
+                            <span class="fa fa-calendar text-info"></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div> 
+
+                  <?php }?>
                 </div>
                 <!-- end task -->
             <!-- firstResponse -->
@@ -198,8 +174,72 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
               <!-- end of content wrapper -->              
       
   <!--content end-->
+  <div class="modal fade" id="logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">See you soon</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" to proceed </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="logout.php">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="dailTime" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">This time is based on this date <span class="text-info" id="picked-date"></span></h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-12"></div>
+          <div class="timeslot" id='timeslot'>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-success" type="button" data-dismiss="modal">Done</button>
+           </div>
+      </div>
+    </div>
+  </div>
+  <?php
+$sql = "SELECT fluid_place.id,name FROM fluid_place INNER JOIN fluid_user ON fluid_place.id_user=fluid_user.id WHERE fluid_user.id_subcompany=" . $_SESSION['sub_company'];
+$res = mysqli_query($connection, $sql);
+$data = [];
+while ($row = mysqli_fetch_array($res)) {
+    $data[] = [
+        'id' => $row['id'],
+        'text' => $row['name'],
+    ];
+}
+
+$json = json_encode($data);
+//var_dump($json);
+?>
+ 
+ <div class="card shadow  mt-4">
+      
+    
+      <div class="row">
+         <div class="col-lg-12 text-center" >
+             &copy; algorithm inc.
+         </div>
+ </div>
 
 
+
+</div>
 <?php include 'include/footerui.php' ?>
 
 <?php

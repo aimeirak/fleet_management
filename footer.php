@@ -7,9 +7,6 @@
                 </div>
         </div>
 
-     <!-- /. WRAPPER  -->
-    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
-    <!-- JQUERY SCRIPTS -->
     
 
 </div>

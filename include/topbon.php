@@ -1,9 +1,10 @@
-
-
-  <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow align-items-center d-flex justify-content-between"   >
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow align-items-center d-flex justify-content-between"   >
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars text-secondary"></i>
+          </button>
             <div class="logo">
               
-              <a class="navbar-brand" href="#">
+              <a class="navbar-brand d-none d-sm-inline" href="#">
                   <img src="assets/img/logo.png" style="width:160px; border-radius: 3px;"/>
               </a></div>
           
@@ -33,12 +34,10 @@
                         Activity Log
                       </a>
                       <div class="dropdown-divider"></div>
-                      <form action='logout.php' method="post"> 
-                      <button type="submit" name="logout" class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
-                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-700"></i>
-                        Logout
-                      </button>
-                    </form>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logout">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
                       
                      
                     </div>

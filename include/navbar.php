@@ -1,5 +1,5 @@
 <?php $id_subcompany = $_SESSION['sub_company'] ?>
-<ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul  class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion " id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="uiupdate.php">
@@ -97,14 +97,9 @@
 </li>
 <?php } ?>
 
-<li class="nav-item">
-  <a class="nav-link" href="booking.php" id="bookRide">
-    <i class="fas fa-fw fa-calendar"></i>
-    <span>Book</span></a>
-</li>
 
 <li class="nav-item">
-  <a class="nav-link" href="handshake.php" id="bookRide">
+  <a class="nav-link" href="handshake.php" >
     <i class="fas fa-fw fa-handshake"></i>
     <span>Joined booking</span></a>
 </li>

@@ -12,6 +12,10 @@
      
     <link rel="stylesheet" href="assets/maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="assets/css/font-awesome.css" rel="stylesheet"/>
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
     
   <!-- BOOTSTRAP STYLES-->
   <link rel="shortcut icon" href="assets/img/icon.png" />
@@ -35,7 +39,7 @@
 
    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css"/>
    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.css" rel="stylesheet"/>-->
-   <link href="assets/DataTables/datatables.min.css" rel="stylesheet"/>
+  
    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
    <link href="assets/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
    <script src="assets/js/jquery-1.10.2.js"></script>
