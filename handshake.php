@@ -2,7 +2,19 @@
 include 'include/authant.php';
 include('include/header.php'); ?>
 <?php include('connexion.php');?>
-<?php $id_subcompany = $_SESSION['sub_company']; ?>
+<?php $id_subcompany = $_SESSION['sub_company'];
+if(!isset($_SESSION['sub_company'])){
+    $msg = '
+    <div class="container">
+    <div class="card shadow mt-5">
+    <div class=" alert alert-warning text-center m-5"><div class" p-5">access denied please! <a  class="btn btn-info" href="login.php">login</a>  </div> </div>
+    </div>
+    </div>
+   ';
+    echo '<script> window.open("login.php") </script>';
+    exit($msg);
+}
+?>
 
 <body  id="page-top"   >
     

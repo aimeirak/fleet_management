@@ -1,5 +1,36 @@
 
+<div class="modal fade" id="logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">See you soon <?= $_SESSION['username'] ?></h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" to proceed </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="logout.php">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
+ <?php
+$sql = "SELECT fluid_place.id,Lcase(name) as name FROM fluid_place INNER JOIN fluid_user ON fluid_place.id_user=fluid_user.id WHERE fluid_user.id_subcompany=" . $_SESSION['sub_company'];
+$res = mysqli_query($connection, $sql);
+$data = [];
+while ($row = mysqli_fetch_array($res)) {
+    $data[] = [
+        'id' => $row['id'],
+        'text' => $row['name'],
+    ];
+}
+
+$json = json_encode($data);
+//var_dump($json);
+?>
  <!-- Bootstrap core JavaScript-->
  <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -38,12 +69,85 @@
 <script src="assets/js/leon/badgecount.js"></script>
 <script src="assets/js/leon/carInfo.js"></script>
     <script>
-       
-
+     
       var bur = document.getElementById('sidebarToggleTop'); 
       var sider =  document.getElementById('accordionSidebar');
       var clearb =  document.getElementById('returnB');
       var page =  document.getElementById('page-top');
+      //if car is clicked 
+
+var seconddataView = document.getElementById('data2Retrival');
+var process =  document.getElementById('process');
+function getvalue(indi){
+    var carPlate = indi; 
+   
+    
+
+      $.ajax({
+        url:'cars_fluid/cardailydata.php',
+        method:'POST',
+        data:{
+            dataSent:1,
+            carIdentity:carPlate
+        },
+        success:(data)=>{
+            dataloader(seconddataView,data);
+             process =  document.getElementById('process'); 
+            
+           
+            process.addEventListener('click',()=>{
+            var start_date =  document.getElementById('start_date'); 
+            var end_date =  document.getElementById('end_date'); 
+            var endV = end_date.value;
+            var startV = start_date.value;
+                $.ajax({
+                    url:'cars_fluid/cardailydata.php',
+                    method:'POST',
+                    data:{
+                      
+                        plate:carPlate,
+                        from:startV,
+                        until:endV,
+                       
+
+                    },
+                   success:(data)=>{
+                   dataloader(seconddataView,data);
+            process =  document.getElementById('process');        
+            process.addEventListener('click',()=>{
+            var start_date =  document.getElementById('start_date'); 
+            var end_date =  document.getElementById('end_date'); 
+            var endV = end_date.value;
+            var startV = start_date.value;
+                $.ajax({
+                    url:'cars_fluid/cardailydata.php',
+                    method:'POST',
+                    data:{
+                      
+                        plate:carPlate,
+                        from:startV,
+                        until:endV,
+                       
+
+                    },
+                    success:(data)=>{
+                   dataloader(seconddataView,data);
+                   }
+                })
+            });
+                   }
+                })
+            });
+            
+
+        }
+    });
+    
+    };
+   
+   
+           
+//end car clicked
     
       page.addEventListener('mouseover',()=>{
         if(window.outerWidth >= 770){
@@ -161,21 +265,19 @@
                  var msg = document.getElementById('msg');
                  var submi = document.getElementById('sub');
                     submi.addEventListener('click',()=>{
-                        var plaque = document.getElementById('plaque');
                         var status = document.getElementById('status');
                         var departure = document.getElementById('departure');
                         var name_dep = document.getElementById('name_dep');
-                        var description = document.getElementById('description');
                         var destination = document.getElementById('destination');
                         var start = document.getElementById('start');
                         var end = document.getElementById('end');
                       
                        //value
-                        var plaqV =  plaque.value;
+                        
                         var statusV = status.value;
                         var departureV = departure.value ;
                         var name_dep = name_dep.value;
-                        var descriptionV = description.value;
+                       
                         var destinationV = destination.value ;
                         var startV = start.value;
                         var endV = end.value;
@@ -185,10 +287,7 @@
                             msg.innerHTML='<div class="alert alert-danger"> you need to have destination defferent from departure</div>';
                             
                         }
-                        else if(descriptionV == ''){
-                            msg.innerHTML='<div class="alert alert-danger"> description field is empty</div>';
-                            
-                        }
+                      
                         else if(destinationV == ''){
                             msg.innerHTML='<div class="alert alert-danger"> destination field is empty</div>';
                             
@@ -205,26 +304,24 @@
                             msg.innerHTML='<div class="alert alert-danger"> department field is empty</div>';
                             
                         }
-                        else if(plaqV == 0){
-                            msg.innerHTML='<div class="alert alert-danger"> Please change booking time! there is no car available from '+ start +' until '+ end +' </div>';
-                            
-                        }
+                        
+                        
                         else{
-                          
+                            var ett = endV.slice(11,13);
+                              ett+=endV.slice(13,16);
                             $.ajax({
                                 url:'booklead/bookLast.php',
                                 method:'POST',
                                 data:{
                                     send:1,
-                                    pl: plaqV,
+                                  
                                     stat: statusV,
                                     dep: departureV,
                                     nameD: name_dep,
-                                    descr: descriptionV,
+                                    et:ett,
                                     dest: destinationV,
                                     startT: startV,
                                     endT: endV,
-
                                 },
                                 success:(dat)=>{
                                     msg.innerHTML=dat;                                    
@@ -303,10 +400,165 @@ function getV(btn){
   })
 }
 
+//confirmed bookin
+var confirmedb = document.getElementById('confirmedb');
+if(!isNull(confirmedb)){
+    confirmedb.addEventListener('click',()=>{
+   $.ajax({
+        url:'cars_fluid/cardailydata.php',
+        method:'POST',
+        data:{           
+            confirmedb:1
+        },
+        success:(data)=>{
+            dataloader(dataView,data);
+            dataloader(seconddataView,' ');
+        }
+   })
+})
+}
+
+//end confirmed bookin
+//start_trip
+function confBook(){
+    $.ajax({
+            url:'cars_fluid/cardailydata.php',
+            method:'POST',
+            data:{           
+                confirmedb:1
+            },
+            success:(data)=>{
+                dataloader(seconddataView,data);
+            }
+    })
+}
+function startTrip(picker){   
+     var pick  = document.getElementById(`${picker}`); 
+     var tanker = pick.getAttribute('dta-b');
+     $.ajax({
+        url:'booklead/booklead.php',
+        method:'POST',
+        data:{           
+            strt:1,
+            dt:tanker
+        },
+        success:(data)=>{
+            dataloader(dataView,data);
+           //confirmed bookin
+           confBook();
+            //===========
+        }
+   })
+
+}
+//=====end of start
+
+//end_trip
+function endTrip(picker){
+     var pick   = document.getElementById(`${picker}`); 
+     var tanker = pick.getAttribute('dta-b');
+     $.ajax({
+        url:'booklead/booklead.php',
+        method:'POST',
+        data:{           
+            endb:1,
+            dt:tanker
+        },
+        success:(data)=>{
+            dataloader(dataView,data);
+            //confirmed bookin
+            confBook();
+            //===========
+            
+        }
+   })
+    }
+//end of endtrip
+
+//=====end driver
+//ViewBook
+var confirmedb = document.getElementById('ViewBook');
+if(!isNull(confirmedb)){
+    confirmedb.addEventListener('click',()=>{
+   $.ajax({
+        url:'booklead/mybookin.php',
+        method:'POST',
+        data:{           
+            mybookin:1
+        },
+        success:(data)=>{
+            dataloader(dataView,data);
+            dataloader(seconddataView,' ');
+        }
+   })
+})
+}
+//end======ViewBook
 
 
 
+//selectCar
+var selectCar = document.getElementById('selectCar');
+var content   = document.getElementById('modelContent');
+if(!isNull(selectCar)){
+    selectCar.addEventListener('click',()=>{
+        $.ajax({
+        url:'cars_fluid/cardailydata.php',
+        method:'POST',
+        data:{
+            s:1,
+            d:<?= $_SESSION['id']?>,
+            r:<?= $_SESSION['role']?>
+            
+        },
+        success:(data)=>{
+            dataloader(content,data);
+         
+        }
+    });
+    });
+    
+}
+function  getCar(car){
+                var car  = document.getElementById(`${car}`); 
+                var data = car.getAttribute('tank-data');
+                var carI = data;
+                var carInfo  = document.getElementById('carInfo'); 
+                $.ajax({
+                    url:'cars_fluid/carSelect.php',
+                    method:'POST',
+                    data:{
+                        u:1,
+                        d:data
+                    },
+                    success:(data)=>{
+                        dataloader(carInfo,data);
+                        var carSelect  = document.getElementById("carSelect"); 
+                      
+                        carSelect.addEventListener("click",()=>{
+                            $.ajax({
+                                url:'cars_fluid/carSelect.php',
+                                method:'POST',
+                                data:{
+                                    u:2,
+                                    d:<?= $_SESSION['id']?>,
+                                    r:<?= $_SESSION['role']?>,
+                                    cr:carI
 
+                                },
+                                success:(data)=>{
+                                //   dataloader(dataView,data);
+                                  window.open("uiupdate.php","_self");
+                                }
+                        })  
+                      
+                    });
+                   }
+                    
+                })
+            };
+            //end car selection 
+//end+++++++======end
 function action(placeToc){
     var upTo = document.getElementById(`${placeToc}`);
     var p    = upTo.getAttribute('dta-b');
@@ -340,6 +592,7 @@ function dismiss(placeToc){
         }
     }); 
 }
+
 var clear =  document.getElementById('returnB');
 clear != null ? 
 clear.addEventListener('click',()=>{
@@ -399,7 +652,7 @@ $(function () {
                
                 'print',
                 {   extend: 'pdfHtml5',
-                    title: 'Booking report on '+ datetime,
+                    title: 'booking report on '+ datetime,
                     exportOptions: {
                         columns: [ 0, 1, 2, 3,4,5,6,7 ],
                         stripNewlines: false

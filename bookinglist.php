@@ -1,11 +1,12 @@
 <?php ob_start();
+ include('connexion.php');
 include 'include/authant.php';
 include 'include/header.php' ;
 
 $id_subcompany = $_SESSION['sub_company'] ;
  ?>
 
-<?php include('connexion.php');
+<?php
 $SESSION_ID = $_SESSION['id'];
 ?>
 <?php //include('header.php'); ?>
@@ -45,7 +46,7 @@ $SESSION_ID = $_SESSION['id'];
             
             <div class="col-md-12 d-flex justify-content-between mb-5">
             <h2>Bookings</h2>
-                <a href="booking.php"><span class="btn btn-primary pull-right" style="bottom: opx;">add</span></a>
+                <a href="uiupdate.php"><span class="btn btn-primary pull-right" style="bottom: opx;">add</span></a>
             </div>
         </div>
         <form action="bookinglist.php" method="post">

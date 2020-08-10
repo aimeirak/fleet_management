@@ -51,7 +51,7 @@ function validateUser($userName,$password){
                     $NotDismisedVerfied = $result->num_rows;
                     $fetchUser = $result->fetch_assoc();
                     if($fetchUser['verfied'] !== 1  || $fetchUser['verfied'] == 0){
-                        warning('please verify your email. we  sent you a link on email you gave us ');
+                        warning('please verify your email. we have sent you a link on email you gave us ');
                         
                         }else{
                             if($fetchUser['live'] !== 1 ){

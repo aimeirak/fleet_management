@@ -38,30 +38,7 @@ carList.addEventListener('click',()=>{
 
 
 // end car loader    
-//if car is clicked 
 
-var seconddataView = document.getElementById('data2Retrival');
-
-function getvalue(indi){
-    var carPlate = indi; 
-    
-
-      $.ajax({
-        url:'cars_fluid/cardailydata.php',
-        method:'POST',
-        data:{
-            dataSent:1,
-            carIdentity:carPlate
-        },
-        success:(data)=>{
-            dataloader(seconddataView,data);
-        }
-    });
-
-    };
-
-
-//end car clicked
 
 //dirvers
 
@@ -69,6 +46,7 @@ function getvalue(indi){
 var Avail = document.getElementById('availability');
 var dailBook = document.getElementById('dailBook');
 var rejected = document.getElementById('rejected');
+var confirmedb = document.getElementById('confirmedb');
 
 if(!isNull(Avail)){
     Avail.addEventListener('click',()=>{
@@ -121,4 +99,5 @@ if(!isNull(rejected)){
    })
 })
 }
+
 //end driver

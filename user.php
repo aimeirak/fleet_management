@@ -9,7 +9,7 @@ ini_set('display_errors', 'On');
 
 <?php $id_subcompany = $_SESSION['sub_company'];
 if ($_SESSION['role'] != 20) {
-    header("location: ui.php");
+    header("location: uiupdate.php");
 }
 ?>
 
@@ -28,16 +28,18 @@ if ($_SESSION['role'] != 20) {
 <?php
 require_once('include/topbon.php');
 ?>
-            <div class="row">
-                <div class="col-md-6">
-                    <h2>Users</h2>
-                </div>
-
+            
+ <div class="row">
+ <div class="col-12 p-4">
+ 
+            <div class="card shadow" style="padding:10px;">
+            <div class="card-header d-flex justify-content-between">
+            <h2>Users</h2>
+            //add new user 
             </div>
-
-            <div class="row" style="padding:10px;">
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover" id = "datatable1">
+                    <table class="table table-striped table-bordered table-hover"  id="datatable1">
                         <thead>
                         <tr>
 
@@ -87,9 +89,10 @@ require_once('include/topbon.php');
 
                     </table>
                 </div>
-            </div>
-        </div>
+             </div>
+           </div>
+         </div>
+       </div>
     </div>
-
-
+  </div>
 <?php include('include/footerui.php'); ?>

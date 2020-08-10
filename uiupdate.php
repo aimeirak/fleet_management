@@ -31,7 +31,7 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
   <?php include 'include/topbon.php' ?>    
   
             
-            
+            <div id="content" >
             <div class="row m-2 mb-5">
             <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                   <div class="card p-3 ">
@@ -61,18 +61,35 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                             </div>
                           </div>
                         </div>
-                      </div>          
+                      </div>   
+                      <div class="col-12 mt-3  col-sm-6 col-md-3 " id='DriverProg'>
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Driver progress</div>
+                                <div class="row no-gutters align-items-center">
+                                                
+                                </div>
+                                </div>
+                                <div class="col-auto">
+                                <span class="fas fa-fw fa-chart-area"></span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>         
                      
                 <?php } ?> 
                 <!-- driver content -->
                 <?php if($_SESSION['role'] == 30){ ?>
-
-                  <div class="col-12 mt-3  col-sm-6 col-md-3 " id='availability'>
+                  <?php if(!isset($_SESSION['CAR'])){?>
+                  <div class="col-12 mt-3  col-sm-6 col-md-3 "  id='selectCar' data-toggle='modal' data-target='#carsection' >
                     <div class="card border-left-success shadow h-100 py-2">
                         <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">availability</div>
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Select car</div>
                             <div class="row no-gutters align-items-center">
                                             
                             </div>
@@ -84,19 +101,38 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                         </div>
                       </div>
                     </div>
-
-                  <div class="col-12 mt-3  col-sm-6 col-md-3 " id='dailBook'>
+                  <?php } ?>
+                    <?php if(isset($_SESSION['CAR'])){?>
+                      <div class="col-12 mt-3  col-sm-6 col-md-3 " id='availability'>
                     <div class="card border-left-info shadow h-100 py-2">
                         <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Booking</div>
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">availability</div>
                             <div class="row no-gutters align-items-center">
                                             
                             </div>
                             </div>
                             <div class="col-auto">
-                            <span class="fa fa-calendar text-info"></span>
+                            <span class="fa fa-flag text-info"></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  <div class="col-12 mt-3  col-sm-6 col-md-3 " id='dailBook'>
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Bookings</div>
+                            <div class="row no-gutters align-items-center">
+                                            
+                            </div>
+                            </div>
+                            <div class="col-auto">
+                            <span class="fas fa-fw fa-book text-primary"></span>
                             </div>
                           </div>
                         </div>
@@ -113,13 +149,33 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                               </div>
                               </div>
                               <div class="col-auto">
-                              <span class="fa fa-table text-danger"></span>
+                              <span class="fas fa-fw fa-close text-danger"></span>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div> 
-                   
+
+                      <div class="col-12 mt-3  col-sm-6 col-md-3 " id='confirmedb'>
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Confirmed</div>
+                                <div class="row no-gutters align-items-center">
+                                                
+                                </div>
+                                </div>
+                                <div class="col-auto">
+                                <span class="fas fa-fw  fa-check-square text-success"></span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                    <?php } ?>
+
+                 
                   <?php } ?> 
                   <?php if($_SESSION['role'] == 10){ ?>
 
@@ -134,12 +190,29 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                             </div>
                             </div>
                             <div class="col-auto">
-                            <span class="fa fa-calendar text-info"></span>
+                            <span class="fa fa-check-square  text-info"></span>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div> 
+                    <div class="col-12 mt-3  col-sm-6 col-md-3 " id='ViewBook'>
+                      <div class="card border-left-info shadow h-100 py-2">
+                          <div class="card-body">
+                          <div class="row no-gutters align-items-center">
+                              <div class="col mr-2">
+                              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">View Booking</div>
+                              <div class="row no-gutters align-items-center">
+                                              
+                              </div>
+                              </div>
+                              <div class="col-auto">
+                              <span class="fa fa-info  text-info"></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div> 
 
                   <?php }?>
                 </div>
@@ -168,29 +241,25 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                                  </div>
                               
                             </div>
+                          </div>
+                          <!--content end-->
+                            <footer class="sticky-footer bg-white">
+                              <div class="container my-auto">
+                                <div class="copyright text-center my-auto">
+                                  <span class="text-uppercase"> <?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</span>
+                                </div>
+                              </div>
+                            </footer>
                       </div>
-                                      
+                      <!-- end of content wrapper -->             
               </div>
-              <!-- end of content wrapper -->              
+              <!-- end of  wrapper -->  
+              <a class="scroll-to-top rounded" href="#page-top" style="display: inline;">
+                <i class="fas fa-angle-up"></i>
+              </a>
       
-  <!--content end-->
-  <div class="modal fade" id="logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">See you soon</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" to proceed </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="logout.php">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
+  
+  
 
   <div class="modal fade" id="dailTime" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -213,33 +282,18 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
       </div>
     </div>
   </div>
-  <?php
-$sql = "SELECT fluid_place.id,name FROM fluid_place INNER JOIN fluid_user ON fluid_place.id_user=fluid_user.id WHERE fluid_user.id_subcompany=" . $_SESSION['sub_company'];
-$res = mysqli_query($connection, $sql);
-$data = [];
-while ($row = mysqli_fetch_array($res)) {
-    $data[] = [
-        'id' => $row['id'],
-        'text' => $row['name'],
-    ];
-}
-
-$json = json_encode($data);
-//var_dump($json);
-?>
+  <?php //for cars  ?>
  
- <div class="card shadow  mt-4">
-      
-    
-      <div class="row">
-         <div class="col-lg-12 text-center" >
-             &copy; algorithm inc.
-         </div>
- </div>
-
-
-
-</div>
+  <div class="modal fade" id="carsection" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+  <div class="content"  >
+  <div class="modal-dialog" role="document" id="modelContent">
+     
+    </div>
+  </div>
+  
+  </div>
+ 
+ 
 <?php include 'include/footerui.php' ?>
 
 <?php

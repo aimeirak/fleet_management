@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 27, 2020 at 05:20 AM
+-- Generation Time: Aug 10, 2020 at 02:52 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -35,16 +35,6 @@ CREATE TABLE `fluid_arrival` (
   `id_sector` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `fluid_arrival`
---
-
-INSERT INTO `fluid_arrival` (`id`, `id_place2`, `destination`, `id_sector`) VALUES
-(1, 12, 'kipharma', 12),
-(2, 2, 'pharmamed', 13),
-(12, 1, 'unipharma', 19),
-(13, 13, 'speranza', 12);
-
 -- --------------------------------------------------------
 
 --
@@ -56,7 +46,6 @@ CREATE TABLE `fluid_booking` (
   `start_time` char(200) COLLATE utf8_unicode_ci NOT NULL,
   `end_time` char(200) COLLATE utf8_unicode_ci NOT NULL,
   `id_user` int(255) NOT NULL,
-  `car_id` int(100) NOT NULL,
   `id_place0` int(255) NOT NULL,
   `id_placef` int(255) NOT NULL,
   `status_id` int(255) NOT NULL,
@@ -64,19 +53,9 @@ CREATE TABLE `fluid_booking` (
   `description` text COLLATE utf8_unicode_ci,
   `rank` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
+  `updated_at` datetime DEFAULT NULL,
+  `driver_id` int(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `fluid_booking`
---
-
-INSERT INTO `fluid_booking` (`id`, `start_time`, `end_time`, `id_user`, `car_id`, `id_place0`, `id_placef`, `status_id`, `departments_id`, `description`, `rank`, `created_at`, `updated_at`) VALUES
-(1181, '2020-07-24 11:22', '2020-07-24 00:22', 131, 2, 260, 99, 1, 1, 'muki', 'confirmed', '2020-07-24 08:22:48', NULL),
-(1182, '2020-07-24 09:05', '2020-07-24 02:05', 131, 2, 260, 99, 1, 1, 'qwertyuio', 'confirmed', '2020-07-24 09:03:04', NULL),
-(1183, '2020-07-24 15:39', '2020-07-25 15:39', 131, 2, 260, 99, 1, 1, 'loan', 'confirmed', '2020-07-24 12:39:59', NULL),
-(1184, '2020-07-25 00:05', '2020-07-25 00:06', 20, 2, 260, 99, 1, 1, 'lean on back ', 'confirmed', '2020-07-25 07:06:20', NULL),
-(1185, '2020-07-2707:12', '2020-07-2700:12', 20, 2, 267, 99, 1, 1, 'normal', 'confirmed', '2020-07-27 02:12:40', NULL);
 
 -- --------------------------------------------------------
 
@@ -172,6 +151,27 @@ INSERT INTO `fluid_booking_row` (`id`, `id_booking`, `description`, `id_user`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `fluid_book_date_lead`
+--
+
+CREATE TABLE `fluid_book_date_lead` (
+  `id` int(11) NOT NULL,
+  `start` varchar(50) DEFAULT NULL,
+  `end` varchar(50) DEFAULT NULL,
+  `duretion` int(11) DEFAULT NULL,
+  `id_subcamp` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fluid_book_date_lead`
+--
+
+INSERT INTO `fluid_book_date_lead` (`id`, `start`, `end`, `duretion`, `id_subcamp`) VALUES
+(1, '08:00', '18:00', 120, 3);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `fluid_car`
 --
 
@@ -193,19 +193,9 @@ CREATE TABLE `fluid_car` (
 --
 
 INSERT INTO `fluid_car` (`id`, `id_subcompany`, `plaque`, `marque`, `insurance_date`, `control_technique_date`, `standard`, `fuel_consumption`, `id_driver`, `seats`) VALUES
-(1, 3, 'RAC650V(NISSAN)', 'NISSAN MARCH', '2018-10-10', '2018-08-16', 'mechanical issue', 8, 75, 8),
-(2, 3, 'RAD478P(AVANZA)', 'AVANZA', '2018-11-21', '2017-10-01', 'available', 9, 75, 8),
-(3, 3, 'RAD672S(BMW325)', 'BMW325', NULL, NULL, 'available', 6, 75, 4),
-(15, 4, 'RAB 831A', 'TOYOTA', '2018-05-23', '2018-05-23', 'available', 10, 79, 8),
-(16, 4, 'RAC 198C', 'ACTROSS', '2018-04-06', '2017-10-01', 'available', 10, 79, 4),
-(20, 4, 'RAC 330E', 'JIPE', '2018-09-11', '2017-10-01', 'available', 10, 79, 8),
-(19, 4, 'RAC 034T', 'ACTROSS', '2018-08-16', '2018-09-14', 'available', 10, 79, 8),
-(21, 4, 'RAC 730N', 'ACTROSS', '2017-12-12', '2017-10-01', 'available', 10, 79, 7),
-(22, 4, 'RAD 161K', 'ACTROSS', '2017-12-12', '2017-10-01', 'available', 10, 79, 8),
-(23, 4, 'RAD 695I', 'ACTROSS', '2017-12-12', '2017-10-01', 'Control Technique', 10, 79, 7),
-(24, 4, 'RAD 868G', 'COROLA', '2017-12-12', '2017-10-01', 'available', 10, 79, 8),
-(25, 4, 'RAD 663B', 'DINNER', '2017-12-12', '2017-10-01', 'available', 10, 79, 8),
-(26, 4, 'RAB209 J', 'BENZ', '2018-04-01', '2018-05-23', 'Control Technique', 8, 76, 8);
+(1, 3, 'RAC650V(NISSAN)', 'NISSAN MARCH', '2018-10-10', '2018-08-16', 'mechanical issue', 8, 0, 8),
+(2, 3, 'RAD478P(AVANZA)', 'AVANZA', '2018-11-21', '2017-10-01', 'available', 9, 0, 8),
+(3, 3, 'RAD672S(BMW325)', 'BMW325', '0000-00-00', '0000-00-00', 'available', 6, 0, 6);
 
 -- --------------------------------------------------------
 
@@ -2449,14 +2439,6 @@ CREATE TABLE `fluid_depart` (
   `id_sector1` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `fluid_depart`
---
-
-INSERT INTO `fluid_depart` (`id`, `id_place1`, `departure`, `id_sector1`) VALUES
-(1, 1, 'kipharma', 12),
-(14, 14, 'pharmamed', 13);
-
 -- --------------------------------------------------------
 
 --
@@ -2784,8 +2766,51 @@ CREATE TABLE `fluid_driver_avail` (
   `id` int(11) NOT NULL,
   `from_time` varchar(250) DEFAULT NULL,
   `to_time` varchar(250) DEFAULT NULL,
+  `live` int(11) DEFAULT '1',
+  `discription` varchar(250) DEFAULT NULL,
+  `creator` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fluid_driver_avail`
+--
+
+INSERT INTO `fluid_driver_avail` (`id`, `from_time`, `to_time`, `live`, `discription`, `creator`) VALUES
+(1, '2020-07-27 02:52', '2020-07-28 03:52', 1, 'wzexrctvybun', 75),
+(2, '2020-07-28 01:52', '2020-07-13 10:56', 1, 'ZWxecrtvbynum', 75),
+(3, '2020-07-28 02:53', '2020-07-28 01:53', 1, 'qWZexrctvybunim', 75),
+(5, '2020-07-29 12:35', '2020-07-29 17:35', 1, 'car is taken by boos', 75),
+(6, '2020-07-30 17:00', '2020-07-30 19:03', 1, 'car is taken', 75),
+(7, '2020-07-31 12:00', '2020-07-31 14:00', 1, 'taken', 75),
+(8, '2020-08-01 08:00', '2020-08-01 18:00', 1, 'car is taken all day', 75),
+(9, '2020-08-02 14:30', '2020-08-07 20:37', 0, 'qwertyuiopasdfjklZxcvbnm', 1),
+(10, '2020-08-03 08:44', '2020-08-03 18:00', 0, 'zwexrctvybunimo', 75),
+(11, '2020-08-04 11:00', '2020-08-04 16:00', 0, 'car is ta', 1),
+(12, '2020-08-05 00:10', '2020-08-05 18:14', 0, 'gasjdbfbksdbf', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fluid_driver_logs`
+--
+
+CREATE TABLE `fluid_driver_logs` (
+  `id` int(11) NOT NULL,
+  `driver_id` int(11) DEFAULT NULL,
+  `date_log` varchar(50) DEFAULT NULL,
+  `car_id` int(11) DEFAULT NULL,
   `live` int(11) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fluid_driver_logs`
+--
+
+INSERT INTO `fluid_driver_logs` (`id`, `driver_id`, `date_log`, `car_id`, `live`) VALUES
+(13, 75, '2020-08-05 15:08', 3, 1),
+(14, 75, '2020-08-06 09:08', 2, 1),
+(15, 152, '2020-08-07 12:08', 2, 1),
+(16, 152, '2020-08-08 10:08', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -2839,17 +2864,6 @@ CREATE TABLE `fluid_km_count` (
   `live` int(11) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `fluid_km_count`
---
-
-INSERT INTO `fluid_km_count` (`id`, `id_booking`, `id_place0`, `id_placef`, `live`) VALUES
-(2, 1182, 260, 99, 1),
-(3, 1181, 260, 99, 1),
-(4, 1183, 260, 99, 1),
-(5, 1184, 260, 99, 1),
-(6, 1185, 267, 99, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -2884,327 +2898,245 @@ CREATE TABLE `fluid_place` (
 --
 
 INSERT INTO `fluid_place` (`id`, `id_user`, `name`, `id_sector0`, `street`, `house_number`, `aboutcontract`) VALUES
-(1, 22, 'kipharma', 9, NULL, NULL, 'incontract'),
-(2, 0, 'keystone', 8, NULL, NULL, 'incontract'),
-(3, 0, 'ladivineville', 9, NULL, NULL, 'incontract'),
-(4, 22, 'sangwaville', 9, NULL, NULL, 'incontract'),
-(5, 0, 'sunbeam', 9, NULL, NULL, 'incontract'),
-(6, 0, 'iris', 9, NULL, NULL, 'outofdate'),
-(7, 0, 'eastgateville', 9, NULL, NULL, 'incontract'),
-(8, 22, 'multiphar', 9, NULL, NULL, 'incontract'),
-(9, 0, 'pharmacure', 9, NULL, NULL, 'incontract'),
-(10, 0, 'pharmalife', 9, NULL, NULL, 'outofdate'),
-(11, 0, 'le medicale', 9, NULL, NULL, 'incontract'),
-(12, 0, 'pharmamed', 19, NULL, NULL, 'new'),
-(13, 0, 'nsanga', 12, NULL, NULL, 'uptodate'),
-(14, 0, 'Dov', 15, NULL, NULL, 'yes'),
-(15, 0, 'peniel', 9, NULL, NULL, 'incontract'),
-(16, 0, 'jm', 17, NULL, NULL, 'new'),
-(17, 0, 'peace', 4, NULL, NULL, 'incontract'),
-(18, 0, 'umurava', 8, NULL, NULL, 'outofdate'),
-(19, 0, 'speranza', 1, NULL, NULL, 'outofdate'),
-(20, 0, 'technipharma', 19, NULL, NULL, 'incontract'),
-(21, 0, 'depham', 9, NULL, NULL, 'incontract'),
-(22, 0, 'pharmalab', 9, NULL, NULL, 'incontract'),
-(23, 0, 'jyambere', 9, NULL, NULL, 'incontract'),
-(24, 0, 'agrolife', 9, NULL, NULL, 'incontract'),
-(25, 0, 'ubumwe', 9, NULL, NULL, 'incontract'),
-(26, 0, 'hamphar', 17, NULL, NULL, 'incontract'),
-(27, 0, 'alvarus', 9, NULL, NULL, 'incontract'),
-(28, 0, 'pharmavie rssb', 9, NULL, NULL, 'incontract'),
-(29, 0, 'pharmavie chuk', 9, NULL, NULL, 'incontract'),
-(30, 0, 'afrifame', 9, NULL, NULL, 'incontract'),
-(31, 0, 'AGA', 9, NULL, NULL, 'incontract'),
-(32, 0, 'unipharma kimihurura', 18, NULL, NULL, 'incontract'),
-(33, 0, 'unipharma kct', 9, NULL, NULL, 'incontract'),
-(34, 0, 'mediasol ville', 9, NULL, NULL, 'incontract'),
-(35, 0, 'conseil ville', 9, NULL, NULL, 'incontract'),
-(36, 0, 'conseil gacuriro', 14, NULL, NULL, 'incontract'),
-(37, 0, 'conseil kacyiru', 17, NULL, NULL, 'incontract'),
-(38, 0, 'mediasol remera', 23, NULL, NULL, 'incontract'),
-(39, 0, 'marchem', 9, NULL, NULL, 'incontract'),
-(40, 0, 'la reference', 23, NULL, NULL, 'incontract'),
-(41, 0, 'Royal', 30, NULL, NULL, 'incontract'),
-(42, 0, 'interbusiness', 23, NULL, NULL, 'incontract'),
-(43, 0, 'muhire ville', 9, NULL, NULL, 'incontract'),
-(44, 0, 'muhire kanombe', 30, NULL, NULL, 'incontract'),
-(45, 0, 'zoom', 14, NULL, NULL, 'incontract'),
-(46, 0, 'continentale', 23, NULL, NULL, 'incontract'),
-(47, 0, 'vine', 23, NULL, NULL, 'incontract'),
-(48, 0, 'vune kh', 17, NULL, NULL, 'incontract'),
-(49, 0, 'pharmacie croix du sud', 23, NULL, NULL, 'incontract'),
-(50, 0, 'tramed', 9, NULL, NULL, 'incontract'),
-(51, 0, 'score', 9, NULL, NULL, 'incontract'),
-(52, 0, 'fidele', 9, NULL, NULL, ''),
-(53, 0, 'remed', 8, NULL, NULL, 'incontract'),
-(54, 0, 'lifeline', 14, NULL, NULL, 'incontract'),
-(55, 0, 'pharmavie st paul', 9, NULL, NULL, 'incontract'),
-(56, 0, 'tresol', 9, NULL, NULL, 'incontract'),
-(57, 0, 'aha', 14, NULL, NULL, 'incontract'),
-(58, 0, 'cellar', 23, NULL, NULL, 'incontract'),
-(59, 0, 'ihirwe', 8, NULL, NULL, 'incontract'),
-(60, 0, 'MNR', 18, NULL, NULL, 'incontract'),
-(61, 0, 'PMSS', 17, NULL, NULL, 'incontract'),
-(62, 0, 'WORLD HOUSE', 14, NULL, NULL, 'incontract'),
-(63, 0, 'African medical supplier', 9, NULL, NULL, 'incontract'),
-(64, 0, 'computer support', 9, NULL, NULL, 'incontract'),
-(65, 0, 'nsanga depot', 9, NULL, NULL, 'incontract'),
-(66, 0, 'alpha', 9, NULL, NULL, 'incontract'),
-(67, 0, 'pax pharma', 9, NULL, NULL, 'incontract'),
-(68, 0, 'agrotech', 9, NULL, NULL, 'incontract'),
-(69, 0, 'sun depot', 9, NULL, NULL, 'incontract'),
-(70, 0, 'galaxy hotel', 9, NULL, NULL, 'incontract'),
-(71, 0, 'civitas hotel', 23, NULL, NULL, 'incontract'),
-(72, 0, 'chez lando hotel', 23, NULL, NULL, 'incontract'),
-(73, 0, 'the mirror hotel', 23, NULL, NULL, 'incontract'),
-(74, 0, 'new vision', 19, NULL, NULL, 'new'),
-(75, 0, 'new vision', 19, NULL, NULL, 'new'),
-(76, 0, 'other', 9, NULL, NULL, 'NE'),
-(77, 0, 'bunker', 18, NULL, NULL, 'yes'),
-(78, 0, 'confidence', 14, NULL, NULL, 'newone'),
-(79, 0, 'chez lando', 23, NULL, NULL, 'incontract'),
-(80, 0, 'question cofee', 18, NULL, NULL, 'new'),
-(81, 0, 'home', 8, NULL, NULL, 'rentree'),
-(82, 0, 'BK kigali heigth', 18, NULL, NULL, 'other'),
-(83, 0, 'cogebanque/lando', 23, NULL, NULL, 'other'),
-(84, 0, 'I&M/ lando', 23, NULL, NULL, 'other'),
-(85, 0, 'EXPO', 28, NULL, NULL, 'NONE'),
-(86, 0, 'BELECOM', 9, NULL, NULL, 'INCONTRACT'),
-(87, 0, 'ING', 9, NULL, NULL, 'INCONTRACT'),
-(88, 0, 'PRICELINE PHARMACY', 14, NULL, NULL, 'INCONTRACT'),
-(89, 28, 'Mariott Hotel', 9, NULL, NULL, 'Meeting'),
-(90, 28, 'pmss', 17, NULL, NULL, 'NEW'),
-(91, 38, 'GISIMENTI', 396, NULL, NULL, ''),
-(92, 2, 'lando', 396, NULL, NULL, 'none'),
-(93, 25, 'AYIBAMBE', 24, NULL, NULL, 'UPDATE'),
-(94, 38, 'TOWN', 412, NULL, NULL, 'CITY'),
-(95, 32, 'ndoli supermarket', 396, NULL, NULL, 'furniture'),
-(96, 20, 'Kaurwa', 19, NULL, NULL, 'Client'),
-(97, 3, 'Gadiel pharmacy', 8, NULL, NULL, 'yes'),
-(98, 32, 'Domus', 14, NULL, NULL, 'Incontract'),
-(99, 1, 'eastgate remera', 396, NULL, NULL, 'yes'),
-(100, 20, 'Glaxo', 9, NULL, NULL, 'Client'),
-(101, 3, 'Phcie Maranatha', 17, NULL, NULL, 'new contract'),
-(102, 25, 'EXTREME PHARMACY', 31, NULL, NULL, 'NEW'),
-(103, 3, 'Health care', 14, NULL, NULL, 'new contract'),
-(104, 25, 'PHARMACIE NOVA', 31, NULL, NULL, 'ACTIVE'),
-(105, 20, 'Ducalme', 19, NULL, NULL, 'No'),
-(106, 21, 'MTN ', 396, NULL, NULL, 'none'),
-(107, 20, 'Gardien', 8, NULL, NULL, 'No'),
-(108, 32, 'APOTECARY', 418, NULL, NULL, 'UPDATE CONTRACT'),
-(109, 24, 'Pharmacy beni', 17, NULL, NULL, ''),
-(110, 24, 'Pharmacy beni', 17, NULL, NULL, ''),
-(111, 20, 'Bunker', 18, NULL, NULL, 'No'),
-(112, 20, 'Bunker', 18, NULL, NULL, 'No'),
-(113, 1, 'LadivineVille', 9, NULL, NULL, 'yes'),
-(114, 25, 'PRICELINE PHARMACY ', 127, NULL, NULL, 'INCONTRACT'),
-(115, 20, 'KDH', 17, NULL, NULL, 'No'),
-(118, 24, 'THE NEW RACH BAR', 14, NULL, NULL, 'INSTALLATION'),
-(119, 20, 'Pharmamed', 19, NULL, NULL, 'No'),
-(120, 32, 'pharmacure', 412, NULL, NULL, 'UPDATE CONTRACT'),
-(121, 38, 'GALAXY', 412, NULL, NULL, 'HOTEL'),
-(123, 20, 'Dean pharmacy', 19, NULL, NULL, 'Yes'),
-(124, 32, 'continentale', 396, NULL, NULL, 'UPDATE CONTRACT'),
-(125, 25, 'PHARMAID LTD', 28, NULL, NULL, 'UPDATE'),
-(126, 1, 'EastgateVille', 412, NULL, NULL, 'yes'),
-(127, 24, 'EUREKA', 4, NULL, NULL, 'SUPPORT'),
-(128, 24, 'EUREKA', 4, NULL, NULL, 'SUPPORT'),
-(129, 20, 'The specialist', 19, NULL, NULL, 'Yes'),
-(130, 20, 'The specialist', 19, NULL, NULL, 'Yes'),
-(131, 24, 'MEDIASOL TOWN', 412, NULL, NULL, 'INSTALLATION'),
-(132, 20, 'Kaves', 19, NULL, NULL, 'Update'),
-(133, 20, 'Kaves', 19, NULL, NULL, 'Update'),
-(134, 20, 'Vine', 23, NULL, NULL, 'Update'),
-(135, 22, 'Kipharma', 9, NULL, NULL, 'yes'),
-(136, 73, 'Gisenyi (brasserie)', 166, NULL, NULL, 'YES'),
-(137, 73, 'Butare(depot BRALIRWA)', 74, NULL, NULL, 'YES'),
-(138, 73, 'Kibungo (depot BRALIRWA)', 81, NULL, NULL, 'YES'),
-(139, 73, 'Ruhengeri (depot BRALIRWA)', 275, NULL, NULL, 'YES'),
-(140, 73, 'Cyangungu (depot BRALIRWA)', 52, NULL, NULL, 'YES'),
-(141, 73, 'Kibuye (depot BRALIRWA)', 198, NULL, NULL, 'YES'),
-(142, 73, 'Nyagatare (depot BRALIRWA)', 338, NULL, NULL, 'YES'),
-(143, 73, 'Byumba (depot BRALIRWA)', 303, NULL, NULL, 'YES'),
-(144, 73, 'Mukamira(SOFATHEBE)', 181, NULL, NULL, 'YES'),
-(145, 73, 'Kabaya(SOFATHEBE)', 190, NULL, NULL, 'YES'),
-(146, 73, 'Gatumba(SOFATHEBE)', 188, NULL, NULL, 'YES'),
-(147, 73, 'Ngororero(SOFATHEBE)', 197, NULL, NULL, 'YES'),
-(148, 73, 'Byangabo(BYIMANA)', 278, NULL, NULL, 'YES'),
-(149, 73, 'Gakenke(KURA)', 253, NULL, NULL, 'YES'),
-(150, 73, 'Nyirangarama', 278, NULL, NULL, 'YES'),
-(151, 73, 'Kamonyi', 125, NULL, NULL, 'YES'),
-(152, 73, 'Gitarama', 117, NULL, NULL, 'YES'),
-(153, 73, 'Byimana(SMACORP)', 105, NULL, NULL, 'YES'),
-(154, 73, 'Ruhango(KAFACO)', 112, NULL, NULL, 'YES'),
-(155, 73, 'Nyanza(SODITRACO)', 57, NULL, NULL, 'YES'),
-(156, 73, 'Gikongoro(SODITRACO)', 53, NULL, NULL, 'YES'),
-(157, 73, 'Rwamagana(depot BUDEYI)', 324, NULL, NULL, 'YES'),
-(158, 73, 'Kayonza(depot BUDEYI)', 310, NULL, NULL, 'YES'),
-(159, 73, 'Nyacyonga(FAPROCO)', 12, NULL, NULL, 'YES'),
-(160, 73, 'Rutongo(FAPROCO)', 248, NULL, NULL, 'YES'),
-(161, 73, 'Kiramuruzi(BUDEYI)', 355, NULL, NULL, 'YES'),
-(162, 73, 'Nyamata(DITRAC)', 411, NULL, NULL, 'YES'),
-(163, 73, 'kabuga(SAM&CHAM)', 418, NULL, NULL, 'YES'),
-(164, 73, 'Muhanga GPTC(Via ngororero)', 117, NULL, NULL, 'YES'),
-(165, 73, 'Huye(SADICO)', 74, NULL, NULL, 'YES'),
-(166, 73, 'Nyamagabe(SODITRACO)', 88, NULL, NULL, 'YES'),
-(167, 73, 'Shyorongi(SOTKAM)', 248, NULL, NULL, 'YES'),
-(168, 73, 'Kibrali', 9, NULL, NULL, 'YES'),
-(169, 73, 'Base', 278, NULL, NULL, 'NOP'),
-(170, 73, 'Base', 278, NULL, NULL, 'YES'),
-(171, 73, 'Nzige(BEDITRA)', 334, NULL, NULL, 'YES'),
-(172, 73, 'Karenge(BEDITRA)', 325, NULL, NULL, 'YES'),
-(173, 73, 'Gaseke(ABASANGIRA)', 318, NULL, NULL, 'YES'),
-(174, 73, 'Nyabagendwa', 402, NULL, NULL, 'YES'),
-(175, 73, 'Ruhuha(DITRAC)', 414, NULL, NULL, 'YES'),
-(176, 73, 'Kirambo(BUDCO)', 198, NULL, NULL, 'YES'),
-(177, 73, 'Kicukiro(limonaderie)', 31, NULL, NULL, 'YES'),
-(178, 20, 'Aha', 1, NULL, NULL, 'NEW'),
-(179, 20, 'KPI', 9, NULL, NULL, 'Ok'),
-(180, 20, 'Belecom Hardware', 9, NULL, NULL, 'Ok'),
-(181, 28, 'Mtn HQ', 396, NULL, NULL, 'Ok'),
-(182, 57, 'Houmed', 233, NULL, NULL, ''),
-(183, 57, 'Emmy pharmacy', 31, NULL, NULL, 'Yes'),
-(184, 20, 'Aga', 9, NULL, NULL, 'Ok'),
-(185, 57, 'Ihirwe', 8, NULL, NULL, 'Yes'),
-(186, 28, 'Sonatube', 218, NULL, NULL, 'Ok'),
-(187, 28, '250 plus', 11, NULL, NULL, 'Dealing'),
-(188, 80, 'ville', 233, NULL, NULL, 'deal'),
-(189, 80, 'M&MPLAZA', 20, NULL, NULL, 'NEW '),
-(190, 22, 'TUZA', 168, NULL, NULL, 'PRIVATE'),
-(191, 22, 'Mironko plastics industry', 31, NULL, NULL, 'new contract'),
-(192, 61, 'kibrali', 31, NULL, NULL, 'new contract with us'),
-(193, 20, 'Dolce and Bella', 23, NULL, NULL, 'Ok'),
-(194, 20, 'Faith', 31, NULL, NULL, 'Ok'),
-(195, 28, 'Bk siege', 233, NULL, NULL, 'Dealing'),
-(196, 22, 'Sweetgate', 23, NULL, NULL, 'INCONTRACT'),
-(197, 24, 'Hamphar', 17, NULL, NULL, 'INCONTRACT'),
-(198, 80, 'stadium', 233, NULL, NULL, ''),
-(199, 57, 'NEW VISION ', 19, NULL, NULL, 'In contract'),
-(200, 57, 'EYDEN', 8, NULL, NULL, 'In contact'),
-(201, 57, 'The Celler', 396, NULL, NULL, 'In contact'),
-(202, 20, 'Pharmavie Rssb', 9, NULL, NULL, 'Ok'),
-(203, 24, 'Confidence pharmacy', 14, NULL, NULL, 'In contract'),
-(204, 32, 'Kicukiro centre', 31, NULL, NULL, ''),
-(205, 21, 'muhire ville', 412, NULL, NULL, 'updatw'),
-(206, 57, 'Allimed', 31, NULL, NULL, 'In contract'),
-(207, 57, 'TETA REMERA', 361, NULL, NULL, 'In contract'),
-(208, 27, 'UNIPHARMA B2', 396, NULL, NULL, 'OK'),
-(209, 21, 'KIGALI HEIGTH', 18, NULL, NULL, 'OTHER'),
-(210, 27, 'bridge', 18, NULL, NULL, 'ok'),
-(211, 24, 'Depham', 1, NULL, NULL, 'In contract'),
-(212, 24, 'Depham', 9, NULL, NULL, 'In contract'),
-(213, 27, 'MEDIASOL REMERA', 9, NULL, NULL, '6'),
-(214, 57, 'TETA KIMIRONKO', 19, NULL, NULL, 'In contract'),
-(215, 81, 'Telecom House Kacyiru', 17, NULL, NULL, 'Issue Private'),
-(216, 24, 'JYAMBERE', 412, NULL, NULL, 'In contract'),
-(217, 26, 'CONSEIL VILLE', 233, NULL, NULL, ''),
-(218, 27, 'MEDIASOL KANOMBE', 35, NULL, NULL, 'OK'),
-(219, 24, 'PHARMAVIE CHUK', 412, NULL, NULL, 'In contract'),
-(220, 24, 'PHARMAVIE CHUK', 412, NULL, NULL, 'In contract'),
-(221, 24, 'UBUMWE', 412, NULL, NULL, 'In contract'),
-(222, 24, 'UMUTOZO', 31, NULL, NULL, 'In contract'),
-(223, 24, 'ISANO', 31, NULL, NULL, 'In contract'),
-(224, 24, 'pharmalab', 9, NULL, NULL, 'In contract'),
-(225, 20, 'Digne', 19, NULL, NULL, 'Ok'),
-(226, 22, 'Nyirangarama', 278, NULL, NULL, 'customer issue'),
-(227, 82, 'CONSEIL KACYIRU', 17, NULL, NULL, 'UPDATE'),
-(228, 27, 'sanophar', 4, NULL, NULL, '0'),
-(229, 24, 'TRAMED NYARUGENGE', 412, NULL, NULL, 'In contract'),
-(230, 24, 'JM PHARMACY', 17, NULL, NULL, 'IN CONTRACT'),
-(231, 82, 'ABIRWA PHARMACY ', 23, NULL, NULL, 'Update'),
-(232, 24, 'SUN entreprise', 412, NULL, NULL, 'In contract'),
-(233, 57, 'Vision Chicken Tonight', 396, NULL, NULL, 'In contract'),
-(234, 83, 'Bora', 4, NULL, NULL, 'no contract'),
-(235, 32, 'muhire kanombe', 30, NULL, NULL, 'ok'),
-(236, 20, 'Ireme', 19, NULL, NULL, 'Recurrent'),
-(237, 28, 'Sole luna', 20, NULL, NULL, 'no contract'),
-(238, 82, 'CONSEIL GACURIRO', 14, NULL, NULL, 'UPDATE'),
-(239, 24, 'AGROTECH NYABUGOGO', 412, NULL, NULL, 'IN CONTRACT'),
-(240, 80, 'kimironko 12', 233, NULL, NULL, ''),
-(241, 80, 'RDB', 233, NULL, NULL, ''),
-(242, 21, 'semu pharmacy', 31, NULL, NULL, 'update'),
-(243, 21, 'WOLRD HOUSE', 14, NULL, NULL, 'SALES'),
-(244, 32, 'LIFELINE', 14, NULL, NULL, 'In contract'),
-(245, 24, 'MENUPHAR', 30, NULL, NULL, 'In contract'),
-(246, 21, 'RRA', 18, NULL, NULL, 'other'),
-(247, 27, 'speranza', 34, NULL, NULL, 'remera'),
-(248, 71, 'St Theresa', 27, NULL, NULL, 'IN Contract'),
-(249, 20, 'Le Medicale', 9, NULL, NULL, 'Ok'),
-(250, 71, 'SURYA town', 412, NULL, NULL, 'IN Contract'),
-(251, 20, 'Bsc', 23, NULL, NULL, 'Ok'),
-(252, 80, 'algo service center', 233, NULL, NULL, ''),
-(253, 82, 'AKEDAH PHARMACY', 411, NULL, NULL, 'NEW'),
-(254, 82, 'CONSEIL NYARUTARAMA', 396, NULL, NULL, 'UPDATE'),
-(255, 20, 'Karo', 281, NULL, NULL, 'Recurrent'),
-(256, 22, 'AIRPORT', 30, NULL, NULL, 'NOP'),
-(257, 71, 'PAX Pharmacy', 9, NULL, NULL, 'update contract'),
-(258, 84, 'Carrefour', 233, NULL, NULL, ''),
-(259, 84, 'Bunker', 233, NULL, NULL, 'Na'),
-(260, 1, 'Escort pharmacy', 412, NULL, NULL, 'YES'),
-(261, 32, 'PHARMAVIE ST PAUL', 6, NULL, NULL, 'update'),
-(262, 80, 'strong medical', 233, NULL, NULL, ''),
-(263, 26, 'Skol brewery', 9, NULL, NULL, ''),
-(264, 32, 'rite', 30, NULL, NULL, 'update'),
-(265, 84, 'Fuchsia CLub', 396, NULL, NULL, 'In contract'),
-(266, 57, 'FUCHSIA', 396, NULL, NULL, 'In contract'),
-(267, 1, 'Medplus', 14, NULL, NULL, 'YES'),
-(268, 1, 'private depart', 18, NULL, NULL, 'NOP'),
-(269, 1, 'private destination', 11, NULL, NULL, 'NOP'),
-(270, 20, 'MNR', 18, NULL, NULL, 'Ok'),
-(271, 82, 'TECHNIPHARMA', 19, NULL, NULL, 'CONTRACT'),
-(272, 71, 'SCORE', 412, NULL, NULL, 'update contract'),
-(273, 82, 'PANACEA PHARMACY', 28, NULL, NULL, 'New '),
-(274, 82, 'PHARMACIE ROYALE', 35, NULL, NULL, 'CONTRACT'),
-(275, 38, 'PAPYRUS', 18, NULL, NULL, '078'),
-(276, 80, 'tuuza inn', 233, NULL, NULL, ''),
-(277, 20, 'La Croix Du Sud ', 281, NULL, NULL, 'Recurrent'),
-(278, 82, 'ZOOM PHARMACY ', 14, NULL, NULL, 'Contract'),
-(279, 57, 'Umurava', 8, NULL, NULL, 'In contract'),
-(280, 84, 'Alliance', 412, NULL, NULL, 'In contract'),
-(281, 20, 'Vine kh', 18, NULL, NULL, 'Recurrent'),
-(282, 82, 'PHARMA PLUS', 7, NULL, NULL, 'Contract'),
-(283, 90, 'Gitega', 233, NULL, NULL, '0785363824'),
-(284, 82, 'SANGA HEALTHCARE', 412, NULL, NULL, 'UPDATE'),
-(285, 82, 'SANGA HEALTHCARE', 412, NULL, NULL, 'UPDATE'),
-(286, 20, 'Inema', 31, NULL, NULL, 'Ok'),
-(287, 76, 'gisozi', 271, NULL, NULL, ''),
-(288, 82, 'VITA GRATIA', 29, NULL, NULL, 'Negotiation '),
-(289, 38, 'WORLDHOUSE', 14, NULL, NULL, '078'),
-(290, 71, 'Beni clinic', 19, NULL, NULL, 'No'),
-(291, 92, 'Fuchsia', 233, NULL, NULL, ''),
-(292, 92, 'Kimihurura', 3, NULL, NULL, ''),
-(293, 27, 'kph', 17, NULL, NULL, ''),
-(294, 92, 'Fuchsia', 233, NULL, NULL, ''),
-(295, 92, 'La colombier', 233, NULL, NULL, ''),
-(296, 92, 'La colombier', 233, NULL, NULL, ''),
-(297, 57, 'MALISA', 31, NULL, NULL, 'In contract'),
-(298, 82, '', 281, NULL, NULL, 'PHARMACIE UNIQUE'),
-(299, 82, 'GISHUSHU', 396, NULL, NULL, 'UPDATE'),
-(300, 82, 'PHARMACIE UNIQUE', 396, NULL, NULL, 'UPDATE'),
-(301, 71, 'La Licorne', 12, NULL, NULL, 'in contract'),
-(302, 27, 'kct ', 396, NULL, NULL, 'rr'),
-(303, 20, 'Ing pharma', 412, NULL, NULL, 'No'),
-(304, 4, 'bralirwa', 31, NULL, NULL, 'ok'),
-(305, 71, 'Fidele', 412, NULL, NULL, 'in contract'),
-(306, 84, 'Dephar', 57, NULL, NULL, 'In contract'),
-(307, 93, 'Kipharma siege', 9, NULL, NULL, ''),
-(308, 93, 'Banker', 233, NULL, NULL, ''),
-(309, 82, 'SABANS PHARMACY ', 23, NULL, NULL, 'Contract'),
-(310, 20, 'Interbusiness', 396, NULL, NULL, 'No'),
-(311, 58, 'REMED', 233, NULL, NULL, ''),
-(312, 58, 'la divine 15', 183, NULL, NULL, ''),
-(313, 58, 'Salvia', 233, NULL, NULL, ''),
-(314, 58, 'La reference', 233, NULL, NULL, ''),
-(315, 24, 'Amaya pharmacy', 14, NULL, NULL, 'In contrac'),
-(316, 24, 'Amaya pharmacy', 14, NULL, NULL, 'In contract'),
-(317, 92, 'Kvcg', 233, NULL, NULL, ''),
-(318, 58, 'Best choice', 233, NULL, NULL, ''),
-(319, 84, 'KEYSTONNE', 8, NULL, NULL, ''),
-(320, 38, 'CENTRE St.PAUL', 412, NULL, NULL, '0786239944'),
-(321, 80, 'kacyiru hospital', 233, NULL, NULL, ''),
-(322, 38, 'THE COURT', 18, NULL, NULL, '07823'),
-(323, 82, 'KU RUYENZI', 233, NULL, NULL, 'NEW'),
-(331, 20, 'believ', 175, NULL, NULL, 'incrati');
+(1, 131, 'bunker', 18, NULL, NULL, ''),
+(2, 131, 'ABIRWA PHARMACY Siege', 23, NULL, NULL, ''),
+(3, 131, 'AKEDAH Siege', 411, NULL, NULL, ''),
+(4, 131, 'ALLIANCE PHARMACY Siege', 6, NULL, NULL, ''),
+(5, 131, 'ALLIMED Siege', 31, NULL, NULL, ''),
+(6, 131, 'ALVARUS Siege', 9, NULL, NULL, ''),
+(7, 131, 'APOTHECARY PHARMACY Siege', 418, NULL, NULL, ''),
+(8, 131, 'AXIS Siege', 419, NULL, NULL, ''),
+(9, 131, 'AYIBAMBE PHARMACIE Siege', 418, NULL, NULL, ''),
+(10, 131, 'BENI Siege', 17, NULL, NULL, ''),
+(11, 131, 'BETHZATHA Siege', 34, NULL, NULL, ''),
+(12, 131, 'BONITAS Siege', 14, NULL, NULL, ''),
+(13, 131, 'BON SAMARITAIN Siege', 74, NULL, NULL, ''),
+(14, 131, 'BORA Siege', 12, NULL, NULL, ''),
+(15, 131, 'BORANYAKABANDA', 9, NULL, NULL, ''),
+(16, 131, 'CIVITAS HOTEL LTD Siege', 23, NULL, NULL, ''),
+(17, 131, 'CONFIDENCE Siege', 14, NULL, NULL, ''),
+(18, 131, 'CONSEIL KACYIRU', 17, NULL, NULL, ''),
+(19, 131, 'CONSEIL Siege', 9, NULL, NULL, ''),
+(20, 131, 'CROIX DU SUD Siege', 23, NULL, NULL, ''),
+(21, 131, 'DELIGHT Siege', 23, NULL, NULL, ''),
+(22, 131, 'DELIZA Siege', 4, NULL, NULL, ''),
+(23, 131, 'DEPHAR Siege', 31, NULL, NULL, ''),
+(24, 131, 'DEUPHAR Siege', 31, NULL, NULL, ''),
+(25, 131, 'AFRICA MEDICAL SUPPLIER Siege', 9, NULL, NULL, ''),
+(26, 131, 'AGA PHARMACEUTICAL Siege', 9, NULL, NULL, ''),
+(27, 131, 'AGROTECH Siege', 9, NULL, NULL, ''),
+(28, 131, ' KIMIRONKO-NEW-VISION Siege', 19, NULL, NULL, ''),
+(29, 131, 'AHA Siege', 1, NULL, NULL, ''),
+(30, 131, 'ZOOM PHARMACY Siege', 14, NULL, NULL, ''),
+(31, 131, 'DIGNE Siege', 23, NULL, NULL, ''),
+(32, 131, 'DIRRITO Siege', 278, NULL, NULL, ''),
+(33, 131, 'DOLCE&BELLA Siege', 23, NULL, NULL, ''),
+(34, 131, 'DOMUS MARKET Siege', 20, NULL, NULL, ''),
+(35, 131, 'DOVE Siege', 14, NULL, NULL, ''),
+(36, 131, 'DUCALME Siege', 19, NULL, NULL, ''),
+(37, 131, 'EASTGATE SUPERMARKET VILLE Siege', 9, NULL, NULL, ''),
+(38, 131, 'EASTGATE SUPERMARKET-REMERA', 23, NULL, NULL, ''),
+(41, 131, 'MEDIASOL  Siege', 35, NULL, NULL, ''),
+(42, 131, 'UNIQUE Siege', 23, NULL, NULL, ''),
+(43, 131, 'UMURAVA Siege', 9, NULL, NULL, ''),
+(44, 131, 'PHARMACIE FIDELE Siege', 9, NULL, NULL, ''),
+(45, 131, 'KAURWA LTD Siege', 19, NULL, NULL, ''),
+(46, 131, 'DEPHAM Siege', 9, NULL, NULL, ''),
+(47, 131, 'KAVES Siege', 19, NULL, NULL, ''),
+(48, 131, 'SINA AIRPORT', 30, NULL, NULL, ''),
+(49, 131, 'SINA DEPOT DOWNTOWN', 9, NULL, NULL, ''),
+(50, 131, 'SINA DEPOT NYAMIRAMBO', 9, NULL, NULL, ''),
+(51, 131, 'SINA DOWNTOWN ONE', 9, NULL, NULL, ''),
+(52, 131, 'SINA DOWNTOWN TWO', 9, NULL, NULL, ''),
+(53, 131, 'SINA GARE NYABUGOGO', 9, NULL, NULL, ''),
+(54, 131, 'SINA HUYE', 74, NULL, NULL, ''),
+(55, 131, 'SINA KIMIRONKO', 19, NULL, NULL, ''),
+(56, 131, 'SINA KUMASHYIRAHAMWE', 9, NULL, NULL, ''),
+(57, 131, 'SINA MAGERAGERE', 9, NULL, NULL, ''),
+(58, 131, 'SINA MUHANGA', 117, NULL, NULL, ''),
+(59, 131, 'SINA MUSANZE', 98, NULL, NULL, ''),
+(60, 131, 'SINA NYAGATARE', 345, NULL, NULL, ''),
+(61, 131, 'SINA NYAMIRAMBO', 9, NULL, NULL, ''),
+(62, 131, 'SINA RESTO DOWNTOWN', 9, NULL, NULL, ''),
+(63, 131, 'SINA RUBAVU ONE', 173, NULL, NULL, ''),
+(64, 131, 'SINA RUBAVU TWO', 173, NULL, NULL, ''),
+(65, 131, 'SINA SIEGE CENTRAL', 239, NULL, NULL, ''),
+(66, 131, 'SINA UTC', 9, NULL, NULL, ''),
+(67, 131, 'SINAPI Siege', 57, NULL, NULL, ''),
+(68, 131, 'SINA PRISON', 9, NULL, NULL, ''),
+(69, 131, 'SORAS Siege', 9, NULL, NULL, ''),
+(70, 131, 'SINA SIEGE FAST FOOD', 233, NULL, NULL, ''),
+(71, 131, 'SINA SIEGE KIMARANZARA', 233, NULL, NULL, ''),
+(72, 131, 'SINA SIEGE ONE', 233, NULL, NULL, ''),
+(73, 131, 'SINA SIEGE TWO', 233, NULL, NULL, ''),
+(74, 131, 'SINA SIEGE RESTO VIP', 233, NULL, NULL, ''),
+(75, 131, 'SINA KAYONZA', 266, NULL, NULL, ''),
+(136, 131, 'Gisenyi (brasserie)', 166, NULL, NULL, 'YES'),
+(137, 131, 'Butare(depot BRALIRWA)', 74, NULL, NULL, 'YES'),
+(138, 131, 'Kibungo (depot BRALIRWA)', 81, NULL, NULL, 'YES'),
+(139, 131, 'Ruhengeri (depot BRALIRWA)', 275, NULL, NULL, 'YES'),
+(140, 131, 'Cyangungu (depot BRALIRWA)', 52, NULL, NULL, 'YES'),
+(141, 131, 'Kibuye (depot BRALIRWA)', 198, NULL, NULL, 'YES'),
+(142, 131, 'Nyagatare (depot BRALIRWA)', 338, NULL, NULL, 'YES'),
+(143, 131, 'Byumba (depot BRALIRWA)', 303, NULL, NULL, 'YES'),
+(144, 131, 'Mukamira(SOFATHEBE)', 181, NULL, NULL, 'YES'),
+(145, 131, 'Kabaya(SOFATHEBE)', 190, NULL, NULL, 'YES'),
+(146, 131, 'Gatumba(SOFATHEBE)', 188, NULL, NULL, 'YES'),
+(147, 131, 'Ngororero(SOFATHEBE)', 197, NULL, NULL, 'YES'),
+(148, 131, 'Byangabo(BYIMANA)', 278, NULL, NULL, 'YES'),
+(149, 131, 'Gakenke(KURA)', 253, NULL, NULL, 'YES'),
+(150, 131, 'Nyirangarama', 278, NULL, NULL, 'YES'),
+(151, 131, 'Kamonyi', 125, NULL, NULL, 'YES'),
+(152, 131, 'Gitarama', 117, NULL, NULL, 'YES'),
+(153, 131, 'Byimana(SMACORP)', 105, NULL, NULL, 'YES'),
+(154, 131, 'Ruhango(KAFACO)', 112, NULL, NULL, 'YES'),
+(155, 131, 'Nyanza(SODITRACO)', 57, NULL, NULL, 'YES'),
+(156, 131, 'Gikongoro(SODITRACO)', 53, NULL, NULL, 'YES'),
+(157, 131, 'Rwamagana(depot BUDEYI)', 324, NULL, NULL, 'YES'),
+(158, 131, 'Kayonza(depot BUDEYI)', 310, NULL, NULL, 'YES'),
+(159, 131, 'Nyacyonga(FAPROCO)', 12, NULL, NULL, 'YES'),
+(160, 131, 'Rutongo(FAPROCO)', 248, NULL, NULL, 'YES'),
+(161, 131, 'Kiramuruzi(BUDEYI)', 355, NULL, NULL, 'YES'),
+(162, 131, 'Nyamata(DITRAC)', 411, NULL, NULL, 'YES'),
+(163, 131, 'kabuga(SAM&CHAM)', 418, NULL, NULL, 'YES'),
+(164, 131, 'Muhanga GPTC(Via ngororero)', 117, NULL, NULL, 'YES'),
+(165, 131, 'Huye(SADICO)', 74, NULL, NULL, 'YES'),
+(166, 131, 'Nyamagabe(SODITRACO)', 88, NULL, NULL, 'YES'),
+(167, 131, 'Shyorongi(SOTKAM)', 248, NULL, NULL, 'YES'),
+(332, 131, 'VINE PHARMACY', 23, NULL, NULL, ''),
+(333, 131, 'VINE KH Siege', 17, NULL, NULL, ''),
+(334, 131, 'FURAHA GAHANGA', 26, NULL, NULL, ''),
+(335, 131, 'PHARMACY TRAMED VILLE Siege', 14, NULL, NULL, ''),
+(336, 131, 'CONSEIL NYARUTARAMA', 23, NULL, NULL, ''),
+(337, 131, 'BORA Siege', 12, NULL, NULL, ''),
+(338, 131, 'NSANGA PHARMACY LTD Siege', 12, NULL, NULL, ''),
+(339, 131, 'FURAHA GATENGA', 27, NULL, NULL, ''),
+(340, 131, 'FURAHA PAROISSE', 31, NULL, NULL, ''),
+(341, 131, 'FURAHA SONATUBE', 31, NULL, NULL, ''),
+(342, 131, 'FURAHA-KICUKIRO CENTRE', 31, NULL, NULL, ''),
+(343, 131, 'GALAXY Siege', 23, NULL, NULL, ''),
+(344, 131, 'GALEAD PHARMACY Siege', 33, NULL, NULL, ''),
+(345, 131, 'Glory siege', 23, NULL, NULL, ''),
+(346, 131, 'HAMPHAR Siege', 17, NULL, NULL, ''),
+(347, 131, 'HEALTHCARE Siege', 9, NULL, NULL, ''),
+(348, 131, 'HOTEL CHEZ LANDO Siege', 23, NULL, NULL, ''),
+(349, 131, 'HOUMED Siege', 14, NULL, NULL, ''),
+(350, 131, 'INGENZI KIBUNGO', 392, NULL, NULL, ''),
+(351, 131, 'INGENZI Siege', 173, NULL, NULL, ''),
+(352, 131, 'INITIATIVE', 57, NULL, NULL, ''),
+(353, 131, 'IRAGUHA  Siege', 278, NULL, NULL, ''),
+(354, 131, 'INGPHARMA ', 23, NULL, NULL, ''),
+(355, 131, 'Ireme ', 19, NULL, NULL, ''),
+(356, 131, 'IRIS PHARMACY Siege ', 9, NULL, NULL, ''),
+(357, 131, 'ISANO PHARMACY Siege', 31, NULL, NULL, ''),
+(358, 131, 'IVY PHARMACY Siege', 197, NULL, NULL, ''),
+(359, 131, 'JMPHARMACY Siege', 17, NULL, NULL, ''),
+(360, 131, 'JOSHU Siege', 3, NULL, NULL, ''),
+(361, 131, 'KABARE Siege', 24, NULL, NULL, ''),
+(362, 131, 'KACYIRU DISTRICT HOSPITAL Siege', 17, NULL, NULL, ''),
+(363, 131, 'KACYIRU POLICE HOSPITAL Siege', 17, NULL, NULL, ''),
+(364, 131, 'KARO Siege', 23, NULL, NULL, ''),
+(365, 131, 'KAVES Siege', 19, NULL, NULL, ''),
+(366, 131, 'KIVU-BEACH Siege', 173, NULL, NULL, ''),
+(367, 131, 'KWETU PHARMACY Siege', 9, NULL, NULL, ''),
+(368, 131, 'LADIVINE REMERA Siege', 23, NULL, NULL, ''),
+(369, 131, 'LAN2000 Siege', 9, NULL, NULL, ''),
+(370, 131, 'LICORNE SIEGE', 9, NULL, NULL, ''),
+(371, 131, 'LIFELINE PHARMACY Siege', 14, NULL, NULL, ''),
+(372, 131, 'LINDO Siege', 9, NULL, NULL, ''),
+(373, 131, 'LYDDA PHARMACY Siege', 30, NULL, NULL, ''),
+(374, 131, 'MALISA Siege', 31, NULL, NULL, ''),
+(375, 131, 'MALISA_KICUKIRO', 31, NULL, NULL, ''),
+(376, 131, 'MARANATHA Siege', 9, NULL, NULL, ''),
+(377, 131, 'MEDIASOL  Siege', 9, NULL, NULL, ''),
+(378, 131, 'MEDIASOL DCM', 23, NULL, NULL, ''),
+(379, 131, 'MEDIASOL KANOMBE', 30, NULL, NULL, ''),
+(380, 131, 'MEDIASOL RUBAVU', 173, NULL, NULL, ''),
+(381, 131, 'MEDIASOL_DEPOT Siege', 9, NULL, NULL, ''),
+(382, 131, 'MEDIASOL-MUSANZE', 278, NULL, NULL, ''),
+(383, 131, 'MEDIASOL REMERA', 23, NULL, NULL, ''),
+(384, 131, 'MEMIAS PHARMACY Siege', 31, NULL, NULL, ''),
+(385, 131, 'MENIPHAR Siege', 23, NULL, NULL, ''),
+(386, 131, 'MNR Siege', 18, NULL, NULL, ''),
+(387, 131, 'MUHIRE KANOMBE', 30, NULL, NULL, ''),
+(388, 131, 'MUHIRE rubavu', 173, NULL, NULL, ''),
+(389, 131, 'MUHIRE siege', 9, NULL, NULL, ''),
+(390, 131, 'NEWHOPE Siege', 23, NULL, NULL, ''),
+(391, 131, 'NOBILIS Siege', 14, NULL, NULL, ''),
+(392, 131, 'NOVA PHARMACY Siege', 31, NULL, NULL, ''),
+(393, 131, 'NYABIHU DISTRICT Siege', 175, NULL, NULL, ''),
+(394, 131, 'PACH Siege', 117, NULL, NULL, ''),
+(395, 131, 'PENIEL Siege', 6, NULL, NULL, ''),
+(396, 131, 'PHARMACHOICE Siege', 117, NULL, NULL, ''),
+(397, 131, 'PHARMACIE CONTINENTALE Siege', 23, NULL, NULL, ''),
+(398, 131, 'PHARMACIE DE LA GARE Siege', 14, NULL, NULL, ''),
+(399, 131, 'PHARMACIE FIDELE Siege', 9, NULL, NULL, ''),
+(400, 131, 'PHARMACIE LAGO Siege', 173, NULL, NULL, ''),
+(401, 131, 'PHARMACIE PHARMA PLUS Siege', 9, NULL, NULL, ''),
+(402, 131, 'PHARMACIE VINCA Siege', 173, NULL, NULL, ''),
+(403, 131, 'PHARMACURE Siege', 9, NULL, NULL, ''),
+(404, 131, 'PHARMAID Siege', 28, NULL, NULL, ''),
+(405, 131, 'PHARMALAB Siege', 9, NULL, NULL, ''),
+(406, 131, 'PHARMAMED Siege', 19, NULL, NULL, ''),
+(407, 131, 'PHARMAMED Siege', 17, NULL, NULL, ''),
+(408, 131, 'PHARMAVIE CHUK', 9, NULL, NULL, ''),
+(409, 131, 'PHARMAVIE RSSB', 9, NULL, NULL, ''),
+(410, 131, 'PHARMAVIE ST PAUL', 9, NULL, NULL, ''),
+(411, 131, 'PLIVA Siege', 9, NULL, NULL, ''),
+(412, 131, 'PRICELINE  Siege', 9, NULL, NULL, ''),
+(413, 131, 'RAFI Siege', 173, NULL, NULL, ''),
+(414, 131, 'REFERENCE Siege', 9, NULL, NULL, ''),
+(415, 131, 'REFERENCE Siege', 23, NULL, NULL, ''),
+(416, 131, 'REMED Siege', 8, NULL, NULL, ''),
+(417, 131, 'REMUCHAT Siege', 345, NULL, NULL, ''),
+(418, 131, 'RITE Siege', 23, NULL, NULL, ''),
+(419, 131, 'ROYAL', 24, NULL, NULL, ''),
+(420, 131, 'SABANS Siege', 23, NULL, NULL, ''),
+(421, 131, 'RUGWIRO Siege', 208, NULL, NULL, ''),
+(422, 131, 'SALVIA PHARMACY Siege', 411, NULL, NULL, ''),
+(423, 131, 'SANOPHAR Siege', 9, NULL, NULL, ''),
+(424, 131, 'SCORETOWN Siege', 9, NULL, NULL, ''),
+(425, 131, 'SEMU Siege', 31, NULL, NULL, ''),
+(426, 131, 'SHENGE Siege', 31, NULL, NULL, ''),
+(427, 131, 'SPECIALIST Siege', 19, NULL, NULL, ''),
+(428, 131, 'STRONG', 6, NULL, NULL, ''),
+(429, 131, 'STRONG MEDICA PHARMACY Siege', 6, NULL, NULL, ''),
+(430, 131, 'STRONG Siege', 6, NULL, NULL, ''),
+(431, 131, 'SUNBEAM PHARMACY Siege', 9, NULL, NULL, ''),
+(432, 131, 'SUNRISE PHARMACY Siege', 74, NULL, NULL, ''),
+(433, 131, 'TECHNIPHARMA II', 19, NULL, NULL, ''),
+(434, 131, 'TECHNIPHARMA Siege', 19, NULL, NULL, ''),
+(435, 131, 'TECHNIPHARMA Siege', 19, NULL, NULL, ''),
+(436, 131, 'TETA KIMIRONKO', 19, NULL, NULL, ''),
+(437, 131, 'TETA KIMIRONKO', 19, NULL, NULL, ''),
+(438, 131, 'TETA SIEGE', 23, NULL, NULL, ''),
+(439, 131, 'THE HOUSE OF VITAMINS Siege', 9, NULL, NULL, ''),
+(440, 131, 'THE CELLAR Siege', 24, NULL, NULL, ''),
+(441, 131, 'THE COURT BOUTIQUE HOTEL Siege', 24, NULL, NULL, ''),
+(442, 131, 'THE COURT BOUTIQUE HOTEL Siege', 19, NULL, NULL, ''),
+(443, 131, 'THE NEW RANCH Siege', 19, NULL, NULL, ''),
+(444, 131, 'TRAMED NYARUGENGE', 8, NULL, NULL, ''),
+(445, 131, 'TIGO Siege', 24, NULL, NULL, ''),
+(446, 131, 'TRESOR Siege', 6, NULL, NULL, ''),
+(447, 131, 'TRINITAS Siege', 74, NULL, NULL, ''),
+(448, 131, 'TROJANUS Siege', 411, NULL, NULL, ''),
+(449, 131, 'TUGANE Siege', 345, NULL, NULL, ''),
+(450, 131, 'UMURAVA Siege', 9, NULL, NULL, ''),
+(451, 131, 'UMUTOZO Siege', 31, NULL, NULL, ''),
+(452, 131, 'UNIPHARMA B1', 23, NULL, NULL, ''),
+(453, 131, 'UNIPHARMA B2', 28, NULL, NULL, ''),
+(454, 131, 'Unipharma B3', 23, NULL, NULL, ''),
+(455, 131, 'UNIQUE Siege', 23, NULL, NULL, ''),
+(456, 131, 'VINE KH Siege', 17, NULL, NULL, ''),
+(457, 131, 'VINE LADIVINE MURINDI', 9, NULL, NULL, ''),
+(458, 131, 'VINE PHARMACY Siege', 23, NULL, NULL, ''),
+(459, 131, 'VINEDISTRIBUTION Siege', 23, NULL, NULL, ''),
+(460, 131, 'Vision Motel', 23, NULL, NULL, ''),
+(461, 131, 'VITA GRATIA Siege', 31, NULL, NULL, ''),
+(462, 131, 'VIVA Siege', 74, NULL, NULL, ''),
+(463, 131, 'VIVA-CALUS', 74, NULL, NULL, ''),
+(464, 131, 'ZOOM PHARMACY Siege', 19, NULL, NULL, ''),
+(466, 131, 'GREEN_ROCK Siege', 31, NULL, NULL, '');
 
 -- --------------------------------------------------------
 
@@ -3685,7 +3617,8 @@ INSERT INTO `fluid_sector` (`id`, `province_id`, `district_id`, `name`) VALUES
 (414, 5, 30, 'Ruhuha'),
 (415, 5, 30, 'Rweru'),
 (416, 5, 30, 'Shyara'),
-(418, 1, 2, 'kabuga');
+(418, 1, 2, 'kabuga'),
+(419, 1, 3, 'KABEZA');
 
 -- --------------------------------------------------------
 
@@ -3695,17 +3628,18 @@ INSERT INTO `fluid_sector` (`id`, `province_id`, `district_id`, `name`) VALUES
 
 CREATE TABLE `fluid_status` (
   `id` int(11) NOT NULL,
-  `statusname` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+  `statusname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `id_subcampany` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `fluid_status`
 --
 
-INSERT INTO `fluid_status` (`id`, `statusname`) VALUES
-(1, 'emergency'),
-(2, 'priority'),
-(3, 'normal');
+INSERT INTO `fluid_status` (`id`, `statusname`, `id_subcampany`) VALUES
+(1, 'emergency', 3),
+(2, 'priority', 3),
+(3, 'normal', 3);
 
 -- --------------------------------------------------------
 
@@ -3815,59 +3749,59 @@ CREATE TABLE `fluid_user` (
 --
 
 INSERT INTO `fluid_user` (`id`, `id_subcompany`, `username`, `full_name`, `phone_number`, `auth_key`, `password`, `passreset`, `email`, `role`, `last_login`, `live`, `status`, `vercod`, `verfied`) VALUES
-(1, 3, 'izabayo', 'isabelle', '0788708412', 'yes', '25f9e794323b453885f5181f1b624d0b', '1bbf28165a1dcbcfd145c68ff7fbe0ff685cc83646a3e253f786f4af1a7961bd', 'izababelle@gmail.com', 30, '2020-07-24 13:57:14', 1, 'lebour', '', 1),
-(2, 3, 'sheilla', 'MUNEZERO Sheilla', '0786383907', '10', 'munezero', '', 'sheillaroy@gmail.com', 30, '2018-05-22 15:06:03', 1, 'lebour', '', 0),
-(4, 3, 'joshua', 'NZAJYAYO Joshua', '0783753235', '10', 'nzajyayo', '', 'joshua@yahoo.fr', 30, '2018-09-12 12:33:23', 1, 'lebour', '', NULL),
-(5, 0, 'linda', 'DUSHIMIRE Linda', '0788869326', '10', '25f9e794323b453885f5181f1b624d0b', '', 'dushimire@gmail.com', 30, '2017-11-27 11:17:59', 1, 'lebour', '', NULL),
-(20, 3, 'nadia', 'CONDO Nadia', '0788802060', '10', '25f9e794323b453885f5181f1b624d0b', '', 'nadiacondo@gmail.com', 10, '2020-07-27 01:52:01', 1, 'lebour', '', 1),
-(21, 3, 'denyse', 'deny.', '0788975432', '1', 'denyse', '', 'deny@gmail.com', 30, '2019-01-14 18:39:46', 1, 'lebour', '', NULL),
-(22, 3, 'admin', 'izabayo isabelle iza', '788708412', '1', '25f9e794323b453885f5181f1b624d0b', '1bbf28165a1dcbcfd145c68ff7fbe0ff685cc83646a3e253f786f4af1a7961bd', 'izababelle@gmail.com', 10, '2020-07-17 14:11:52', 1, 'lebour', '', 1),
-(24, 3, 'UWERA', 'ODETTE.', '0782138025', '1', 'uwera1992', '', 'uweraodette7@gmail.com', 30, '2018-11-22 10:29:46', 1, 'lebour', '', NULL),
-(25, 3, 'MrFidele ', 'Fidele BYIGERO .', '0786651444', '1', 'Mr.Fidele', '1f526e4c13ee7a1586636ea2a2490d4d4f35476167832efa0f0018819f0f0421', 'fidobyigero@gmail.com', 30, '2018-09-04 10:24:38', 1, 'lebour', '', NULL),
-(26, 3, 'CORNEILLE', 'MVUYEKURE CORNEILLE.', 'CORNEILLE', '1', '2020', '', 'corneillecovou@gmail.com', 30, '2019-01-31 12:16:03', 1, 'lebour', '', NULL),
-(27, 3, 'watheo', 'BIZIMUNGU Theoneste.', '0787533098', '1', '2017', '', 'bizimungu2004@gmail.com', 30, '2018-11-05 13:39:34', 1, 'lebour', '', NULL),
-(28, 3, 'aimable', 'Aimable Kimenyi.', '0788000000', '1', '25f9e794323b453885f5181f1b624d0b', '', 'kimainyi@gmail.com', 30, '2018-08-17 11:16:37', 1, 'lebour', '', 1),
-(29, 3, 'daniel', 'daniel.', '0784087466', '1', 'dany', '', 'daniel@gmail.com', 30, '2020-07-08 14:00:07', 1, 'lebour', '', NULL),
-(30, 3, 'emelyne', 'ntigurirwa.', '0782286200', '1', 'reine', '', 'emelynesto@gmail.com', 30, '2018-07-30 12:27:32', 1, 'lebour', '', NULL),
-(32, 3, 'Derrick ', 'Derrick.', '0784388236', '1', '123', '', 'Muderrick14@gmail.com', 30, '2018-07-18 13:55:32', 1, 'lebour', '', NULL),
-(38, 3, 'TELSPHORE', 'NSABIMANA', '782402205', '1', '12345T', '', 'ntelesphore2012@gmail.com', 30, '2019-03-31 13:43:20', 1, 'lebour', '', NULL),
-(56, 3, 'carine', 'uwibambe.', '0786612546', '10', 'pass', '', 'uwacarino', 30, '2018-03-20 17:46:19', 1, 'lebour', '', NULL),
-(57, 3, 'Jmv', 'Bizimana jmv.', '+250784460563', '10', 'karamage', '', 'jmvbizimana@gmail.com', 30, '2018-10-02 11:36:59', 1, 'lebour', '', NULL),
-(58, 3, 'delphine', 'mukahirwa.', '0785989244', '10', 'mosd', '', 'delphinemukahirwa@gmail.com', 30, '2019-02-12 19:28:46', 1, 'lebour', '', NULL),
-(59, 3, 'niyigena', 'Niyigena Odette.', '0789335806', '10', 'gs20140071', '', 'niyigeno@gmail.com', 30, '2017-12-01 10:49:06', 1, 'lebour', '', NULL),
-(60, 3, 'PASS CARINE', 'PASS CARINE.', '0786612546', '10', 'BOSCO1990', '', 'uwacarino@gmail.com', 30, '2018-01-18 12:10:31', 1, 'lebour', '', NULL),
-(61, 4, 'kaurwa', 'G.Rose.', '0788975432', '10', 'KAURWA', '1bbf28165a1dcbcfd145c68ff7fbe0ff685cc83646a3e253f786f4af1a7961bd', 'habomar1@gmail.com', 10, '2020-07-08 14:01:43', 1, 'lebour', '', NULL),
-(70, 4, 'fausy', 'fausy.', '07889965', '10', 'kaurwa', '', 'keza@gmail.com', 30, '2018-04-23 12:19:33', 1, 'lebour', '', NULL),
-(71, 3, 'kalimba', 'Kalimba Olivier.', '0789375877', '10', 'kalimba123', '00fc93db77b445b2d12e7fcfffb8abc6912504f92517de742c02b9728f734dfe', 'kalimbaolivier@gmail.com', 30, '2019-02-27 10:29:27', 1, 'lebour', '', NULL),
-(72, 4, 'fausca', 'fausca.', '0782829694', '10', 'fausca', '', 'uwafosca@gmail.com', 30, NULL, 1, 'lebour', '', NULL),
-(73, 4, 'amani', 'amani.', '0788521733', '10', 'amani', '', 'saasitaa@yahoo.com', 10, '2018-02-19 16:24:45', 1, 'lebour', '', NULL),
-(74, 4, '', '.', 'KIPHARMA', '10', '12345', 'c609f4e370701a57b0b37890e6e9465668861dbaa1168251cf2a6294d6933108', '', 30, NULL, 1, 'lebour', '', NULL),
-(75, 3, 'gilles', 'Gilbert', '0789988122', '10', '25f9e794323b453885f5181f1b624d0b', '1bbf28165a1dcbcfd145c68ff7fbe0ff685cc83646a3e253f786f4af1a7961bd', 'izababelle@gmail.com', 30, '2020-07-27 02:15:40', 1, 'lebour', '', 1),
-(76, 3, 'danny', 'Daniel', '078900888', '10', '123456', '', 'dany@gmail.com', 30, '2018-09-26 08:56:19', 1, 'lebour', '', NULL),
-(78, 3, 'driver', 'gilles', '07812356', '10', 'gilles', '1bbf28165a1dcbcfd145c68ff7fbe0ff685cc83646a3e253f786f4af1a7961bd', 'izababelle@gmail.com', 30, '2018-04-17 16:35:35', 1, 'lebour', '', NULL),
-(79, 4, 'kalisa', 'kalisa erneste.', '07889965', '10', 'kalisa', '1bbf28165a1dcbcfd145c68ff7fbe0ff685cc83646a3e253f786f4af1a7961bd', 'izababelle@gmail.com', 30, '2018-04-19 13:29:15', 1, 'lebour', '', NULL),
-(80, 3, 'Ella', 'Ella Hestia.', '0789623684', '10', 'hestia', '', 'irangabiyeellahestia@gmail.com', 30, '2019-01-17 13:11:28', 1, 'lebour', '', NULL),
-(81, 3, 'damour', 'Jean Damour MPATSWENIMANA.', '0782174233', '10', 'damour', '', 'mpatswenimanaj@gmail.com', 30, '2018-05-08 13:11:25', 1, 'lebour', '', NULL),
-(82, 3, 'fidele', 'BYIGERO Fidele.', '0788515135', '10', 'fidele12345', '', 'fidobyigero@gmail.com', 30, '2019-03-03 23:52:48', 1, 'lebour', '', NULL),
-(83, 3, 'empty pick', 'empty pick.', '07889965', '10', 'empty', '', 'none', 10, '2018-08-09 15:57:04', 1, 'lebour', '', NULL),
-(84, 3, 'Amri Sued', 'IRADUKUNDA Amri Sued.', '0788970708', '10', '123456', '', 'amrisued@gmail.com', 30, '2019-01-31 12:15:07', 1, 'lebour', '', NULL),
-(85, 3, 'marknoob', 'mark.', '8786432', '10', 'marknoob', '', 'noobdepes@gmail.com', 30, '2018-07-11 03:31:59', 1, 'lebour', '', NULL),
-(86, 3, 'ANATHOLE', 'ANATHOLE NIYONGANA', '0788621807', '10', '4545', '', 'anatholeniyongana@gmail.com', 30, '2019-03-05 12:23:59', 1, 'lebour', '', NULL),
-(87, 3, 'Barthelemy', 'NIYIGIRIMBABAZI Barthelemy', '783288362', '10', 'nabagize', '', 'barthelemyniyigirimbabazi01@gmail.com', 30, '2018-08-08 17:23:41', 1, 'lebour', '', NULL),
-(88, 3, 'irakuzwa', 'Irakuzwa Jean Aime', '0782229123', '10', 'irakuzwa10', 'efa080a8e06f479915f2be8f17236a84df3fb7a0b64ca47a8b3498fd03f28d52', 'aimeirak10@gmail.com', 30, '2020-07-07 15:49:43', 1, 'lebour', '', NULL),
-(89, 3, 'NIYITUGENERA ', 'NIYITUGENERA Josiane', '0781548189', '10', '1515', '', 'josabouba@gmail.com', 30, '2018-08-08 17:27:24', 1, 'lebour', '', NULL),
-(90, 3, 'nsengimana', 'Nsengimana Emmanuel', '0785363824', '10', '123', 'bce893b79db8132eb7a4ee78ff844fb2291935392f8f1649693632933161c4f6', 'nsengiello@hotmail.com', 30, '2018-11-26 09:21:15', 1, 'lebour', '', NULL),
-(91, 3, 'upacif', 'Pacifique Uwimana ', '+250783248715', '10', 'Loukolela33', '8bbbb45e75a0748c92b2a7ed7fb0858928d42c62792eb6c770bc11627791aa11', 'upacif33@gmail.com', 30, '2019-01-28 17:52:49', 1, 'lebour', '', NULL),
-(92, 3, 'Jenny', 'Niyonkuru Jeannine manariyo', '078843008', '10', '1995', '81f061eabf0699fbbb7016324faf4ed04486df4684900cdbc553582fdd3fbe9d', 'Niyonkurn@gmail.com', 30, '2018-11-27 12:58:47', 1, 'lebour', '', NULL),
-(93, 3, 'Hagenimana', 'Hagenimana EMMANUEL', '0780273467', '10', '1212', '', 'hagenimanemmanuel@gmail.com', 30, '2020-01-31 09:10:41', 1, 'lebour', '', NULL),
-(95, 3, 'Josiane_NIYITUGENERA', 'Josiane Niyitugenera', '0781548189', '10', 'JOJO85711', '', 'josabouba@gmail.com', 30, '2018-11-30 15:14:16', 1, 'lebour', '', NULL),
-(96, 3, 'anorbert', 'Rugamba', '787373722', '10', 'anorbert.@3', 'e80f5fcf890163efd105081ceaf9a68768b8493a99e4763d47cff38234fcce6b', 'anorbertdezin@gmail.com', 30, '2018-10-09 16:48:33', 1, 'lebour', '', NULL),
-(98, 3, 'Barthelemy1', 'Barthelemy NIYIGIRIMBABAZI', '783288362', '10', '1212', '', 'barthelemy.niyigirimbabazi@ishyiga.info', 30, NULL, 1, 'lebour', '', NULL),
-(99, 3, 'betty', 'kabanda', '078787878', '10', '123456789', '', 'kabanda@gmail.com', 30, '2020-03-09 21:36:30', 1, 'lebour', '', NULL),
-(131, 3, 'seze', 'sez fent ', '123456799', '10', '25f9e794323b453885f5181f1b624d0b', '$2y$10$B.R8YqAPLYzJ0n.pU./tj.kqU/h7EV5Ix.a6ru59DMLCTa9NgVlJ.', 'sezeranochrisostom123@gmail.com', 20, '2020-07-27 05:09:25', 1, 'lebour', '6aeb853060bef4912be572ffdd6445b2', 1),
-(132, 3, 'chris', 'sezerano jean chris', '+2496153264945', '10', '25f9e794323b453885f5181f1b624d0b', 'fad8f4c2221aa0ba6850fd3c1efc82bd', 'fent@gmail.com', 30, NULL, 1, 'lebour', '202eea75b3344b6871d7b6e51cc5044e', 1),
-(133, 0, 'juju', 'julia', '1234567890', '10', '25f9e794323b453885f5181f1b624d0b', '40539e18e600d4f000d481ced21e4767', 'agasarojulia03@gmail.com', 10, NULL, 0, 'lebour', '20017ad4f5a9412e9b36d071a3d34e47', 0),
-(136, 0, 'darcy', 'rwigema darcy', '1234567890', '10', '25f9e794323b453885f5181f1b624d0b', '724b6d399b2d80b574bde001f52cbd5d', 'rwigemadarcy@gmail.com', 10, NULL, 0, 'lebour', 'f661fe53000ca0b7cae8f03e5aff8696', 1);
+(5, 3, 'linda', 'Dushimire Linda Sylvie', '0788869326', '10', '25f9e794323b453885f5181f1b624d0b', '', 'lindadusy2@gmail.com', 10, '2017-11-27 11:17:59', 1, 'lebour', '', 1),
+(24, 3, 'UWERA', 'UWERA ODETTE', '0782138025', '1', '25f9e794323b453885f5181f1b624d0b', '', 'odette.uwera@ishyiga.info', 10, '2020-08-10 14:31:41', 1, 'lebour', '', 1),
+(26, 3, 'corneille', 'Corneille Mvuyekure', '+250000000000', '1', '25f9e794323b453885f5181f1b624d0b', '', 'corneille.mvuyekure@ishyiga.info', 10, '2019-01-31 12:16:03', 1, 'lebour', '', 1),
+(27, 3, 'THEONESTE', 'BIZIMUNGU THEONESTE', '0787533098', '1', '25f9e794323b453885f5181f1b624d0b', '', 'theoneste.bizimungu@ishyiga.info', 10, '2018-11-05 13:39:34', 1, 'lebour', '', 1),
+(28, 3, 'aimable', 'Aimable Kimenyi', '0788000000', '1', '25f9e794323b453885f5181f1b624d0b', '', 'aimable.kimenyi@ishyiga.info', 20, '2020-08-07 11:30:32', 1, 'ALGORITHM', '', 1),
+(30, 3, 'emelyne', 'ntigurirwa emelyne', '0782286200', '1', '25f9e794323b453885f5181f1b624d0b', '', 'emelyne.ntigurirwa@ishyiga.info', 20, '2018-07-30 12:27:32', 1, 'lebour', '', 1),
+(38, 3, 'telesphore', 'nsabimana telesphore', '0782402205', '1', '25f9e794323b453885f5181f1b624d0b', '', 'telesphore.nsabimana@ishyiga.info', 10, '2019-03-31 13:43:20', 1, 'lebour', '', 1),
+(57, 3, 'bizimana', 'Bizimana JMV', '+250784460563', '10', '25f9e794323b453885f5181f1b624d0b', '', 'jmv.bizimana@ishyiga.info', 10, '2018-10-02 11:36:59', 1, 'lebour', '', 1),
+(58, 3, 'delphine', 'DELPHINE MUKAHIRWA', '0785989244', '10', '25f9e794323b453885f5181f1b624d0b', '', 'delphine.mukahirwa@ishyiga.info', 10, '2019-02-12 19:28:46', 1, 'lebour', '', 1),
+(61, 3, 'rose', 'uwamariya marie rose', '0788975432', '10', '25f9e794323b453885f5181f1b624d0b', '1bbf28165a1dcbcfd145c68ff7fbe0ff685cc83646a3e253f786f4af1a7961bd', 'marie.rose.uwamariya@ishyiga.info', 20, '2020-07-08 14:01:43', 1, 'lebour', '', 1),
+(80, 3, 'ella', 'Irangabiye ella', '0789623684', '10', '25f9e794323b453885f5181f1b624d0b', '', 'ella.hestia@ishyiga.info', 10, '2019-01-17 13:11:28', 1, 'lebour', '', 1),
+(84, 3, 'sued', 'IRADUKUNDA Amri Sued', '0788970708', '10', '25f9e794323b453885f5181f1b624d0b', '', 'amri.sued.iradukunda@ishyiga.info', 10, '2019-01-31 12:15:07', 1, 'lebour', '', 1),
+(87, 3, 'barthelemy', 'NIYIGIRIMBABAZI Barthelemy', '783288362', '10', '25f9e794323b453885f5181f1b624d0b', '', 'barthelemy.niyigirimbabazi@ishyiga.info', 10, '2018-08-08 17:23:41', 1, 'lebour', '', 1),
+(88, 3, 'irakuzwa', 'Irakuzwa Jean Aime', '0782229123', '10', '25f9e794323b453885f5181f1b624d0b', 'efa080a8e06f479915f2be8f17236a84df3fb7a0b64ca47a8b3498fd03f28d52', 'jean.aime.irakuzwa@ishyiga.info', 10, '2020-07-07 15:49:43', 1, 'lebour', '', 1),
+(91, 3, 'pacifique2', 'Pacifique Uwimana', '+250783248715', '10', '25f9e794323b453885f5181f1b624d0b', '8bbbb45e75a0748c92b2a7ed7fb0858928d42c62792eb6c770bc11627791aa11', 'pacifique.Uwimana@ishyiga.info', 10, '2019-01-28 17:52:49', 1, 'lebour', '', 1),
+(92, 3, 'jeannine', 'nuyonkuru jeannine manariyo', '078843008', '10', '25f9e794323b453885f5181f1b624d0b', '81f061eabf0699fbbb7016324faf4ed04486df4684900cdbc553582fdd3fbe9d', 'jeannine.manariyo@ishyiga.info', 30, '2018-11-27 12:58:47', 1, 'lebour', '', 1),
+(93, 3, 'Hagenimana', 'Hagenimana emmanuel', '0780273467', '10', '25f9e794323b453885f5181f1b624d0b', '', 'hagenimanemmanuel@gmail.com', 30, '2020-01-31 09:10:41', 1, 'lebour', '', 1),
+(131, 3, 'seze', 'sez fent ', '123456799', '10', '25f9e794323b453885f5181f1b624d0b', '$2y$10$B.R8YqAPLYzJ0n.pU./tj.kqU/h7EV5Ix.a6ru59DMLCTa9NgVlJ.', 'sezeranochrisostom123@gmail.com', 20, '2020-08-08 10:35:23', 1, 'lebour', '6aeb853060bef4912be572ffdd6445b2', 1),
+(137, 3, 'STEVE', 'hakizimana steve', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'steve.hakizimana@ishyiga.info', 10, NULL, 1, 'lebour', '', 1),
+(139, 3, 'sheila', 'Annie Sheila Munezero', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'annieroy0412@gmail.com', 10, NULL, 1, 'lebour', '', 1),
+(140, 3, 'NIYIKORA', 'NIYIKORA Jean', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'jean.niyikora@ishyiga.info', 10, NULL, 1, 'lebour', '', 1),
+(141, 3, 'MANIRAKIZA', 'MANIRAKIZA Patience', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'patience.manirakiza@ishyiga.info', 10, NULL, 0, 'lebour', '', 1),
+(142, 3, 'aristide', 'Nijimbere aristide', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'aristide.nijimbere@ishyiga.info', 10, NULL, 1, 'lebour', '', 1),
+(143, 3, 'mwungura', 'Mwungura muhire', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'mwunguramuhire@gmail.com', 10, NULL, 1, 'lebour', '', 1),
+(144, 3, 'elyse12', 'Elyse Ihirwe', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'elyse.ihirwe@ishyiga.info', 10, NULL, 1, 'lebour', '', 1),
+(145, 3, 'MUKUNDENTE', 'MUKUNDENTE Mathilde', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'mukundentem@gmail.com', 10, NULL, 1, 'lebour', '', 1),
+(146, 3, 'HORANIMPUNDU', 'Fidelente HORANIMPUNDU', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'horafidelente@gmail.com', 10, NULL, 1, 'lebour', '', 1),
+(147, 3, 'MUGABO', 'MUGABO Francois', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'mugabofrancois1997@gmail.com', 10, NULL, 1, 'lebour', '', 1),
+(148, 3, 'NTAKIRUTIMANA', 'Ntakirutimana Elyssa', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'ntakirelyssa@gmail.com', 10, NULL, 1, 'lebour', '', 1),
+(149, 3, 'POUL', 'JEAN PAUL NIYIGENA', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'niyigenathewinner@gmail.com', 10, NULL, 1, 'lebour', '', 1),
+(150, 3, 'UGIRIMBABAZI', 'Etienne UGIRIMBABAZI', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'ugira77@gmail.com', 10, NULL, 1, 'lebour', '', 1),
+(151, 3, 'NIYONSABA', 'NIYONSABA Claudine', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'niclaudine41@gmail.com', 10, NULL, 1, 'lebour', '', 1),
+(152, 3, 'Gilles', 'Gilles', '+2500000000', '123456', '25f9e794323b453885f5181f1b624d0b', '', '', 30, '2020-08-08 10:33:16', 1, 'lebour', '', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fuel_cost`
+--
+
+CREATE TABLE `fuel_cost` (
+  `id` int(11) NOT NULL,
+  `id_subcompany` int(11) DEFAULT NULL,
+  `cost` decimal(55,0) DEFAULT NULL,
+  `created` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fuel_cost`
+--
+
+INSERT INTO `fuel_cost` (`id`, `id_subcompany`, `cost`, `created`) VALUES
+(1, 3, '960', '2020-07-28 11:16:27');
 
 --
 -- Indexes for dumped tables
@@ -3891,8 +3825,7 @@ ALTER TABLE `fluid_booking`
   ADD KEY `id_sector0` (`id_place0`,`id_placef`,`status_id`,`departments_id`),
   ADD KEY `fk_booking_departments` (`departments_id`),
   ADD KEY `fk_booking_status` (`status_id`),
-  ADD KEY `fk_booking_place` (`id_placef`),
-  ADD KEY `car_id` (`car_id`);
+  ADD KEY `fk_booking_place` (`id_placef`);
 
 --
 -- Indexes for table `fluid_booking_row`
@@ -3900,6 +3833,12 @@ ALTER TABLE `fluid_booking`
 ALTER TABLE `fluid_booking_row`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_booking` (`id_booking`);
+
+--
+-- Indexes for table `fluid_book_date_lead`
+--
+ALTER TABLE `fluid_book_date_lead`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `fluid_car`
@@ -3967,6 +3906,12 @@ ALTER TABLE `fluid_district`
 -- Indexes for table `fluid_driver_avail`
 --
 ALTER TABLE `fluid_driver_avail`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `fluid_driver_logs`
+--
+ALTER TABLE `fluid_driver_logs`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -4066,6 +4011,13 @@ ALTER TABLE `fluid_user`
   ADD KEY `id_subcompany` (`id_subcompany`);
 
 --
+-- Indexes for table `fuel_cost`
+--
+ALTER TABLE `fuel_cost`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_subcompany` (`id_subcompany`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -4073,13 +4025,19 @@ ALTER TABLE `fluid_user`
 -- AUTO_INCREMENT for table `fluid_booking`
 --
 ALTER TABLE `fluid_booking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1186;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1216;
 
 --
 -- AUTO_INCREMENT for table `fluid_booking_row`
 --
 ALTER TABLE `fluid_booking_row`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+
+--
+-- AUTO_INCREMENT for table `fluid_book_date_lead`
+--
+ALTER TABLE `fluid_book_date_lead`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `fluid_car`
@@ -4127,7 +4085,13 @@ ALTER TABLE `fluid_district`
 -- AUTO_INCREMENT for table `fluid_driver_avail`
 --
 ALTER TABLE `fluid_driver_avail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `fluid_driver_logs`
+--
+ALTER TABLE `fluid_driver_logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `fluid_kms`
@@ -4139,13 +4103,13 @@ ALTER TABLE `fluid_kms`
 -- AUTO_INCREMENT for table `fluid_km_count`
 --
 ALTER TABLE `fluid_km_count`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `fluid_place`
 --
 ALTER TABLE `fluid_place`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=332;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=466;
 
 --
 -- AUTO_INCREMENT for table `fluid_private_usage`
@@ -4163,7 +4127,7 @@ ALTER TABLE `fluid_province`
 -- AUTO_INCREMENT for table `fluid_sector`
 --
 ALTER TABLE `fluid_sector`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=419;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=420;
 
 --
 -- AUTO_INCREMENT for table `fluid_sub_company`
@@ -4181,7 +4145,13 @@ ALTER TABLE `fluid_unavailable_car`
 -- AUTO_INCREMENT for table `fluid_user`
 --
 ALTER TABLE `fluid_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+
+--
+-- AUTO_INCREMENT for table `fuel_cost`
+--
+ALTER TABLE `fuel_cost`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -4247,6 +4217,12 @@ ALTER TABLE `fluid_sector`
 ALTER TABLE `fluid_urugendo`
   ADD CONSTRAINT `fk_urugendo_sector1` FOREIGN KEY (`id_sector1`) REFERENCES `fluid_sector` (`id`),
   ADD CONSTRAINT `fk_urugendo_sector2` FOREIGN KEY (`id_sector2`) REFERENCES `fluid_sector` (`id`);
+
+--
+-- Constraints for table `fuel_cost`
+--
+ALTER TABLE `fuel_cost`
+  ADD CONSTRAINT `fuel_cost_ibfk_1` FOREIGN KEY (`id_subcompany`) REFERENCES `fluid_sub_company` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -26,56 +26,11 @@ if(isset($_POST['s']) &&  isset($_POST['st'])){
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                            
-                                 <label>Username</label>
+                           
         
-                                    <input class="form-control" type="text" name="username" disabled  placeholder="<?php echo $_SESSION['username'] ?>"
-                                           required>
-
+                         
         
-                                    <?php
-                                    //if all less dan hhours needed to be removed 
-                                  
-                                    // ";
-                                   
-                                    // $stmt = $connection->prepare("SELECT * from fluid_car where
-                                    // $stmt->bind_param('sssssssssis',$fullStartdate,$fullEnddate,$confirmed,$fullStartdate,$fullEnddate,$fullStartdate,$fullStartdate,$fullStartdate,$fullStartdate,$fullEnddate,$live,$available);
-
-                                    // id not in ( select car_id from fluid_booking where  start_time >= ? and ? <= end_time and   rank = ?) and
-                                    // id_driver not in( select fluid_car.id as car_id from fluid_driver_avail inner join fluid_car on fluid_car.id_driver = fluid_driver_avail.creator  where  from_time >= ? and ? <= to_time and live = ?) 
-                                    // and standard = ? and  id_subcompany =? 
-                                    // ");
-                                   // $stmt->bind_param('sssssisi',$fullStartdate,$fullEnddate,$confirmed,$fullStartdate,$fullEnddate,$live,$available,$id_subcompany);
-                                  //if all less dan partculary time 
-                                   $live = 1;
-                                   $available = 'available';
-                                   $sqlp = "SELECT * from fluid_car where id 
-                                   not in ( select car_id from fluid_booking where  ( ? between start_time and end_time) and   rank =?) and id_driver
-                                   not in( select fluid_car.id as car_id from fluid_driver_avail join fluid_car on fluid_car.id_driver = fluid_driver_avail.creator  where ( ? between from_time and to_time) and  live = ?) and standard = ?
-                                   ";
-                                   
-                                   $stmt = $connection->prepare($sqlp);
-                                   $stmt->bind_param('sssis',
-                                   $fullStartdate,
-                                   $confirmed,
-                                   $fullStartdate,$live,
-                                   $available
-                                   );
-                                   if($stmt->execute()){
-                                        $result = $stmt->get_result();
-                                        echo'<label>select car</label>
-                                            <select name="plaque" class="form-control" id="plaque"  >';
-                                        if($result->num_rows > 0){
-                                            while($fetchCar = $result->fetch_assoc()){
-                                                echo'<option value="'.$fetchCar['id'].'" >'.$fetchCar['plaque'].'</option>';
-                                        
-                                            }
-                                        }
-                                        else{
-                                            echo'<option value="0" >--no car is available on selected time--</option>';
-                                        }
-                                        echo '</select>';
-                                        
-                                        }?>
+                              
         
                                
                                         <?php
@@ -178,14 +133,7 @@ if(isset($_POST['s']) &&  isset($_POST['st'])){
                                     <input  type="hidden" id="start" value="<?=isset($fullStartdate)?$fullStartdate:''?>" >
                                     <input  type="hidden" id="end" value="<?=isset($fullEnddate)?$fullEnddate:''?>" >
                                    
-                                    <label>description</label>
-                                    <div class="required-field-block">
-                                                <textarea rows="3" class="form-control" name="description" id="description" placeholder=""
-                                                required><?=isset($description)?$description:''?></textarea>
-                                                <div class="required-icon">
-                                            <div class="text">*</div>
-                                        </div>
-                                    </div>
+                                    
         
                                     <?php
         
@@ -199,7 +147,7 @@ if(isset($_POST['s']) &&  isset($_POST['st'])){
                                     ?>
                                     <div class="select-container">
                                 <label>Destination</label>
-                                <span class="input-group-btn">h
+                                <span class="input-group-btn">
                                     <button type="button" class="btn btn-outline-default btn-number" id='addDestin' ><span class="fa fa-plus"></span>
                                     </button>
                                     </span>

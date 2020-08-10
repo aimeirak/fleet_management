@@ -96,21 +96,7 @@ require_once('include/topbon.php');
 
                 $base_url = "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
                 if ($res) {
-                    //km count
-                    $kmd  = "SELECT * FROM fluid_booking where id_user = ? order by id desc ";
-                    $stmt = $connection->prepare($kmd);
-                    $stmt->bind_param('i',$user_id);
-                    $stmt->execute();
-                    $krow =  $stmt->get_result();
-                    $fetchBookingId = $krow->fetch_assoc();
-                    $bookId = $fetchBookingId['id'];
-                    $startPlace = $fetchBookingId['id_place0'];
-                    $endPlace = $fetchBookingId['id_placef'];
-
-                    $insert = "INSERT into fluid_km_count (id_booking,id_place0,id_placef) VALUES (?,?,?) ";
-                    $kmi    = $connection->prepare($insert);
-                    $kmi->bind_param('iii',$bookId,$startPlace,$endPlace);
-                    $kmi->execute();
+                    
 
 
                     $id = mysqli_insert_id($connection);
@@ -217,7 +203,6 @@ require_once('include/topbon.php');
 
                     }else{
                         $success ='admin not exist' ;
-
                     }
 
                    

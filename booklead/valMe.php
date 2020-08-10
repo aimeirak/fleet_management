@@ -33,7 +33,6 @@ function firstStep(){
         $cloned = clone $dt;
         $cloned->modify('+1day');
 
-
         if($dt->format('d M Y') == date('d M Y') || $dt->format('d M Y')  == date('d M Y', strtotime('tomorrow') )  ){
             echo "<td class='btn btn-".$A." btn-sm  m-1' id ='".$i."' data-toggle='modal' data-target='#dailTime' onClick='getWeek(this.id)' data-week='".$dt->format('Y-m-d')."'  >" . $dt->format('l') . "(A)<br>" . $dt->format('Y-m-d') . "</td>\n";
         
@@ -82,7 +81,7 @@ function secondstep($dure,$cleanUp,$start,$end,$picked){
          if($endP>$end){
          break;
          } 
-         if( $toNow->format('Y m d') > $pickedDt->format('Y m d') ){
+         if($toNow->format('Y m d') > $pickedDt->format('Y m d') ){
             $slots[] = ' <td><span class="btn btn-sm btn-danger">'. $intStart->format('H:iA').'-'.$endP->format('H:iA'). '</span> </td>';
 
          }else{

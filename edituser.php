@@ -25,12 +25,7 @@ $id_user = $_SESSION['username'];
     require_once('include/topbon.php');
     ?>
     <div id="page-inner">
-        <div class="row">
-            <div class="col-md-7 text-center">
-                <h5>You can Edit your account <?php echo $_SESSION['username']; ?></h5>
-            </div>
-        </div>
-
+        
 
         <?php
         // If form submitted, insert values into the database.
@@ -73,7 +68,12 @@ $id_user = $_SESSION['username'];
 
 
         <div class="col-md-12 col-lg-offset-2">
-            <form name="edituser" class="col-6 card shadow p-3" action="edituser.php" method="post" class="card shadow p-3">
+            <div class="card shadow">
+                <div class="card-header">                    
+                    <h5>You can Edit your account <?php echo $_SESSION['username']; ?></h5>
+                </div>
+          
+            <form name="edituser" class="col-12  p-3" action="edituser.php" method="post" class="card shadow p-3">
 
 
                
@@ -108,6 +108,7 @@ $id_user = $_SESSION['username'];
                     <br>
                     <br><a href="logout.php"><input type="submit" name='save' value="Save" class="btn btn-primary pull-right"><br>
                         <div class="clearfix"></div>
+                        </div>
             </form>
         </div>
         </div>
@@ -115,29 +116,9 @@ $id_user = $_SESSION['username'];
     
     
 </div>
-<script src="assets/js/jquery-1.10.2.js"></script>
-    <script src="assets/js/jquery-ui.min.js"></script>
-    
-<script src="assets/DataTables/datatables.min.js"></script>
-    <script src="assets/DataTables/dataTables.buttons.min.js"></script>
-    <script src="assets/DataTables/buttons.print.min.js"></script>
-    <script src="assets/DataTables/pdfmake.min.js"></script>
-    <script src="assets/DataTables/vfs_fonts.js"></script>
-    <script src="assets/DataTables/buttons.html5.min.js"></script>
-   
+<?php include('include/footerui.php'); ?>
 <script>
     
-    $(document).ready(function() {
-        $('#datatable1').DataTable( {
-            dom: 'Bfrtip',
-            buttons: [
-                'csv', 'excel', 'pdf', 'print',
-            ],
-            exclude:'ex',
-            proccesing:true,
-            responsive:true
-              } );
-    } )
     
   
   
