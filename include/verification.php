@@ -68,7 +68,7 @@
 
      <!-- Custom styles for this template-->
      <link rel="shortcut icon" href="../assets/img/icon.png" />
-    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../assets/css/sb-admin-2.min.css" rel="stylesheet">
     </head>
 <body class = "container">
 <div id="page-wrapper">
@@ -130,6 +130,5 @@ if($already || $read){ ?>
 
 <?php } ?>
 
-<?php
-include 'footerui.php';
+
 

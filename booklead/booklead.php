@@ -1,5 +1,6 @@
 <?php
 include('../connexion.php');
+session_start();
 if(isset($_POST['strt'])){
  //if we  have active one
  $bookiID = $_POST['dt'];

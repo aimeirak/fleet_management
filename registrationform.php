@@ -33,29 +33,31 @@ if (isset($_REQUEST['username'])) {
         if(empty($id_subcompany)||empty($username)||empty($full_name)||empty($phone_number)||empty($password)||empty($email)){
             $msg = 'you have empty field';
           }else{
-              $query_check_username ="SELECT * FROM fluid_user ";
+              $query_check_username ="SELECT * FROM fluid_user where  username = ? ";
               $stmt = $connection->prepare($query_check_username);
+              $stmt->bind_param('s',$username);
               $stmt->execute();
               $result = $stmt->get_result();
-              $status = 0;
-              while($fetcUser = $result->fetch_assoc()){
-                  $usernameTaken = $fetcUser['username'] == $username;
-                  $emailTaken    = $fetcUser['email'] == $email;
-                  $fullNameExist = $fetcUser['full_name'] == $full_name;
-                  if($usernameTaken){
-                      $msg.="Username already taken "."</br>";
-                     
-                  }
-                  
-                 elseif($emailTaken){
-                      $msg.="Email already exist "."</br>";
+              
+              if($result->num_rows > 0){
+                $stmt->close();
+                $status = 0;
+                $msg.="Username already taken "."</br>";
+                                              
                     
-                  } 
-      
-                 elseif($fullNameExist){
-                     $msg.="please change your full name already exist "."</br>";
-                    
-                 } else{
+              }  
+              $query_check_email ="SELECT * FROM fluid_user where email = ? ";
+              $stmt = $connection->prepare($query_check_email);
+              $stmt->bind_param('s',$email);
+              $stmt->execute();
+              $result = $stmt->get_result();
+                          
+              if($result->num_rows > 0){
+                $status = 0; 
+                $msg.="Email already exist "."</br>";               
+                 
+              }
+                  else{
                     $round = rand(100,900);
                     $values = time().$round;
                     
@@ -78,7 +80,7 @@ if (isset($_REQUEST['username'])) {
                     
                     if($isSent){
                         $query  = "INSERT into fluid_user(id,id_subcompany,username,full_name,phone_number,password,passreset,email,vercod)  values (?,?,?,?,?,?,?,?,?)";
-            
+                        $sent = 1;
                         if ( $stmt   = $connection->prepare($query)) {
                             $stmt->bind_param('iisssssss',$id,$id_subcompany,$username,$full_name,$phone_number,$passwordh,$passreset,$email,$varKey);
                             $stmt->execute();       
@@ -101,7 +103,6 @@ if (isset($_REQUEST['username'])) {
                  }
                        
       
-              }
              
                  
              
@@ -119,12 +120,12 @@ include 'include/header.php'
 ?>
 
 <body class="container" >
-<div class="col-12  ">
-    <div class="col-12 col-sm-6 m-md-5 ">
-    <div  class="card shadow ml-5 mt-5 mr-4"  >
+
+    <div class="col-12 col-sm-9 col-md-6 col-lg-4 mt-3 ">
+    <div  class="card shadow "  >
     <div class='card-body' >
         <div class="row">
-            <div class="col-12 " >
+            <div class="col-12 align-items-center  " >
                 <?php if(isset($msg) and $msg!=""): ?>
 
                     <div class="alert alert-danger">
@@ -142,7 +143,7 @@ include 'include/header.php'
                 <div class=" card-header mb-3">
                     <h3>Sign Up</h3>
                 </div>
-                <form class="form " name="registration" action="registrationform.php" method="post">
+                  <form class=" " name="registration" action="registrationform.php" method="post">
                     <div class="span3">
                         <?php
                         $sqlu = "SELECT * FROM fluid_sub_company inner join  fluid_company  on fluid_sub_company.id_company = fluid_company.id where  fluid_company.live = 1";
@@ -169,11 +170,15 @@ include 'include/header.php'
                             <label>E-mail</label><br>
                             <input class="form-control" type="text" name="email" required class="span3" value="<?=isset($email)?$email:''?>">
 
+                            <div class="d-flex justify-content-between mt-2">
+                            <input type="submit" value="Sign up" class="btn btn-success ">
+                            <a class="btn btn-info btn-sm" href="login.php">login</a>
                             
-                            <input type="submit" value="Sign up" class="btn btn-primary pull-right"><br>
-                            <br><a class="btn btn-success pull-right" href="login.php">login</a>
+                            </div>
+                           
 
                 </form>
+               
             </div>
         </div>
     </div>
@@ -182,7 +187,7 @@ include 'include/header.php'
 
     </div>
 
-</div>
+
 
 
 </body>

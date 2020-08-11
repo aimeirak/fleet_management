@@ -434,7 +434,7 @@ function BookingCo($conf){
           inner join fluid_status on fluid_status.id=fluid_booking.status_id 
           inner join fluid_departments on fluid_departments.id=fluid_booking.Departments_id                  
           inner join fluid_user as p  on p.id = fluid_booking.id_user
-          where date(start_time) = ? and rank = ? or rank = ? and driver_id = ? order by start_time asc";
+          where date(start_time) = ? and rank IN( ?,?) and fluid_booking.driver_id = ? order by start_time asc";
    $stmt = $GLOBALS['conn']->prepare($sql);
    $stmt->bind_param('sssi',$now,$conf,$active,$DriverId);
    $stmt->execute();
@@ -444,12 +444,12 @@ function BookingCo($conf){
     echo ' 
     
     <div class="col-12 col-sm-12 col-md-12 col-lg-12 mt-4 mb-6">
-    '.$now.' until '.$tomorrow.'        
+    '.$now.'        
     <table class="table table-striped table-responsive table-bordered table-hover display " id="datatable1" cellspacing="0" 
     width="100%">
  <thead>
      <tr>
-         <th>#</th>
+     <th>#</th>
          <th>StartTime</th>
          <th>EndTime</th>
          
@@ -737,13 +737,13 @@ function carProgress($date){
      echo $id_comany;
     }else{
       while($fetchDriver = $results->fetch_assoc()){
-        $diverid = $fetchDriver["id"];
+        $diverid = $fetchDriver['id'];
         $stmtp = $GLOBALS['conn']->prepare('SELECT count(fluid_booking.id) as num FROM fluid_booking where date(start_time) = date(?)  and driver_id = ?');
         $stmtp->bind_param('si',$now,$diverid);
         $stmtp->execute();
         $result = $stmtp->get_result();
         $fecthBprog = $result->fetch_assoc();
-          $progress = ($fecthBprog['num'] * 100) / $returnedRow;
+          $progress = round(($fecthBprog['num'] * 100) / $returnedRow);
           echo '<div class="col-xl-3 col-md-6 m-4">
           <div class="card border-left-info shadow h-100 py-2">
             <div class="card-body">

@@ -61,7 +61,7 @@ function secondstep($dure,$cleanUp,$start,$end,$picked){
     $pickedDt = new DateTime($picked);  
     $toNow = new DateTime();
     //  $pickedDt->modify('+4day');  
-    //  $toNow->modify('-2day');  
+    //  $toNow->modify('-1day');  
 
     $ti = $toNow->format('H');
     $mi = $toNow->format('m');

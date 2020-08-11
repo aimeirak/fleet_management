@@ -156,6 +156,8 @@ function getvalue(indi){
       page.addEventListener('mouseover',()=>{
         if(window.outerWidth >= 770){
           sider.style.display = '';
+        }else{
+            sider.style.display = 'none';
         }
      });
      
@@ -481,9 +483,9 @@ function endTrip(picker){
 
 //=====end driver
 //ViewBook
-var confirmedb = document.getElementById('ViewBook');
-if(!isNull(confirmedb)){
-    confirmedb.addEventListener('click',()=>{
+var ViewBook = document.getElementById('ViewBook');
+if(!isNull(ViewBook)){
+    ViewBook.addEventListener('click',()=>{
    $.ajax({
         url:'booklead/mybookin.php',
         method:'POST',
