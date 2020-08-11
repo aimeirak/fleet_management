@@ -2,6 +2,7 @@
 <?php
 session_start();
 include '../connexion.php';
+$id_comany =  $_SESSION['sub_company'];
 function carlistOnly(){
   $sql1 = "SELECT * from fluid_car 
    where fluid_car.id_subcompany=" . $_SESSION["sub_company"];
@@ -9,7 +10,7 @@ function carlistOnly(){
   $result1 = mysqli_query($GLOBALS['conn'], $sql1);
   while($row = mysqli_fetch_array($result1)){
     echo'
-    <div class="col-12 col-sm-4   col-md-3 mt-3  " id="'.$row["plaque"].'"  onClick="getvalue(this.id)" >
+    <div class="col-xl-3 col-md-6 m-2  " id="'.$row["plaque"].'"  onClick="getvalue(this.id)" >
               <div class="card  shadow h-100 py-2">
                   <div class="card-body" >
                   <div class="row no-gutters align-items-center">
@@ -552,11 +553,14 @@ if($_SESSION['role'] == 30 and isset($_POST['confirmedb'])  ){
 if(isset($_POST['s']) && isset($_POST['d']) && isset($_POST['r'])){
   
   //check if to day driver chosse car 
+  
   $live   = 1;
   $now    = date('Y-m-d');
   $driver = $_POST['d']; 
-  $stmt = $connection->prepare("SELECT fluid_driver_logs.id as log_id,car_id,fluid_car.plaque from fluid_driver_logs inner join fluid_car on fluid_car.id = fluid_driver_logs.car_id where driver_id = ? and date(date_log) = ?  and live = ?");
-  $stmt->bind_param('isi',$driver,$now,$live);
+  $id_comany =  $_SESSION['sub_company'];
+  $stmt = $connection->prepare("SELECT fluid_driver_logs.id as log_id,car_id,fluid_car.plaque from fluid_driver_logs 
+  inner join fluid_car on fluid_car.id = fluid_driver_logs.car_id where driver_id = ? and date(date_log) = ?  and live = ? and id_subcompany = ?");
+  $stmt->bind_param('isii',$driver,$now,$live,$id_comany);
   $stmt->execute();
   $result = $stmt->get_result();
   if($result->num_rows >= 1){
@@ -609,11 +613,12 @@ if(isset($_POST['s']) && isset($_POST['d']) && isset($_POST['r'])){
    $stmt->close();
   }else{
       //if he/she didn't
+      $id_comany =  $_SESSION['sub_company'];
   $i = 1;
   $dateL = date('Y-m-d');
   $live  = 1;
-  $stmt  = $connection->prepare('SELECT * from fluid_car where id not in (select  car_id as id from fluid_driver_logs where date(date_log) = ? and live = ?)');
-  $stmt->bind_param('si',$dateL,$live);
+  $stmt  = $connection->prepare('SELECT * from fluid_car where id not in (select  car_id as id from fluid_driver_logs where date(date_log) = ? and live = ?) and id_subcompany = ?');
+  $stmt->bind_param('sii',$dateL,$live,$id_comany);
   $stmt->execute();
   $result = $stmt->get_result();
   echo '
@@ -707,6 +712,120 @@ if(isset($_POST['u']) && isset($_POST['dp']) && $_SESSION['role'] == 30){
   }
 }
 //==========
+//car progress
+
+function carProgress($date){
+  $id_comany = $_SESSION['sub_company'];
+  $date = new DateTime();
+  $now = $date->format('Y-m-d');
+  $rank = 'done'; 
+  $stmt = $GLOBALS['conn']->prepare('SELECT fluid_booking.id FROM fluid_booking inner join fluid_user on fluid_user.id  = fluid_booking.id_user  where date(start_time) = date(?) and fluid_user.id_subcompany = ? ');
+  $stmt->bind_param('si',$now,$id_comany);
+  $stmt->execute();
+  $stmt->store_result();  
+  $returnedRow = $stmt->num_rows; 
+  $stmt->close();
+  if($returnedRow > 0){
+    $role = 30;
+    $live = 1;
+    $stmtu = $GLOBALS['conn']->prepare('SELECT  id,username,role  ,live,id_subcompany from fluid_user where fluid_user.live = ? and fluid_user.role = ? and fluid_user.id_subcompany = ?');
+    // $stmtu->bind_param('iii',$role,$live,$id_company);
+    $stmtu->bind_param('iii',$live,$role,$id_comany);
+    $stmtu->execute();
+    $results = $stmtu->get_result();
+    if(  $results->num_rows < 1){
+     echo $id_comany;
+    }else{
+      while($fetchDriver = $results->fetch_assoc()){
+        $diverid = $fetchDriver["id"];
+        $stmtp = $GLOBALS['conn']->prepare('SELECT count(fluid_booking.id) as num FROM fluid_booking where date(start_time) = date(?)  and driver_id = ?');
+        $stmtp->bind_param('si',$now,$diverid);
+        $stmtp->execute();
+        $result = $stmtp->get_result();
+        $fecthBprog = $result->fetch_assoc();
+          $progress = ($fecthBprog['num'] * 100) / $returnedRow;
+          echo '<div class="col-xl-3 col-md-6 m-4">
+          <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">'. $fetchDriver['username'] .' -('.$now.')- </div>
+                  <div class="row no-gutters align-items-center">
+                    <div class="col-auto">
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">'. $progress .'% </div>
+                    </div>
+                    <div class="col">
+                      <div class="progress progress-sm mr-2">
+                        <div class="progress-bar bg-info" role="progressbar" style="width: '.$progress.'%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>';
+      
+     
+      } 
+    }
+ 
+
+  
+  
+   
+  
+ 
+  }else{
+    echo '<div class="col-xl-3 col-md-6 m-4">
+    <div class="card border-left-warning shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">NO BOOKINGS IS DONE ON '.$now.'</div>
+            <div class="row no-gutters align-items-center">
+              <div class="col-auto">
+                <div class="h5 mb-0 mr-3 font-weight-bold text-warning">0 </div>
+              </div>
+              <div class="col">
+                <div class="progress progress-sm mr-2">
+                  <div class="progress-bar bg-warning" role="progressbar" style="width: 0%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>';
+  }
+ 
+
+
+
+ 
+
+ 
+
+}
+
+
+//end car progress
+if(isset($_POST['pro']) and $_SESSION['role'] == 20){
+  $date = date('Y-m-d');
+  carProgress($date);
+}
+if(isset($_POST['pro']) and $_SESSION['role'] == 20 and isset($_POST['d'])){
+  $date = $_POST['d'];
+  carProgress($date);
+}
+   
 ?>
  
 

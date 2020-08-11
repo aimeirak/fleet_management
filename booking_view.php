@@ -33,7 +33,7 @@ if(!isset($_REQUEST['id']) || trim($_REQUEST['id']) == '' ){
     <div id="page-inner">
         <div class="row">
             <div class="col-md-12">
-                <h3>Booking # <?= $_GET['id'] ?></h3>
+                <h3>Booking #<?= $_GET['id'] ?></h3>
             </div>
         </div>
         <!-- /. ROW  -->
@@ -41,7 +41,13 @@ if(!isset($_REQUEST['id']) || trim($_REQUEST['id']) == '' ){
         <?php
             $id = $_GET['id'];
 
-            $STRsql = "SELECT fluid_car.seats,fluid_car.plaque,start_time,end_time,username,full_name,description,created_at,updated_at,a.name AS 'departure',b.name AS 'destination' ,rank FROM `fluid_booking` inner join fluid_user on fluid_user.id=fluid_booking.id_user JOIN fluid_place AS a ON fluid_booking.id_place0=a.id JOIN fluid_place AS b ON fluid_booking.id_placef=b.id inner join fluid_car on fluid_booking.car_id=fluid_car.id WHERE fluid_booking.id=" . $id;
+            $STRsql = "SELECT fluid_car.seats,fluid_car.plaque,start_time,end_time,username,full_name,description,created_at,updated_at,a.name AS 'departure',b.name AS 'destination' ,rank FROM `fluid_booking`
+             inner join fluid_user on fluid_user.id=fluid_booking.id_user
+              JOIN fluid_place AS a ON fluid_booking.id_place0=a.id 
+              JOIN fluid_place AS b ON fluid_booking.id_placef=b.id 
+             inner join fluid_driver_logs on fluid_driver_logs.driver_id = fluid_booking.driver_id 
+             inner join fluid_car on fluid_driver_logs.car_id=fluid_car.id
+               WHERE fluid_booking.id=" . $id ." and fluid_car.id_subcompany = ".$id_subcompany;
 
             $res = mysqli_query($connection, $STRsql);
 

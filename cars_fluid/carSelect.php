@@ -5,15 +5,15 @@ include '../connexion.php';
 if(isset($_SESSION['id']) && isset($_POST['d']) && $_POST['u'] == 1){
 
     $id = $_POST['d']; 
-
-    $stmt = $connection->prepare("SELECT * from fluid_car where id = ?");
-    $stmt->bind_param('i',$id);
+    $id_comany =  $_SESSION['sub_company'];
+    $stmt = $connection->prepare("SELECT * from fluid_car where id = ? and id_subcompany = ?");
+    $stmt->bind_param('ii',$id,$id_comany);
     $stmt->execute();
     $result = $stmt->get_result();
     while($fetchCar = $result->fetch_assoc()){
        echo '
        <div class="card mt-2">
-        <div class="card-header" >You are  picking</div>
+        <div class="card-header" >You are  picking ?</div>
           <div class="card-body" >
              <div class="row">
               <div class="col " >
@@ -43,6 +43,7 @@ if(isset($_POST['cr']) && isset($_POST['r']) && isset($_POST['d'])&& isset($_POS
      if($_POST['r'] == 30){
        $car = $_POST['cr'];
        $driver = $_SESSION['id'];
+       $id_comany =  $_SESSION['sub_company'];
        $now  = date('Y-m-d'); 
        $live = 1;
        $id= '';

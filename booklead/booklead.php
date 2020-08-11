@@ -4,8 +4,9 @@ if(isset($_POST['strt'])){
  //if we  have active one
  $bookiID = $_POST['dt'];
  $active ='active';
-$stmt = $connection->prepare('SELECT rank from fluid_booking where rank = ?');
-$stmt->bind_param('s',$active);
+ $driver = $_SESSION['id'];
+$stmt = $connection->prepare('SELECT rank from fluid_booking where rank = ? and driver_id = ?');
+$stmt->bind_param('si',$active,$driver);
 $stmt->execute();
 $result = $stmt->get_result();
 if($result->num_rows > 0){
@@ -16,7 +17,7 @@ if($result->num_rows > 0){
    $stmt->bind_param('si',$active,$bookiID);
    $stmt->execute();
    if($stmt->affected_rows){
-    echo '<div class="alert alert-success p-3 m-2 ml-3 " > it started </div>' ;
+    echo '<div class="alert alert-success p-3 m-2 ml-3 " >it is started </div>' ;
     $stmt->close();
    }else{
     echo '<div class="alert alert-danger p-3 m-2 ml-3" > was not completed </div>' ;

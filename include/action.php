@@ -81,8 +81,7 @@ function validateUser($userName,$password){
                                 $_SESSION['username']   = $fetchUser['username']; 
                                 $_SESSION['email']      = $fetchUser['email']; 
                                 $_SESSION['role']      = $fetchUser['role']; 
-                                //user compony and subcamp sessions  
-                                  
+                                //user compony and subcamp sessions                                    
                                 $_SESSION['blancName']  = $fetchCompany['subcompany_name']; 
                                 
                                                   
