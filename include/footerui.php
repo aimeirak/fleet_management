@@ -156,8 +156,6 @@ function getvalue(indi){
       page.addEventListener('mouseover',()=>{
         if(window.outerWidth >= 770){
           sider.style.display = '';
-        }else{
-            sider.style.display = 'none';
         }
      });
      

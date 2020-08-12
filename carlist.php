@@ -1,7 +1,8 @@
 <?php 
-session_start();
+
 ob_start();
-include 'include/header.php' ; ?>
+include 'include/header.php' ; 
+include 'include/authant.php' ;?>
 <?php include('connexion.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');

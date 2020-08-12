@@ -113,7 +113,7 @@ inner join fluid_user on fluid_car.id_subcompany=fluid_user.id where insurance_d
                             $subject = "you have to check about your car docs!";
 
                             $message = "please either your Car insurance or your Techniqual control is going to be expired!!";
-                            mail($to, $subject, $message);
+                            // mail($to, $subject, $message);
                         }
 
 
