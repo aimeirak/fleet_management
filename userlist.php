@@ -32,6 +32,7 @@
 
                     </tr>
                 </thead>
+                <tbody>
                 <?php
                     $sql = "SELECT full_name,phone_number,email from fluid_user";
                     $result = mysqli_query($connection, $sql);
@@ -45,7 +46,7 @@
 
                             echo (
 
-                                '<tbody>
+                                '
 
 
                                     <tr>'.
@@ -59,7 +60,7 @@
                                         
                                         
                                     '</tr>
-                                </tbody>'
+                                '
                             );
 
                         }
@@ -67,7 +68,7 @@
                         echo "0 results";
                     }
                 ?>
-                
+                </tbody>
             </table> 
 
 

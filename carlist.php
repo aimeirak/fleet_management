@@ -33,10 +33,10 @@ $id_user = $_SESSION['id'];
             <div class="col-md-12 d-flex justify-content-between">
             <h2>Cars</h2>
             <?php if($_SESSION['role']== 20){ ?>
-                <a class="collapsed btn btn-primary text-gray-900 ml-4"  data-toggle="collapse" data-target="#joinform" aria-expanded="true" aria-controls="joinform">
+                <span class="btn btn-info" data-toggle="modal" data-target="#carRe">
            
                    <span  class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
-                   Add</a>
+                   Add</span>
 <?php } ?>
 
             </div>
@@ -73,7 +73,7 @@ $id_user = $_SESSION['id'];
                         <th>CONTROL_TECHNIQUE</th>
                         <th>STANDARD</th>
                         <th>FUEL CONSUMPTION</th>
-                        <th>DRIVER</th>
+                        
                         <th>SEATS</th>
                         <?php if($_SESSION['role'] == 20){ ?>
                             <th></th>
@@ -86,9 +86,7 @@ $id_user = $_SESSION['id'];
                     <body>
                     <?php
 
-                    $sql1 = "SELECT fluid_car.id,fluid_car.plaque,fluid_car.marque,fluid_car.insurance_date,fluid_car.control_technique_date,fluid_car.standard,fluid_car.fuel_consumption,fluid_car.id_driver,fluid_user.username,fluid_car.seats from fluid_car
-                     INNER JOIN fluid_user on fluid_user.id=fluid_car.id_driver
-                      where fluid_car.id_subcompany=" . $_SESSION["sub_company"];
+                    $sql1 = "SELECT * from fluid_car   where fluid_car.id_subcompany=" . $_SESSION["sub_company"];
 
                     $result1 = mysqli_query($connection, $sql1);
 
@@ -112,13 +110,13 @@ $id_user = $_SESSION['id'];
                                     '<td>' . $row["control_technique_date"] . '</td>' .
                                     '<td>' .'<span style="color:white" class="lebal '.(($row['standard']=='available')?'bg-success':'bg-danger').'">'.$row["standard"].'</span>'. '</td>' .
                                     '<td>' . $row["fuel_consumption"] . '</td>' .
-                                    '<td>' . $row["username"] . '</td>' .
+                                    
                                     '<td>' . $row["seats"] . '</td>' ;
                                    if($_SESSION['role'] == 20){ 
                                    
                                 echo    '<td>' . '<a href="updatecarlist.php?id=' . $row["id"] . '";><input type="submit" value="Update" ></a>' .
                                     '<a href="update_car_status.php?id=' . $row["id"] . '";><input type="submit" value="Change status" ></a>'.
-                                    '<a href="schedule_private_usage.php?id=' . $row["id"] . '";><input type="submit" value="Private usage" ></a>'.
+                                   
                                     '</td>' .
                                 '</tr>';
                                   
@@ -148,50 +146,41 @@ $id_user = $_SESSION['id'];
                 $control_technique_date = stripslashes($_POST['control_technique']);
                 $standard = stripslashes($_POST['standard']);
                 $fuel_consumption = stripslashes($_POST['fuel_consumption']);
-                $id_driver=stripslashes($_POST['driver']);
+                $id_driver=0;
                 $seats=stripslashes($_POST['seats']);
 
 
-               echo $sql = "INSERT into fluid_car (id_subcompany,plaque,marque, insurance_date,control_technique_date,standard,fuel_consumption,id_driver,seats) values (" . $id_subcompany . ",'" . $plaque . "','" . $marque . "','" . $insurance_date . "','" . $control_technique_date . "','" . $standard . "','" . $fuel_consumption . "',".$id_driver.",'".$seats."')";
+                $sql = "INSERT into fluid_car (id_subcompany,plaque,marque, insurance_date,control_technique_date,standard,fuel_consumption,id_driver,seats) values (" . $id_subcompany . ",'" . $plaque . "','" . $marque . "','" . $insurance_date . "','" . $control_technique_date . "','" . $standard . "','" . $fuel_consumption . "',".$id_driver.",'".$seats."')";
 
 
                 $result = mysqli_query($connection, $sql);
 
 
                 if ($result > 0) {
-                    include("Location:carlist.php?success");
+                    header("Location:carlist.php?success");
 
                 }else{
-                    header("carlist.php?danger");
+                    header("Location:carlist.php?danger");
                 }
             } 
 
 
             ?>
-
  
-<div  id="joinform" class="collapse ml-5 col-4 col-sm-12" aria-labelledby="headingPages" data-parent="#accordionSidebar" style="height: auto;">
-
-<div class="row">
 
 
-    <div  class="joinform" id="joinform" tabindex="-1" role="dialog">
-                    <div class="modal-dialog">
-                            <div class="modal-content">
-                            <div class="modal-header justify-content-between d-flex">
-                       
-                       <h4 class="modal-title">car registration</h4>
+ <div class="modal fade" id="carRe" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">car registration</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
 
-                       <span class=" "  data-toggle="collapse" data-target="#joinform" aria-expanded="true" aria-controls="joinform">
-          
-                           <span> <i  class="fa fa-times"></i></span> 
-                           
-                         </span>
-                         
-                   </div>
-                                <div class="modal-body">
-
-                                    <form action="carlist.php" method="post" class="form-horizontal">
+             <form action="carlist.php" method="post" class="form-horizontal">
 
                                         
                                             <label >company</label>
@@ -221,36 +210,22 @@ $id_user = $_SESSION['id'];
                                             <label>fuel consumption</label>
                                             <input type="text" name="fuel_consumption" placeholder="km/l" class="form-control">
 
-                                
-                        <?php
-                        $sqlu1 = "SELECT * from fluid_user where role='30'";
-                        $rst1 = mysqli_query($connection, $sqlu1); 
-                        ?>
-
-                        <label>driver</label>
-                        <select name="driver" class="form-control">
-                        <?php
-                        while ($row = mysqli_fetch_array($rst1)) {
-                            echo '
-                        <option value=' . $row['id'] . ' > ' . $row['username'] . '</option>';
-
-                        }
-                        echo '</select>';
-                        ?>
-                        <label >Seats</label>
-                        <input type="text" name="seats" placeholder="number of seats" class="form-control">
-                                <div class="modal-footer">
-                                    <button name="insertCar" type="submit" class="btn btn-primary pull-left">Save</button>
+                                       
+                                        <label >Seats</label>
+                                        <input type="text" name="seats" placeholder="number of seats" class="form-control">
+                                                <div class="modal-footer">
+                                                    <button name="insertCar" type="submit" class="btn btn-primary pull-left">Save</button>
+                                                    
                                     </form>
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal" role="button">
-                                        Close
-                                    </button>
-                                </div></div>
+        </div>
+   
+      </div>
+    </div>
+  </div>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+
+
             </div>
         </div>
     </div>

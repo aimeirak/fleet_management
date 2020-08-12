@@ -144,25 +144,7 @@
 
 <!-- Nav Item - report -->
 
-<li class="nav-item">
-  <a class="nav-link" href="adminbook.php">
-    <i class="fas fa-fw fa-check-square "></i>
-    <span>Approave <sup class=" badge badge-danger " >
-      <?php
-      $unconfirmed = 'pending';
-      $apsql = 'SELECT * FROM fluid_booking where rank = ? ';
-      $stmt  = $connection->prepare($apsql);
-      $stmt->bind_param('s',$unconfirmed);
-      $stmt->execute();
-      $stmt->store_result();
-      $totalPending = $stmt->num_rows;
-      echo $totalPending; 
 
-      
-      ?>
-      
-    </sup></span></a>
-</li>
 <?php } ?>
 <hr class="sidebar-divider d-md-block">
 

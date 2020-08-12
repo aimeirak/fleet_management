@@ -150,9 +150,8 @@ $SESSION_ID = $_SESSION['id'];
                                         '<td>'.$row["statusname"].'</td>'.
                                         '<td>'.$row["name_dep"].'</td>'.
                                         '<td>'.$row["rank"].'</td>'.
-                                        '<td>'.'<a href="booking_view.php?id='.$row['id'].' "class="btn btn-primary">Join</a>'.
-                                    (($row["id_user"]==$SESSION_ID and $d1>$d2) ?(' <a href="booking_edit.php?id='.$row['id'].' "class="btn btn-success">Edit</a>'):'').'</td>'.
 
+                                      
                                     '</tr>'
                                 
                                 );
@@ -195,10 +194,8 @@ $SESSION_ID = $_SESSION['id'];
                                         '<td>'.$row["destination"].'</td>'.
                                         '<td>'.$row["statusname"].'</td>'.
                                         '<td>'.$row["name_dep"].'</td>'.
-                                        '<td>'.$row["rank"].'</td>'.
-                                        '<td>'.'<a href="booking_view.php?id='.$row['id'].' "class="btn btn-primary">Join</a>'.
-                                    (($row["id_user"]==$SESSION_ID and $d1>$d2) ?(' <a href="booking_edit.php?id='.$row['id'].' "class="btn btn-success">Edit</a>'):'').'</td>'.
-                                    '</tr>'
+                                        '<td>'.$row["rank"].'</td>'
+                                      
                                 
                               ) ; 
                             }

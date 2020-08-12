@@ -736,6 +736,31 @@ function carProgress($date){
     if(  $results->num_rows < 1){
      echo $id_comany;
     }else{
+      echo '<div class="col-9  m-2">
+      <div class="row">
+                <div class="form-group col-9 col-sm-6 ">
+                    <div class="input-group " >
+                        <input id="start_date" type="date" format="Y-m-d" class="form-control"/>
+                        <span class="input-group-addon input-group-append btn btn-info">
+                                    <span class="fa fa-calendar"></span>
+                                </span>
+                    </div>
+                </div>
+                <div class="form-group col-9 col-sm-6">
+                    <div class="input-group " >
+                        <input id="end_date" type="date" class="form-control"/>
+                        <span class="input-group-addon input-group-append btn btn-primary">
+                                    <span class="fa fa-calendar"></span>
+                                </span>
+                    </div>
+                </div>
+                <div class="form-group col-md-2">
+                    <span id="processPro"  class="btn btn-outline-info pull-right ">Process</span>
+                </div>
+           </div>
+      </div>';
+      
+     
       while($fetchDriver = $results->fetch_assoc()){
         $diverid = $fetchDriver['id'];
         $stmtp = $GLOBALS['conn']->prepare('SELECT count(fluid_booking.id) as num FROM fluid_booking where date(start_time) = date(?)  and driver_id = ?');
@@ -815,15 +840,137 @@ function carProgress($date){
 
 }
 
+//modified date 
+
+function carProgressMod($from,$to){
+  $id_comany = $_SESSION['sub_company'];
+ 
+  
+  $now = $from;
+  $rank = 'done'; 
+  $stmt = $GLOBALS['conn']->prepare('SELECT fluid_booking.id FROM fluid_booking inner join fluid_user on fluid_user.id  = fluid_booking.id_user  where date(start_time) between date(?) and date(?) and fluid_user.id_subcompany = ? ');
+  $stmt->bind_param('ssi',$now,$to,$id_comany);
+  $stmt->execute();
+  $stmt->store_result();  
+  $returnedRow = $stmt->num_rows; 
+  $stmt->close();
+  if($returnedRow > 0){
+    $role = 30;
+    $live = 1;
+    $stmtu = $GLOBALS['conn']->prepare('SELECT  id,username,role  ,live,id_subcompany from fluid_user where fluid_user.live = ? and fluid_user.role = ? and fluid_user.id_subcompany = ?');
+    // $stmtu->bind_param('iii',$role,$live,$id_company);
+    $stmtu->bind_param('iii',$live,$role,$id_comany);
+    $stmtu->execute();
+    $results = $stmtu->get_result();
+    if(  $results->num_rows < 1){
+     echo $id_comany;
+    }else{
+      echo '<div class="col-12  m-2">
+      <div class="card shadow">
+                <div class="card-header">
+                  from  ('.$now.') until ('.$to.')
+                </div>
+                <div class="card-body">
+             <div class="row">
+             
+                
+           ';
+      
+     
+      while($fetchDriver = $results->fetch_assoc()){
+        $diverid = $fetchDriver['id'];
+        $stmtp = $GLOBALS['conn']->prepare('SELECT count(fluid_booking.id) as num FROM fluid_booking where date(start_time) between date(?) and (?)  and driver_id = ?');
+        $stmtp->bind_param('ssi',$now,$to,$diverid);
+        $stmtp->execute();
+        $result = $stmtp->get_result();
+        $fecthBprog = $result->fetch_assoc();
+          $progress = round(($fecthBprog['num'] * 100) / $returnedRow);
+          echo '<div class="col-xl-3 col-md-6 m-1">
+          <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">'. $fetchDriver['username'] .' </div>
+                  <div class="row no-gutters align-items-center">
+                    <div class="col-auto">
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">'. $progress .'% </div>
+                    </div>
+                    <div class="col">
+                      <div class="progress progress-sm mr-2">
+                        <div class="progress-bar bg-info" role="progressbar" style="width: '.$progress.'%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>';
+      
+     
+      } 
+      echo'
+      </div>
+      </div>
+      </div>
+      </div>
+      ';
+    }
+ 
+
+  
+  
+   
+  
+ 
+  }else{
+    echo '<div class="col-xl-3 col-md-6 m-4">
+    <div class="card border-left-warning shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">NO BOOKINGS IS DONE ON '.$now.'</div>
+            <div class="row no-gutters align-items-center">
+              <div class="col-auto">
+                <div class="h5 mb-0 mr-3 font-weight-bold text-warning">0 </div>
+              </div>
+              <div class="col">
+                <div class="progress progress-sm mr-2">
+                  <div class="progress-bar bg-warning" role="progressbar" style="width: 0%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>';
+  }
+ 
+
+
+
+ 
+
+ 
+
+}
+//====
 
 //end car progress
-if(isset($_POST['pro']) and $_SESSION['role'] == 20){
+if(isset($_POST['pro']) and $_POST['pro'] == 12 and $_SESSION['role'] == 20){
   $date = date('Y-m-d');
   carProgress($date);
 }
-if(isset($_POST['pro']) and $_SESSION['role'] == 20 and isset($_POST['d'])){
-  $date = $_POST['d'];
-  carProgress($date);
+if(isset($_POST['pro']) and $_POST['pro'] == 1 and $_SESSION['role'] == 20 and isset($_POST['from']) and isset($_POST['until'])){
+  $date = $_POST['from'];
+  carProgressMod($date,$_POST['until']);
 }
    
 ?>

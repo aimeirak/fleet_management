@@ -23,8 +23,10 @@ ini_set('display_errors', 'On');
         <div class="row">
 
             <div class="col-md-12">
-                <a class="btn icon-btn btn-success pull-right" href="#" data-toggle="collapse" data-target="#distForm" aria-expanded="true" aria-controls="collapsePages"><span
-                            class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>Add</a>
+                <span class="btn icon-btn btn-success pull-right" data-toggle="modal" data-target="#kmaddform">
+                    <span    class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
+                     Add
+                </span>
 
 
                 <?php
@@ -82,8 +84,7 @@ ini_set('display_errors', 'On');
 
 
                             $sql1 = "SELECT fluid_distance.id,place1.name AS a,place2.name AS b,kilometers
-                FROM fluid_distance
-               
+                FROM fluid_distance               
                 INNER JOIN fluid_place AS place1 on fluid_distance.id_sector0=place1.id
                 INNER JOIN fluid_place AS place2 on fluid_distance.id_sectorf=place2.id where a=" . $name . " ORDER BY fluid_distance.id ASC";
                             $result1 = mysqli_query($connection, $sql1);
@@ -102,7 +103,7 @@ ini_set('display_errors', 'On');
                                         '<td>' . $row["a"] . '</td>' .
                                         '<td>' . $row["b"] . '</td>' .
                                         '<td>' . $row["kilometers"] . '</td>';
-                                        if($_SESSION['role'] == 20){
+                                        if($_SESSION['role']==20 ){
                                             echo   '<td>' . '<a class="btn btn-success" href="upkilometers.php?id=' . $row["id"] . '"; >update</a>' . '</td>';                                          
                                         };
                                         echo  '</tr>';
@@ -165,7 +166,7 @@ ini_set('display_errors', 'On');
             foreach ($routes as $row) {
 
 
-                echo(
+                echo
 
                     '
 
@@ -173,12 +174,15 @@ ini_set('display_errors', 'On');
      <tr>' .
                     '<td>' . $row["from"] . '</td>' .
                     '<td>' . $row["to"] . '</td>' .
-                    '<td>' . $row["km"] . '</td>' .
-                    '<td class="text-center">' . '<a href="upkilometers.php?from_id=' . $row["from_id"] . '&to_id=' . $row['to_id'] . '&from=' . $row['from'] . '&to=' . $row['to'] . '"; class="btn btn-info">update</a>' . '</td>' .
+                    '<td>' . $row["km"] . '</td>';   
 
-                    '</tr>
-'
-                );
+                    if($_SESSION['role'] == 20){
+                        '<td class="text-center">' . '<a href="upkilometers.php?from_id=' . $row["from_id"] . '&to_id=' . $row['to_id'] . '&from=' . $row['from'] . '&to=' . $row['to'] . '"; class="btn btn-info">update</a>' . '</td>';
+                                        
+                    };
+                  
+                echo   '</tr>';
+               
 
             }
 
@@ -225,81 +229,72 @@ ini_set('display_errors', 'On');
         ?>
 
        
+<div class="modal fade" id="kmaddform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">ADD KM</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
 
-<div class="row p-4">
+                        
+                <form action="distance.php" method="post">
+
+                    <label>sector1</label>
+                        <?php
+
+                        $sq = "SELECT id,name FROM fluid_sector";
+                        $rslt = mysqli_query($connection, $sq); ?>
+
+                        
+                        <select name="sector1" class="form-control">
+                            <?php
+                            while ($row = mysqli_fetch_array($rslt)) {
+                                echo '
+                                         <option value=' . $row['id'] . ' >  ' . $row['name'] . '</option>
+                                        ';
+                            }
+                            ?>
+
+                        </select>
+
+                  
+                  
+                        <?php
+
+                        $sq = "SELECT id,name FROM fluid_sector";
+                        $rslt = mysqli_query($connection, $sq); ?>
+
+                        <label>sector2</label>
+                          <select name="sector2" class="form-control">
+                            <?php
+                            while ($row = mysqli_fetch_array($rslt)) {
+                                echo '
+                                 <option value=' . $row['id'] . ' >  ' . $row['name'] . '</option>
+                                           ';
+                            }
+                            ?>
+
+                        </select>
 
 
-<div id="distForm" class="collapse" aria-labelledby="headingPages" data-parent="#page-top">
-<div class="modal-dialog">
-<div class="modal-content">
-
-<div class="card-header d-flex justify-content-between">
+                    <label>kilometers</label>
+                    <input type="text" name="kilometers" class="form-control" required><br>
+                  
+                    <div class="modal-footer">
+                        <input type="submit" name="submit" class="btn btn-info " value="Add">
+            </form>
+        </div>
    
-    <h4 class="modal-title">Add Distance</h4>
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i
-                class="fa fa-times"></i></button>
-</div>
+      </div>
+    </div>
+  </div>
 
 
-<div class="modal-body">
 
-    <form action="distance.php" method="post">
-
-        <div class="input-group">
-            <?php
-
-            $sq = "SELECT id,name FROM fluid_sector";
-            $rslt = mysqli_query($connection, $sq); ?>
-
-            <br><label>sector1</label><br>
-            <select name="sector1" class="form-control">
-                <?php
-                while ($row = mysqli_fetch_array($rslt)) {
-                    echo '
-<option value=' . $row['id'] . ' >  ' . $row['name'] . '</option>
-';
-                }
-                ?>
-
-            </select>
-
-        </div>
-        <div class="input-group">
-            <?php
-
-            $sq = "SELECT id,name FROM fluid_sector";
-            $rslt = mysqli_query($connection, $sq); ?>
-
-            <br><label>sector2</label><br>
-            <select name="sector2" class="form-control">
-                <?php
-                while ($row = mysqli_fetch_array($rslt)) {
-                    echo '
-<option value=' . $row['id'] . ' >  ' . $row['name'] . '</option>
-';
-                }
-                ?>
-
-            </select>
-
-
-        </div>
-        <br><label>kilometers</label><br><input type="text" name="kilometers"
-                                                required><br>
-        <br><input type="submit" name="submit" value="register"></a><br>
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-primary pull-left">Save</button>
-    </form>
-    <button type="button" class="btn btn-primary" data-dismiss="modal" role="button">
-        Close
-    </button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-               
-                </div>
                 </div>
 
 
@@ -380,13 +375,7 @@ $json = json_encode($data);
     
     $(document).ready(function() {
         $('#datatable1').DataTable( {
-            dom: 'Bfrtip',
-            buttons: [
-                'csv', 'excel', 'pdf', 'print',
-            ],
-            exclude:'ex',
-            proccesing:true,
-            responsive:true
+            
               } );
     } )
     

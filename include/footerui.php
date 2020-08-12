@@ -72,7 +72,49 @@ $json = json_encode($data);
 <script src="assets/js/leon/fruid_back_inc_bone.js"></script>
 
     <script>
+    var DriverProg = document.getElementById('DriverProg'); 
+if(!isNull(DriverProg)){
+    DriverProg.addEventListener('click',()=>{
+       $.ajax({
+           url:'cars_fluid/cardailydata.php',
+           method:'POST',
+           data:{
+               pro:12,
+                },
+           success:(data)=>{
+              
+            dataloader(dataView,data);
+            var processPro =  document.getElementById('processPro'); 
+            
+            processPro.addEventListener('click',()=>{
+                var start_date =  document.getElementById('start_date'); 
+                var end_date =  document.getElementById('end_date'); 
+                var endV = end_date.value;
+                var startV = start_date.value;
+                dataloader(dataView,'');
+                    $.ajax({
+                        url:'cars_fluid/cardailydata.php',
+                        method:'POST',
+                        data:{
+                          
+                            pro:1,
+                            from:startV,
+                            until:endV,
+                           
     
+                        },
+                       success:(data)=>{
+                       dataloader(seconddataView,data);
+                       
+                
+                       }
+                    })
+                });
+            } 
+       })
+    })
+}
+
    
       var bur = document.getElementById('sidebarToggleTop'); 
       var sider =  document.getElementById('accordionSidebar');

@@ -34,8 +34,10 @@ require_once('include/topbon.php');
  
             <div class="card shadow" style="padding:10px;">
             <div class="card-header d-flex justify-content-between">
-            <h2>Users</h2>
-            //add new user 
+            <h4>Users</h4>
+      
+
+
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -95,4 +97,5 @@ require_once('include/topbon.php');
        </div>
     </div>
   </div>
+  
 <?php include('include/footerui.php'); ?>
