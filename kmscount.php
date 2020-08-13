@@ -27,19 +27,7 @@ $id_user = $_SESSION['id'];
 <?php
 require_once('include/topbon.php');
 ?>
-        <h2>Fuel Management</h2>
-        <div class="row">
-
-
-            <div class="col-md-12">
-               
-                <span class="collapsed btn btn-primary ml-4  pull-right"  data-toggle="collapse" data-target="#kmsform" aria-expanded="true" aria-controls="joinform">
-           
-           <span>Add<i class="fas fa-fw fa-plus"></i></span> 
-           
-         </span>
-            </div>
-        </div>
+        
 
         <div class="row p-3" style="padding:10px;">
             <?php
@@ -50,9 +38,23 @@ require_once('include/topbon.php');
                     </div>";
             }
             ?>
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover display" id="datatable1" cellspacing="0"
-                       width="100%">
+            <div class="col-sm-12">
+               
+               
+           
+            <div class="card">
+                 <div class="card-header d-flex justify-content-between">
+
+                    <h2>Fuel Management</h2>
+                    <span class="collapsed btn btn-primary ml-4  pull-right" data-toggle="modal" data-target="#kmsform">           
+                        <span >Add<i class="fas fa-fw fa-plus"></i>
+                      </span>
+                 
+                    </span>
+                 </div>
+                 <div class="card-body">
+                     <div class="table-responsive">
+                <table class="table table-bordered dataTable" id="datatable1" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;" >
                     <thead>
                     <tr>
                         <th>CAR</th>
@@ -67,7 +69,7 @@ require_once('include/topbon.php');
 
                     </tr>
                     </thead>
-                    <body>
+                    <tbody>
                     <?php
 
                     $sql1 = "SELECT fluid_kms.id,fluid_kms.id_subcompany,fluid_kms.id_car,fluid_car.plaque,fluid_kms.theday,fluid_kms.initial,fluid_kms.lefton,fluid_kms.amount,fluid_kms.qty FROM fluid_kms INNER JOIN fluid_car ON fluid_kms.id_car=fluid_car.id where fluid_kms.id_subcompany=" . $_SESSION["sub_company"] . " order by fluid_kms.theday desc";
@@ -107,10 +109,12 @@ require_once('include/topbon.php');
                     }
                     ?>
 
-                    </body>
+                    </tbody>
                 </table>
+                </div>
             </div>
-
+            </div>
+        </div>
 
             <?php
 
@@ -185,26 +189,22 @@ require_once('include/topbon.php');
 
 
             ?>
+            
+ <div class="modal fade" id="kmsform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Upload fuel invoice</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
 
-            <div class="container">
+    
 
-                <div class="row">
-
-
-                    <div class="collapse ml-5" id="kmsform" tabindex="-1" role="dialog">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-
-                                <div class="card-header d-flex justify-content-between">
-          
-                                    <h4 class="modal-title">Upload fuel invoice</h4>
-                                    <button type="button" class="close" data-toggle="collapse" data-target="#kmsform" aria-expanded="true" aria-controls="joinform"><i
-                                                class="fa fa-times"></i></button>
-                                </div>
-
-
-                                <div class="modal-body">
-
+                                        
+                                       
                                     <form action="kmscount.php" method="post" enctype="multipart/form-data" class="form-horizontal">
 
 
@@ -253,16 +253,12 @@ require_once('include/topbon.php');
                                             <div class="modal-footer">
                                                 <button type="submit" class="btn btn-primary pull-left">Save</button>
                                     </form>
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal" role="button">
-                                        Close
-                                    </button>
-                                </div>
-                            </div>
+        </div>
+   
+      </div>
+    </div>
+  </div>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

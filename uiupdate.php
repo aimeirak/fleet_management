@@ -50,13 +50,13 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                           <div class="card-body">
                           <div class="row no-gutters align-items-center">
                               <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Cars</div>
+                              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Cars</div>
                               <div class="row no-gutters align-items-center">
                                               
                               </div>
                               </div>
                               <div class="col-auto">
-                              <span class="fa fa-car"></span>
+                              <span class="fa fa-car text-success"></span>
                               </div>
                             </div>
                           </div>
@@ -73,12 +73,69 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                                 </div>
                                 </div>
                                 <div class="col-auto">
-                                <span class="fas fa-fw fa-chart-area"></span>
+                                <span class="fas fa-fw fa-chart-area text-info"></span>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>         
+                        </div>    
+                     <?php   if($_SESSION['userStatus'] =='MASTER' ){ ?> 
+                               
+                      <div class="col-12 mt-3  col-sm-6 col-md-3 " id='newCompany'>
+                        <div class="card border-left-secondary shadow h-100 py-2">
+                            <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-secondary text-gray-900 text-uppercase mb-1">New company</div>
+                                <div class="row no-gutters align-items-center">
+                                                
+                                </div>
+                                </div>
+                                <div class="col-auto">
+                                <span class="fas fa-fw fa-building"></span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="col-12 mt-3  col-sm-6 col-md-3 " id='newSub'>
+                          <div class="card border-left-info shadow h-100 py-2">
+                              <div class="card-body">
+                              <div class="row no-gutters align-items-center">
+                                  <div class="col mr-2">
+                                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">New sub</div>
+                                  <div class="row no-gutters align-items-center">
+                                                  
+                                  </div>
+                                  </div>
+                                  <div class="col-auto">
+                                  <span class="fas fa-fw fa-chart-area"></span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>   
+                      
+                        <div class="col-12 mt-3  col-sm-6 col-md-3 " id='new'>
+                          <div class="card border-left-info shadow h-100 py-2">
+                              <div class="card-body">
+                              <div class="row no-gutters align-items-center">
+                                  <div class="col mr-2">
+                                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Authorise</div>
+                                  <div class="row no-gutters align-items-center">
+                                                  
+                                  </div>
+                                  </div>
+                                  <div class="col-auto">
+                                  <span class="fas fa-fw fa-users"></span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>  
+                         
+                        
+                      <?php } ?> 
                      
                 <?php } ?> 
                 <!-- driver content -->

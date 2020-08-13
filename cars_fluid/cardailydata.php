@@ -240,11 +240,11 @@ function Booking(){
                    
                   if($rank == 'pending'){
                   echo  '<td>'.'<span id="bl546'.$i.'23"  dta-b ="'.$fetchBooking["bookId"].'"  onClick ="action(this.id)" class="btn btn-primary btn-sm">Yes</span>
-                    <span id="bl5ji564'.$i.'j256jk-3"  dta-b ="'.$fetchBooking["bookId"].'" onClick ="dismiss(this.id)" class="btn btn-danger btn-sm">NO</span>
+                       <span id="bl5ji564'.$i.'j256jk-3"  dta-b ="'.$fetchBooking["bookId"].'" onClick ="dismiss(this.id)" class="btn btn-danger btn-sm">NO</span>
                     
                     ';
                   }else{
-                  echo  '<td>'.'<span id="bl546'.$i.'23"  dta-b ="'.$fetchBooking["bookId"].'"  onClick ="restore(this.id)" class="btn btn-primary btn-sm">Restore</span>
+                  echo  '<td>'.'<span id="bl546'.$i.'23"  dta-b ="'.$fetchBooking["bookId"].'"  onClick ="restore(this.id)" class="btn btn-primary btn-sm">send to yego</span>
                     
                     
                     ';
@@ -805,6 +805,29 @@ function carProgress($date){
   
  
   }else{
+    echo '<div class="col-12 col-sm-9  m-2">
+    <div class="row">
+              <div class="form-group col-9 col-sm-6 ">
+                  <div class="input-group " >
+                      <input id="start_date" type="date" format="Y-m-d" class="form-control"/>
+                      <span class="input-group-addon input-group-append btn btn-info">
+                                  <span class="fa fa-calendar"></span>
+                              </span>
+                  </div>
+              </div>
+              <div class="form-group col-9 col-sm-6">
+                  <div class="input-group " >
+                      <input id="end_date" type="date" class="form-control"/>
+                      <span class="input-group-addon input-group-append btn btn-primary">
+                                  <span class="fa fa-calendar"></span>
+                              </span>
+                  </div>
+              </div>
+              <div class="form-group col-md-2">
+                  <span id="processPro"  class="btn btn-outline-info pull-right ">Process</span>
+              </div>
+         </div>
+    </div>';
     echo '<div class="col-xl-3 col-md-6 m-4">
     <div class="card border-left-warning shadow h-100 py-2">
       <div class="card-body">
