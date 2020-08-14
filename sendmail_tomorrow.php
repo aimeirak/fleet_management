@@ -1,11 +1,27 @@
-<?php ob_start(); include('authenticate.php'); ?>
-<?php
-include('connexion.php');
-//require_once "Mail.php";
+<?php 
+include 'include/authant.php';
+ob_start();
+include 'include/header.php' ; ?>
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
 ?>
 
-<div id="page-wrapper" >
-    <div id="page-inner">
+
+<?php $id_subcompany = $_SESSION['sub_company']; ?>
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+<!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
+
+
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+<?php
+require_once('include/topbon.php');
+?>
         <div class="row">
             <div class="col-md-12">
                 <h2>Report</h2>
@@ -118,8 +134,40 @@ include('connexion.php');
             )); */
 
             //$mail = $smtp->send($to, $headers, $message);
-            echo $message;
-            mail($to,$subject,$message,$headers);
+            $sel ="SELECT email from fluid_user where role = ? and id_subcompany = ? ";
+                $add= 20;
+                $stmt = $connection->prepare($sel);
+                $stmt->bind_param('ii',$add,$id_subcompany);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $adexist = $result->num_rows;
+                if($adexist){
+                    $row = $result->fetch_assoc();
+                $to =$row['email'];
+                    
+                $subject = ' Tomorrow Bookings of ' . $datetime->format('Y-m-d');
+
+                $sender = "ishyigasoftware900@gmail.com";
+                $sender_name = "Tomorrow Bookings Reports ";
+               
+                include 'include/deplicatSolver/emailSender.php';
+                $reportSent = sendEmail($subject,$sender,$sender_name,$to,$message);
+                if($reportSent){
+                $success ='Report of tomorrow is now  sent';
+              
+                echo '<script>window.open("report.php?success='.$success.'","_self")</script>';
+                    
+                }else{
+                $msg ='Report not sent to the admin';
+                echo '<script>window.open("report.php?msg='.$msg.'","_self")</script>';
+                    
+                 
+                }
+
+                }else{
+                    $msg ='admin not exist' ;
+
+                }
 
         }
 

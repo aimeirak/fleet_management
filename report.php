@@ -1,10 +1,17 @@
-<?php 
-include('authenticate.php'); ?>
-<?php include('connexion.php'); ?>
+<?php
+session_start();
+ob_start();
+include 'include/header.php' ; ?>
+
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+?>
+
 <?php
 $id_subcompany = $_SESSION['sub_company'];
 if ($_SESSION['role'] != 20) {
-    header("location: ui.php");
+    header("location: uiupdate.php");
 }
 ?>
 
@@ -24,11 +31,48 @@ if ($_SESSION['role'] != 20) {
     }
 </script>
 
-<div id="page-wrapper">
-    <div id="page-inner">
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+<!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
+
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+    <?php
+    require_once('include/topbon.php');
+    ?>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 p-5">
                 <h2>Report</h2>
+              <?php if(!isset($_POST['start_date']) || !isset($_POST['end_date'])){ ?>  
+                <div class="alert alert-warning" role="alert">
+                    <span class="fa fa-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">warning:</span>
+                    <span class="msg">First modify or choose date to send any report otherwise will not be sent </span>
+                </div>
+                
+              <?php } ?>
+           
+           
+                <?php   if(isset($_GET['msg']) and trim($_GET['msg'])!=''):?>
+            <div class="alert alert-danger" role="alert">
+                <span class="fa fa-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span>
+                <span class="msg"><?=$msg?></span>
+            </div>
+            <?php endif?>
+            <?php if(isset($_GET['success']) and trim($_GET['success']) !=''):
+                $success=$_GET['success'];
+                ?>
+           
+                <div class="alert alert-success" role="alert">
+                <span class="fa fa-exclamation-sign" aria-hidden="true"></span>
+                
+                <span class="msg"><?=$success?></span>
+            </div>
+            <?php endif?>
 
 
                 <form action="report.php" method="post">
@@ -36,21 +80,21 @@ if ($_SESSION['role'] != 20) {
                         <div class="form-group col-md-5">
                             <div class='input-group date' id='datetimepicker1'>
                                 <input name='start_date' type='text' class="form-control"/>
-                                <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
+                                <span class="input-group-addon btn btn-info">
+                                <span class="fa fa-calendar"></span>
                             </span>
                             </div>
                         </div>
                         <div class="form-group col-md-5">
                             <div class='input-group date' id='datetimepicker2'>
                                 <input name='end_date' type='text' class="form-control"/>
-                                <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
+                                <span class="input-group-addon btn btn-primary">
+                                <span class="fa fa-calendar"></span>
                             </span>
                             </div>
                         </div>
                         <div class='form-group col-md-2'>
-                            <button type="submit" class="btn btn-default pull-right ">Go</button>
+                            <button type="submit" class="btn btn-outline-secondary pull-right ">Go</button>
                         </div>
                     </div>
                 </form>
@@ -76,7 +120,7 @@ if ($_SESSION['role'] != 20) {
         </div>
 
         <div class="row" style="padding:10px;">
-            <div id="div-to-print">
+            <div id="div-to-print p-5">
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover display" id="printable" cellspacing="0"
                            width="100%">
@@ -211,7 +255,7 @@ if ($_SESSION['role'] != 20) {
                                 echo "0 results";
                             }
 
-                            $strsql = "SELECT SUM(IF(kilometers>0, kilometers, 10)) AS `TOTAL`,SUM(IF(fluid_distance.kilometers>0, fluid_distance.kilometers, 10)/fluid_car.fuel_consumption)*1055 AS `TOTAL_COST`
+                            $strsql = "SELECT SUM(IF(kilometers>0, kilometers, 10)) AS `TOTAL`,SUM(IF(fluid_distance.kilometers>0, fluid_distance.kilometers, 10)/fluid_car.fuel_consumption)*960 AS `TOTAL_COST`
                             FROM fluid_booking
                             LEFT JOIN fluid_user ON fluid_booking.id_user=fluid_user.id
                             LEFT JOIN fluid_car ON fluid_booking.car_id=fluid_car.id
@@ -256,19 +300,23 @@ if ($_SESSION['role'] != 20) {
                 }
 
             ?>
+            <div class="justify-content-between d-flex col-12">
             <a href="sendmail.php<?=(isset($_POST['start_date']) and $_POST['start_date'] != '')?'?start='.$start.'&end='.$end:''?>">
-                <button type="submit" class="btn btn-primary pull-right ">send</button>
+                <button type="submit" class="btn btn-primary pull-left ">send</button>
             </a>
 
-            <a href="sendmail_tomorrow.php<?=(isset($_POST['start_date']) and $_POST['start_date'] != '')?'?start='.$start.'&end='.$end:''?>">
+            <a href="sendmail_tomorrow.php?<?=(isset($_POST['start_date']) and $_POST['start_date'] != '')?'start='.$start.'&end='.$end:''?>">
                 <button type="submit" class="btn btn-primary pull-right ">Send bookings of tomorrow</button>
             </a>
+            
+        </div>
+
         </div>
     </div>
 </div>
 
 
-<?php include('footer.php'); ?>
+<?php include('include/footerui.php'); ?>
 
 
 

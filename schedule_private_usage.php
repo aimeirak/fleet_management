@@ -1,11 +1,34 @@
-<?php ob_start();
-include('authenticate.php'); ?>
+<?php 
+include 'include/authant.php';
+ob_start();
+include 'include/header.php' ; ?>
 
-<?php include('connexion.php'); ?>
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+
+if(!isset($_REQUEST['id']) || trim($_REQUEST['id']) == '' ){
+  header('location:uiupdate.php');
+  exit();
+}
+?>
 
 
-<div id="page-wrapper">
-    <div id="page-inner">
+<?php $id_subcompany = $_SESSION['sub_company']; ?>
+
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+ <!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
+
+
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+    <?php
+    require_once('include/topbon.php');
+    ?>
         <div class="row">
             <div class="col-md-12 text-center">
                 <h2>Please indicate date range the car will be in private</h2>
@@ -21,30 +44,39 @@ include('authenticate.php'); ?>
             $from = stripslashes($_POST['from']);
             $to = stripslashes($_POST['to']);
             $status=10;
-
+            if(empty($from) || empty($to)){
+                echo "you have empty field ";
+                exit();
+            }
 
             $sql = "INSERT INTO fluid_private_usage(id_car,`from`,`to`,`status`) VALUES($id_car,'$from','$to',$status)";
             $result = mysqli_query($connection, $sql);
 
             if ($result) {
-                $msg= "Successfully booked for private usage from $from to $to";
+                $msg='Successfully booked for private usage from '.$from.' to '.$to.'
+       
+                ';
             } else {
-                echo "wapi";
+                echo "private usage  was not booked";
             }
         }
 
 
-        ?>
-        <?php if($result):?>
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <div class="alert alert-success alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>Success!</strong> <?=$msg?>
-                </div>
+if(isset($msg)){
+     echo'
+     
+     <div class="row">
+        <div class="col-md-12 text-center">
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Success!</strong>'.$msg.'
             </div>
         </div>
-        <?php endif?>
+ </div>
+     ';
+}
+?>
+
 
 
         <div class="col-md-8 col-lg-offset-2">
@@ -188,5 +220,5 @@ include('authenticate.php'); ?>
 </div>
 <?php //mysqli_close($connection);?>
 
-<?php include('footer.php'); ?>
+<?php include('include/footerui.php'); ?>
 

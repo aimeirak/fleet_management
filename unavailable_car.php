@@ -1,7 +1,13 @@
-<?php //ob_start();
-include('authenticate.php'); ?>
+<?php 
+include 'include/authant.php';
+ob_start();
+include 'include/header.php' ; ?>
 
-<?php include('connexion.php'); ?>
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+?>
+
 <?php //include('header.php');?>
 
 <?php $id_subcompany = $_SESSION['sub_company'];
@@ -10,7 +16,17 @@ $id_user = $_SESSION['id'];
 ?>
 
 
-<div id="page-wrapper">
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+<!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+    <?php
+    require_once('include/topbon.php');
+    ?>
     <div id="page-inner">
         <h2>Unavailable cars</h2>
         <div class="row">
@@ -96,7 +112,7 @@ $id_user = $_SESSION['id'];
                     </body>
                 </table>
             </div>
-
+            </div>
 
             <?php
 
@@ -196,5 +212,5 @@ $id_user = $_SESSION['id'];
 </div>
 
 
-<?php include('footer.php'); ?>
+<?php include('include/footerui.php'); ?>
 

@@ -1,14 +1,12 @@
 <?php
 include('connexion.php');
 date_default_timezone_set('Africa/Kigali');
-$sql = "
-            SELECT fluid_user.full_name,fluid_car.id_driver,fluid_booking.id as booking_id,fluid_car.id as car_id,fluid_car.plaque,start_time,end_time,username,a.name AS 'departure',b.name AS 'destination' ,rank,description 
+$sql = "    SELECT fluid_user.full_name,fluid_car.id_driver,fluid_booking.id as booking_id,fluid_car.id as car_id,fluid_car.plaque,start_time,end_time,username,a.name AS 'departure',b.name AS 'destination' ,rank,description 
             FROM `fluid_booking` inner join fluid_user on fluid_user.id=fluid_booking.id_user 
             JOIN fluid_place AS a ON fluid_booking.id_place0=a.id JOIN fluid_place AS b ON fluid_booking.id_placef=b.id 
             inner join fluid_car on fluid_booking.car_id=fluid_car.id 
             WHERE rank IN ('confirmed') AND fluid_booking.end_time>=NOW()
-            ORDER BY end_time DESC
-";
+            ORDER BY end_time DESC ";
 
 $result = mysqli_query($connection, $sql);
 if (mysqli_num_rows($result) > 0) {
@@ -98,7 +96,7 @@ if (mysqli_num_rows($result) > 0) {
                     <a class="button" href="http://ishyiga.rw/fleet/driver_index.php">Go to app and start the trip </a>
                     </body>
                     </html>';
-            $res = mail($to, $subject, $message, $headers);
+          //  $res = mail($to, $subject, $message, $headers);
         }
     }
 }

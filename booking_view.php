@@ -1,19 +1,39 @@
-<?php ob_start();
-include('authenticate.php'); ?>
+<?php 
+include 'include/authant.php';
+ob_start();
+include 'include/header.php' ; ?>
+
 <?php include('connexion.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
+
+if(!isset($_REQUEST['id']) || trim($_REQUEST['id']) == '' ){
+  header('location:uiupdate.php');
+  exit();
+}
 ?>
 
 
 <?php $id_subcompany = $_SESSION['sub_company']; ?>
 
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+<!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
 
-<div id="page-wrapper">
+
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+    <?php
+    require_once('include/topbon.php');
+    ?>
+    
     <div id="page-inner">
         <div class="row">
             <div class="col-md-12">
-                <h3>Booking # <?= $_GET['id'] ?></h3>
+                <h3>Booking #<?= $_GET['id'] ?></h3>
             </div>
         </div>
         <!-- /. ROW  -->
@@ -21,7 +41,13 @@ ini_set('display_errors', 'On');
         <?php
             $id = $_GET['id'];
 
-            $STRsql = "SELECT fluid_car.seats,fluid_car.plaque,start_time,end_time,username,full_name,description,created_at,updated_at,a.name AS 'departure',b.name AS 'destination' ,rank FROM `fluid_booking` inner join fluid_user on fluid_user.id=fluid_booking.id_user JOIN fluid_place AS a ON fluid_booking.id_place0=a.id JOIN fluid_place AS b ON fluid_booking.id_placef=b.id inner join fluid_car on fluid_booking.car_id=fluid_car.id WHERE fluid_booking.id=" . $id;
+            $STRsql = "SELECT fluid_car.seats,fluid_car.plaque,start_time,end_time,username,full_name,description,created_at,updated_at,a.name AS 'departure',b.name AS 'destination' ,rank FROM `fluid_booking`
+             inner join fluid_user on fluid_user.id=fluid_booking.id_user
+              JOIN fluid_place AS a ON fluid_booking.id_place0=a.id 
+              JOIN fluid_place AS b ON fluid_booking.id_placef=b.id 
+             inner join fluid_driver_logs on fluid_driver_logs.driver_id = fluid_booking.driver_id 
+             inner join fluid_car on fluid_driver_logs.car_id=fluid_car.id
+               WHERE fluid_booking.id=" . $id ." and fluid_car.id_subcompany = ".$id_subcompany;
 
             $res = mysqli_query($connection, $STRsql);
 
@@ -38,6 +64,9 @@ ini_set('display_errors', 'On');
 
         $res1 = mysqli_query($connection, $sql);
         $joints=mysqli_num_rows ( $res1);
+        $end_time = $row['end_time'];
+        $start_time =$row['start_time'];
+
         ?>
 
 
@@ -46,7 +75,7 @@ ini_set('display_errors', 'On');
 
                 <table style="width:90%">
                     <tr>
-                        <td>Fom</td>
+                        <td>From</td>
                         <td><?= $row['departure'] ?></td>
                     </tr>
                     <tr>
@@ -163,10 +192,11 @@ ini_set('display_errors', 'On');
             }
 
 
-            echo $strSQL = "INSERT into `fluid_booking_row` (id_booking,id_user,id_place0,id_placef,description) values(" . $booking_id . "," . $user_id . "," . $departure . "," . $destination . ",'" . $description . "')";
+          
+            $strSQL = "INSERT into `fluid_booking_row` (id_booking,id_user,id_place0,id_placef,description) values(" . $booking_id . "," . $user_id . "," . $departure . "," . $destination . ",'" . $description . "')";
 
             $res = mysqli_query($connection, $strSQL);
-
+       
             $base_url = "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 
 
@@ -193,7 +223,7 @@ ini_set('display_errors', 'On');
                 $employee = $row['full_name'];
 
 
-                echo $message = '
+                $message = '
                     <html>
                     <head>
                         <style type="text/css">
@@ -215,7 +245,7 @@ ini_set('display_errors', 'On');
                         </style>
                     </head>
                     <body>
-                    <h1>Booking information</h1>
+                    <h1>Booking join information</h1>
                     <table style="width:100%">
                       <tr>
                         <td>Employee</td>
@@ -245,37 +275,75 @@ ini_set('display_errors', 'On');
                         <td><h1></h1></td>
                       </tr>
                     </table>
-                    <a class="button" href="http://localhost:8888/test_car/confirm_booking.php?id=' . $id . '">Confirm this booking now</a>
+                    <a class="button" href="http://localhost/fleetbackup/confirm_booking.php?id=' . $id . '">Confirm this booking now</a>
                     
-                    <a class="button" href="http://localhost:8888/test_car/permission.php?id=' . $id . '">Go to booking </a>
+                    <a class="button" href="http://localhost/fleetbackup/permission.php?id=' . $id . '">Permit </a>
                     </body>
                     </html>';
 
-                $res = mail($to, $subject, $message, $headers);
+                    $sel ="SELECT email from fluid_user where role = ? and id_subcompany = ? ";
+                    $add= 20;
+                    $stmt = $connection->prepare($sel);
+                    $stmt->bind_param('ii',$add,$id_subcompany);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $adexist = $result->num_rows;
+                    if($adexist){
+                        $row = $result->fetch_assoc();
+                        $to =$row['email'];
+                        
+                    $subject = "ishyiga fleet user join request ";
+                    $sender = "ishyigasoftware900@gmail.com";
+                    $sender_name = " Booking join  ";
+                       
+                    include 'include/deplicatSolver/emailSender.php';
+                    $emailSent = sendEmail($subject,$sender,$sender_name,$to,$message);
+                  
+                    if($emailSent){
+                        $success ='join booking request is sent ' ;
+                        header("Location: booking_view.php?success=$success&id=".$_GET['id']);
+                      
+                        
+                    }else{
+                    $msg ='request not sent ';
+                    header("Location: booking_view.php?msg=$msg&id=".$_GET['id']);
+                       
+                    }
 
-                header("Location: booking_view.php?id=".$_GET['id']);
-            }
+                    }else{
+                        $success ='admin not exist' ;
+
+                    }
+                }
         }
 
 
         ?>
-    </div>
-</div>
-
-
-<div class="container">
+        <span class="collapsed btn btn-primary ml-4"  data-toggle="collapse" data-target="#joinform" aria-expanded="true" aria-controls="joinform">
+           
+            <span>Join cars <i class="fas fa-fw fa-car"></i></span> 
+            
+          </span>
+        
+<div id="joinform" class="collapse ml-5 " aria-labelledby="headingPages" data-parent="#accordionSidebar" style="height: auto;">
 
     <div class="row">
 
 
-        <div class="modal" id="addModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
+        <div  class="joinform" id="joinform" tabindex="-1" role="dialog">
+            <div class="card modal-dialog">
                 <div class="modal-content">
 
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i
-                                    class="fa fa-times"></i></button>
+                    <div class="modal-header justify-content-between d-flex">
+                       
                         <h4 class="modal-title">Join ride</h4>
+
+                        <span class=" "  data-toggle="collapse" data-target="#joinform" aria-expanded="true" aria-controls="joinform">
+           
+                            <span> <i  class="fa fa-times"></i></span> 
+                            
+                          </span>
+                          
                     </div>
 
 
@@ -355,4 +423,8 @@ ini_set('display_errors', 'On');
 
 
 </div>
-   
+         </div>
+    </div>
+</div>
+
+   <?php include 'include/footerui.php' ?>

@@ -1,11 +1,30 @@
-<?php include('authenticate.php'); ?>
-<?php include('connexion.php'); ?>
-<?php //include('header.php'); ?>
-<!-- /. NAV TOP  -->
+<?php 
+include 'include/authant.php';
+ob_start();
+include 'include/header.php' ; ?>
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+?>
+
 <?php $id_subcompany = $_SESSION['sub_company'];  //include('navSide.php');
 ?>
 
-       
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+ <!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
+
+
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+<?php
+require_once('include/topbon.php');
+?>
+
+        <div class="row">
             <div class="col-md-6">
                 <h2>List of places</h2>
             </div>
@@ -134,7 +153,13 @@
 
                 </tbody>
             </table> 
-      
+        </div>
+    </div>
+</div>
+
+
+
+<?php include('include/footerui.php'); ?> 
    
 
 

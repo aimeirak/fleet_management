@@ -9,7 +9,6 @@ header("Location: login.php");
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title></title>
-    <script src="assets/js/jquery-1.10.2.js"></script>
     <!-- BOOTSTRAP STYLES-->
     <link href="assets/css/bootstrap.css" rel="stylesheet"/>
     <!-- FONTAWESOME STYLES-->
@@ -23,8 +22,9 @@ header("Location: login.php");
           rel='stylesheet' type='text/css'/>
 
 
-    <link rel="stylesheet" type="text/css"  href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css"/>
-    
+    <link rel="stylesheet" type="text/css"
+          href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css"/>
+    <script src="assets/js/jquery-1.10.2.js"></script>
 
     <script src="assets/js/moment.min.js"></script>
     <!-- BOOTSTRAP SCRIPTS -->
@@ -130,9 +130,6 @@ include('connexion.php');
         <div class="row">
 
             <div class="modal" id="loginModal" tabindex="-1" role="dialog">
-            <div id="response" class="response">
-            
-            </div>
                 <div class="modal-dialog">
                     <div class="modal-content">
 
@@ -147,13 +144,14 @@ include('connexion.php');
 
                                 <h2 class="form-signin-heading">Please Login</h2>
                                 <div class="input-group">
-                                    <span class="input-group-addon mb-3" id="basic-addon1">@</span>
-                                    <input type="text" name="username" class="form-control" id='username' placeholder="Username"  required>
+                                    <span class="input-group-addon" id="basic-addon1">@</span>
+                                    <input type="text" name="username" class="form-control" placeholder="Username"
+                                           required>
                                 </div>
                                 <label for="inputPassword" class="sr-only">Password</label>
-                                <input type="password" name="password"  id="inputPassword" class="form-control"
+                                <input type="password" name="password" id="inputPassword" class="form-control"
                                        placeholder="Password" required>
-                                <button class="btn btn-lg btn-primary btn-block" id='allow_me_bone' type="submit">Login</button>
+                                <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
                                 <a class="btn btn-lg btn-primary btn-block" href="registrationform.php">Register</a>
                             </form>
                         </div>
@@ -162,9 +160,7 @@ include('connexion.php');
             </div>
         </div>
     </div>
-    <?php 
-    
-    //Start the Session
+    <?php //Start the Session
     session_start();
     require('connexion.php');
     //3. If the form is submitted or not.
@@ -177,6 +173,7 @@ include('connexion.php');
         //3.1.2 Checking the values are existing in the database or not
         $query = "SELECT * FROM `fluid_user` WHERE username='$username' and password='$password'";
         //echo $query;
+
         $result = mysqli_query($connection, $query) or die(mysqli_error($connection));
 
         $count = mysqli_num_rows($result);
@@ -204,6 +201,45 @@ include('connexion.php');
     }
     ?>
 
+    <script>
+        $(document).ready(function () {
+
+            $(#'login-button'
+        ).
+            click(function () {
+                var username = $(#'username'
+            ).
+                val()
+                var password = $(#'password'
+            ).
+                val()
+                if (username != '' && password != '') {
+                    $.ajax({
+                        url: "action.php"
+                        method: "post"
+                        data: {username: username, password: password},
+                        success: function (data) {
+                            if (data == 'no') {
+                                alert("wrong data");
+                            }
+                            else {
+                                $('#loginModal').hide();
+                                location.reload()
+                            }
+
+                        }
+
+                    });
+
+                }
+                else {
+                    alert("both fields are required");
+                }
+
+            });
+
+        });
+    </script>
 
 
 </div>

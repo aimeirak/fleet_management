@@ -1,8 +1,12 @@
-<?php ob_start();
-include('authenticate.php'); ?>
+<?php 
+session_start();
+ob_start();
+include 'include/header.php' ; ?>
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+?>
 
-<?php include('connexion.php'); ?>
-<?php //include('header.php');?>
 
 <?php $id_subcompany = $_SESSION['sub_company'];
 $id_user = $_SESSION['id'];
@@ -10,8 +14,20 @@ $id_user = $_SESSION['id'];
 ?>
 
 
-<div id="page-wrapper">
-    <div id="page-inner">
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+   <!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
+
+
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+<?php
+require_once('include/topbon.php');
+?>
+
         <h2>Cars</h2>
         <div class="row">
 
@@ -28,13 +44,14 @@ $id_user = $_SESSION['id'];
             <?php
             if (isset($_GET["success"])) {
                 echo "<div class=\"alert alert-success alert-dismissable\">
-                        <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>
-                        <strong>Success!</strong>car successfully added.
-                        </div>";
+<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>
+<strong>Success!</strong>car successfully added.
+</div>";
             }
             ?>
-                <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover display" id="datatable1" cellspacing="0" width="100%">
+<div class="table-responsive">
+<table class="table table-striped table-bordered table-hover display" id="datatable1" cellspacing="0"
+                   width="100%">
                     <thead>
                     <tr>
 
@@ -80,7 +97,7 @@ $id_user = $_SESSION['id'];
                                 '<td>' . $row["control_technique_date"] . '</td>' .
                                 '<td>' . $row["standard"] . '</td>' .
                                 '<td>' . $row["fuel_consumption"] . '</td>' .
-                                '<td>' . '<a href="updatecarlist.php?id=' . $row["id"] . '";><input type="submit" value="Update" ></a>' . '</td>' .
+                                '<td>' . '<a  href="updatecarlist.php?id=' . $row["id"] . '";><input class="btn btn-info" type="submit" value="Update" ></a>' . '</td>' .
 
 
                                 '</tr>'
@@ -92,7 +109,9 @@ $id_user = $_SESSION['id'];
                         $effectiveDate = date('Y-m-d', strtotime("+11 months", strtotime($effectiveDate)));
 
                         $sql1 = "SELECT fluid_user.id,fluid_user.email,fluid_car.id_subcompany,fluid_car.insurance_date,fluid_car.control_technique_date from fluid_car 
-inner join fluid_user on fluid_car.id_subcompany=fluid_user.id where insurance_date='" . $effectiveDate . "' and  control_technique_date='" . $effectiveDate . "' ";
+                                    inner join fluid_user on fluid_car.id_subcompany=fluid_user.id
+                                     where insurance_date='" . $effectiveDate . "' and
+                                       control_technique_date='" . $effectiveDate . "' ";
 
                         $result = mysqli_query($connection, $sql1);
                         $row = mysqli_fetch_array($result);
@@ -100,13 +119,24 @@ inner join fluid_user on fluid_car.id_subcompany=fluid_user.id where insurance_d
                         $rank = $row["rank"];
                         if (mysqli_num_rows($result) > 0) {
 
-                            $to = $row["email"];
+                            $to = 'sezeranochrisostom123@gmail.com';
 
 
                             $subject = "you have to check about your car docs!";
-
+                            $sender = "ishyigasoftware900@gmail.com";
+                            $sender_name = " Car verification";
                             $message = "please either your Car insurance or your Techniqual control is going to be expired!!";
-                            mail($to, $subject, $message);
+                           include "include/emailSender.php";
+                           $emailSent = sendEmail($subject,$sender,$sender_name,$to,$message);
+                        if($emailSent){
+                            echo"car verification sent";
+                        }else{
+                            echo"email not sent";
+                       
+                        }
+
+                        }else{
+                            echo"0 result";
                         }
 
 
@@ -231,5 +261,5 @@ inner join fluid_user on fluid_car.id_subcompany=fluid_user.id where insurance_d
 </div>
 
 
-<?php include('footer.php'); ?>
+<?php include('include/footerui.php'); ?>
 

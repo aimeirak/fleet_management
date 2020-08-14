@@ -1,8 +1,12 @@
-<?php //ob_start();
-include('authenticate.php'); ?>
+<?php 
+include 'include/authant.php';
+ob_start();
+include 'include/header.php' ; ?>
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+?>
 
-<?php include('connexion.php'); ?>
-<?php //include('header.php');?>
 
 <?php $id_subcompany = $_SESSION['sub_company'];
 $id_user = $_SESSION['id'];
@@ -10,21 +14,22 @@ $id_user = $_SESSION['id'];
 ?>
 
 
-<div id="page-wrapper">
-    <div id="page-inner">
-        <h2>Fuel Management</h2>
-        <div class="row">
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+  <!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
 
 
-            <div class="col-md-12">
-                <a class="btn icon-btn btn-success pull-right" href="#" data-target="#addModal"
-                   data-toggle="modal"><span
-                            class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>Add</a>
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+<?php
+require_once('include/topbon.php');
+?>
+        
 
-            </div>
-        </div>
-
-        <div class="row" style="padding:10px;">
+        <div class="row p-3" style="padding:10px;">
             <?php
             if (isset($_GET["success"])) {
                 echo "<div class=\"alert alert-success alert-dismissable\">
@@ -33,9 +38,23 @@ $id_user = $_SESSION['id'];
                     </div>";
             }
             ?>
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover display" id="datatable1" cellspacing="0"
-                       width="100%">
+            <div class="col-sm-12">
+               
+               
+           
+            <div class="card">
+                 <div class="card-header d-flex justify-content-between">
+
+                    <h2>Fuel Management</h2>
+                    <span class="collapsed btn btn-primary ml-4  pull-right" data-toggle="modal" data-target="#kmsform">           
+                        <span >Add<i class="fas fa-fw fa-plus"></i>
+                      </span>
+                 
+                    </span>
+                 </div>
+                 <div class="card-body">
+                     <div class="table-responsive">
+                <table class="table table-bordered dataTable" id="datatable1" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;" >
                     <thead>
                     <tr>
                         <th>CAR</th>
@@ -44,12 +63,13 @@ $id_user = $_SESSION['id'];
                         <th>LEFT</th>
                         <th>AMOUNT</th>
                         <th>LITERS</th>
+                        <?php if($_SESSION['role'] == 20 ){ ?>
                         <th>EDIT</th>
-
+                        <?php } ?>
 
                     </tr>
                     </thead>
-                    <body>
+                    <tbody>
                     <?php
 
                     $sql1 = "SELECT fluid_kms.id,fluid_kms.id_subcompany,fluid_kms.id_car,fluid_car.plaque,fluid_kms.theday,fluid_kms.initial,fluid_kms.lefton,fluid_kms.amount,fluid_kms.qty FROM fluid_kms INNER JOIN fluid_car ON fluid_kms.id_car=fluid_car.id where fluid_kms.id_subcompany=" . $_SESSION["sub_company"] . " order by fluid_kms.theday desc";
@@ -66,7 +86,7 @@ $id_user = $_SESSION['id'];
                         while ($row = mysqli_fetch_array($result1)) {
 
 
-                            echo(
+                            echo
 
                                 '<tr>' .
 
@@ -74,31 +94,37 @@ $id_user = $_SESSION['id'];
                                 '<td>' . $row["theday"] . '</td>' .
                                 '<td>' . $row["lefton"] . '</td>' .
                                 '<td>' . $row["amount"] . '</td>' .
-                                '<td>' . $row["qty"] . '</td>' .
-                                '<td >' . '<a class="btn btn-primary a-btn-slide-text" href="updatekms.php?id=' . $row["id"] . '"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>'
-                                .' <a class="btn btn-primary a-btn-slide-text" href="view_invoice.php?id=' . $row["id"] . '"> <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>'.'</td>' .
+                                '<td>' . $row["qty"] . '</td>' ;
+                               
+                                if($_SESSION['role'] == 20 ){  
+                                    echo '<td >' . '<a class="btn btn-success a-btn-slide-text" href="updatekms.php?id=' . $row["id"] . '"> <span class="fa fa-edit" aria-hidden="true"></span></a>'
+                                .' <a class="btn btn-info a-btn-slide-text" href="view_invoice.php?id=' . $row["id"] . '"> <span class="fa fa-eye" aria-hidden="true"></span></a>'.'</td>' .
 
                                 '</tr>'
 
-                            );
+                            ;
+                            }
 
                         }
                     }
                     ?>
 
-                    </body>
+                    </tbody>
                 </table>
+                </div>
             </div>
-
+            </div>
+        </div>
 
             <?php
 
-            $target_dir = "uploads/";
-            $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-            $uploadOk = 1;
-            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
+           
             if (isset($_POST['date'])) {
+                $target_dir = "uploads/";
+                $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                $uploadOk = 1;
+                $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    
 
                 $id_subcompany = $_SESSION['sub_company'];
                 $id_car = stripcslashes($_POST['plaque']);
@@ -163,25 +189,22 @@ $id_user = $_SESSION['id'];
 
 
             ?>
+            
+ <div class="modal fade" id="kmsform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Upload fuel invoice</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
 
-            <div class="container">
+    
 
-                <div class="row">
-
-
-                    <div class="modal" id="addModal" tabindex="-1" role="dialog">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i
-                                                class="fa fa-times"></i></button>
-                                    <h4 class="modal-title">Upload fuel invoice</h4>
-                                </div>
-
-
-                                <div class="modal-body">
-
+                                        
+                                       
                                     <form action="kmscount.php" method="post" enctype="multipart/form-data" class="form-horizontal">
 
 
@@ -230,16 +253,12 @@ $id_user = $_SESSION['id'];
                                             <div class="modal-footer">
                                                 <button type="submit" class="btn btn-primary pull-left">Save</button>
                                     </form>
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal" role="button">
-                                        Close
-                                    </button>
-                                </div>
-                            </div>
+        </div>
+   
+      </div>
+    </div>
+  </div>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -256,5 +275,5 @@ $id_user = $_SESSION['id'];
 </script>
 
 
-<?php include('footer.php'); ?>
+<?php include('include/footerui.php'); ?>
 

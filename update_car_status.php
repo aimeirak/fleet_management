@@ -1,11 +1,30 @@
-<?php ob_start();
-include('authenticate.php'); ?>
+<?php include 'include/authant.php';
+ob_start();
+include 'include/header.php' ; ?>
 
-<?php include('connexion.php'); ?>
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+
+if(!isset($_REQUEST['id']) || trim($_REQUEST['id']) == '' ){
+  header('location:uiupdate.php');
+  exit();
+}
+?>
+
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+<!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
 
 
-<div id="page-wrapper">
-    <div id="page-inner">
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+    <?php
+    require_once('include/topbon.php');
+    ?>
         <div class="row">
             <div class="col-md-12 text-center">
                 <h2>Please update car status</h2>
@@ -179,5 +198,5 @@ include('authenticate.php'); ?>
 </div>
 <?php //mysqli_close($connection);?>
 
-<?php include('footer.php'); ?>
+<?php include('include/footerui.php'); ?>
 

@@ -28,7 +28,7 @@ if (mysqli_num_rows($result) > 0) {
             //echo $to = $admin['kimainyi@gmail.com','izababelle@gmail.com'];
             
             
-            $admins=['izababelle@gmail.com,kimainyi@gmail.com,nzajos3@gmail.com'];
+            $admins=['sezeranochrisostom123@gmail.com'];
             $subject = 'Insurance reminder';
 
             echo $message = '
@@ -42,7 +42,7 @@ if (mysqli_num_rows($result) > 0) {
 
             foreach($admins as $to){
 
-                $res=mail($to, $subject, $message, $headers);
+              //  $res=mail($to, $subject, $message, $headers);
                 if($res) echo "Email sent to ".$to;
             }
         }
@@ -62,8 +62,7 @@ if (mysqli_num_rows($result) > 0) {
             }
             else{exit;}
             
-            $admins=['izababelle@gmail.com,kimainyi@gmail.com,nzajos3@gmail.com'];
-
+           
             //echo $to = $admin['kimainyi@gmail.com','izababelle@gmail.com','nzajos3@gmail.com'];
             $subject = 'Control technique reminder';
 
@@ -78,8 +77,11 @@ if (mysqli_num_rows($result) > 0) {
                 
             foreach($admins as $to){
 
-                $res=mail($to, $subject, $message, $headers);
-                if($res) echo "Email sent to ".$to;
+                include 'include/deplicatSolver/emailSender.php';
+                $emailSent = sendEmail($subject,$sender,$sender_name,$to,$message);
+                if($emailSent){
+                    $msg ='request not sent ';
+                }
             }
         }
 

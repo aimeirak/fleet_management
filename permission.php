@@ -1,23 +1,42 @@
-<?php ob_start();include('authenticate.php');?>
-<?php include('connexion.php');?>
+<?php ob_start();
+include('include/header.php');
+include('include/authant.php'); ?>
+<?php include('connexion.php'); ?>
 
 
- <div id="page-wrapper" >
-              <div id="page-inner">
-           <div class="col-lg-6 col-md-4 col-sm-12 col-xs-4">
+
+<?php
+if ($_SESSION['role'] != 20) {
+    header("location: uiupdate.php");}
+?>
+
+ 
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top">
+<div id="wrapper">
+<!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
+<!--sidbar end--><div id='content-wrapper' class="d-flex flex-column">
+    <?php
+    require_once('include/topbon.php');
+    ?>
+    
+              <div id="page-inner" >
+           <div class="col-lg-6 col-md-4 col-sm-12 col-xs-4 p-3 ml-2">
             <div class="">
             <h3>Approave</h3>
-        <div class="row" class="col-lg-6">
+        <div class="row" >
 
-<form class="form-horizontal" method="POST" >
-      <label for="permission"> permit : </label>
+<form class="" method="POST" >
+      <label class="lebal-control" for="permission"> permit : </label>
       <input type="hidden" name="id" value="<?php echo $_GET['id'];?>">
-         <select id="cmbMake" name="Make" >
+         <select class='form-control d-inline'  id="cmbMake" name="Make" >
              <option value="pending">pending</option>
              <option value="confirmed">confirmed</option>
              <option value="rejected">rejected</option>
        </select>
-         <input type="submit" name="submit" value="update" class="btn btn-defaut">
+         <input class='btn btn-info mt-5'  type="submit" name="submit" value="update" class="btn btn-defaut">
          
         
 </form>
@@ -75,6 +94,7 @@
                     </div>
                         </div>
                             </div>
-        
+                        </div>
+                    </div>
 
-      <?php include('footer.php');?>
+      <?php include('include/footerui.php');?>

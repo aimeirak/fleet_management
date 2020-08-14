@@ -2,21 +2,32 @@
 include('authenticate.php'); ?>
 
 <?php include('connexion.php'); ?>
-<?php //include('header.php');?>
+<?php include('include/header.php');?>
 
 <?php //include('navSide.php');?>
 
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+<!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
+  
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+<?php
+require_once('include/topbon.php');
+?>
 
-<div id="page-wrapper">
-    <div id="page-inner">
         <h2>Companies</h2>
         <div class="row">
 
 
-            <div class="col-md-12">
-                <a class="btn icon-btn btn-success pull-right" href="#" data-target="#addModal"
-                   data-toggle="modal"><span
-                            class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>Add</a>
+            <div class="col-md-12 p-4">
+                <a class="btn icon-btn btn-success pull-right" href="#" data-toggle="collapse" data-target="#campanyFomr" aria-expanded="true" aria-controls="collapsePages" >
+                   <span class="fa  fa-plus img-circle text-success"></span>
+                   Add
+                </a>
 
             </div>
         </div>
@@ -31,7 +42,7 @@ include('authenticate.php'); ?>
             }
             ?>
             <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover">
+            <table class="table table-striped table-bordered table-hover" id="datatable1">
                 <thead>
                 <tr>
 
@@ -43,6 +54,7 @@ include('authenticate.php'); ?>
 
                 </tr>
                 </thead>
+                <tbody>
                 <?php
                 $sql1 = "SELECT*from fluid_company";
 
@@ -58,7 +70,7 @@ include('authenticate.php'); ?>
 
                         echo(
 
-                            '<tbody>
+                            '
 
 
                                     <tr>' .
@@ -72,8 +84,7 @@ include('authenticate.php'); ?>
                             '<td>' . $row["location"] . '</td>' .
 
 
-                            '</tr>
-                                </tbody>'
+                            '</tr>'
                         );
 
                     }
@@ -82,6 +93,7 @@ include('authenticate.php'); ?>
                 }
                 ?>
 
+</tbody>
             </table>
             </div>
             <!-- /. ROW  -->
@@ -126,11 +138,11 @@ include('authenticate.php'); ?>
 
 
                 if ($result > 0) {
-                    header('Location: ' . "company.php?success");
+                    echo'<script>window.open("company.php?success","_self)</script>';
 
                 }
             } else {
-                header("company.php");
+                echo'<script>window.open("company.php","_self)</script>';
 
             }
 
@@ -142,14 +154,15 @@ include('authenticate.php'); ?>
                 <div class="row">
 
 
-                    <div class="modal" id="addModal" tabindex="-1" role="dialog">
+                    <div id="campanyFomr" class="collapse" aria-labelledby="headingPages" data-parent="#page-top">
                         <div class="modal-dialog">
                             <div class="modal-content">
 
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i
-                                                class="fa fa-times"></i></button>
+                                <div class="card-header d-flex justify-content-between">
+                                   
                                     <h4 class="modal-title">company registration</h4>
+                                    <button type="button" class="close"  data-toggle="collapse" data-target="#campanyFomr" aria-expanded="true" aria-controls="collapsePages"><i
+                                                class="fa fa-times"></i></button>
                                 </div>
 
 
@@ -160,19 +173,19 @@ include('authenticate.php'); ?>
 
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">company</label>
-                                            <input type="text" name="company_name" placeholder="company_name"></div>
+                                            <input type="text" name="company_name" class="form-control" placeholder="company_name"></div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Branch</label>
-                                            <input type="text" name="subcompany_name" placeholder="branch name"></div>
+                                            <input type="text" name="subcompany_name" class="form-control" placeholder="branch name"></div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Tin_number</label>
-                                            <input type="text" name="tin_number" placeholder="Enter tin"></div>
+                                            <input type="text" name="tin_number" class="form-control" placeholder="Enter tin"></div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Email</label>
-                                            <input type="text" name="email" placeholder="Enter email"></div>
+                                            <input type="text" name="email" class="form-control" placeholder="Enter email"></div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Location</label>
-                                            <input type="text" name="location" placeholder="Enter location"></div>
+                                            <input type="text" name="location" class="form-control" placeholder="Enter location"></div>
 
                                 </div>
                                 <div class="modal-footer">
@@ -193,5 +206,5 @@ include('authenticate.php'); ?>
 </div>
 
 
-<?php include('footer.php'); ?>
+<?php include('include/footerui.php'); ?>
 

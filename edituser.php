@@ -1,18 +1,31 @@
 <?php ob_start();
-include('authenticate.php'); ?>
+session_start();
+include 'include/header.php' ; ?>
+
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+?>
 <?php
+
 $id_subcompany = $_SESSION['sub_company'];
 $id_user = $_SESSION['username'];
+ ?>
 
-include('connexion.php'); ?>
-<div id="page-wrapper">
+
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+<!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+    <?php
+    require_once('include/topbon.php');
+    ?>
     <div id="page-inner">
-        <div class="row">
-            <div class="col-md-7 text-center">
-                <h5>You can Edit your account <?php echo $_SESSION['username']; ?></h5>
-            </div>
-        </div>
-
+        
 
         <?php
         // If form submitted, insert values into the database.
@@ -29,22 +42,24 @@ include('connexion.php'); ?>
             //$full_name = mysqli_real_escape_string($full_name);
             $phone_number = stripslashes($_POST['phone_number']);
             //$phone_number = mysql_real_escape_string($phone_number);
-            //$password = stripslashes($_POST['password']);
-            //$password =(mysqli_real_escape_string($password));
+           $password = stripslashes($_POST['password']);
+            //$passwor =(mysqli_real_escape_string($password));
+           $passwordh = md5($password);
             $email = stripslashes($_POST['email']);
 
             //var_dump($_POST);
             //die();
+            
 
 
-            echo $query = "UPDATE `fluid_user` SET id_subcompany=" . $id_subcompany . ",username='" . $username . "',full_name='" . $full_name . "',phone_number=" . $phone_number . ",  email='" . $email . "' WHERE id_subcompany=" . $id_subcompany . " and id=" . $id . " ";
+            echo $query = "UPDATE `fluid_user` SET id_subcompany=" . $id_subcompany . ",username='" . $username . "',full_name='" . $full_name . "',phone_number=" . $phone_number . ",  password='" . $passwordh . "' WHERE id_subcompany=" . $id_subcompany . " and id=" . $id . " ";
             //echo $query;
 
             $result = mysqli_query($connection, $query);
             var_dump($result);
             if ($result) {
                 // Redirect user to ui.php
-                header("Location: ui.php");
+                header("Location: uiupdate.php");
             }
         } else {
         }
@@ -53,10 +68,15 @@ include('connexion.php'); ?>
 
 
         <div class="col-md-12 col-lg-offset-2">
-            <form name="edituser" action="edituser.php" method="post" class="form-horizontal">
+            <div class="card shadow">
+                <div class="card-header">                    
+                    <h5>You can Edit your account <?php echo $_SESSION['username']; ?></h5>
+                </div>
+          
+            <form name="edituser" class="col-12  p-3" action="edituser.php" method="post" class="card shadow p-3">
 
 
-                <div class="input-group">
+               
 
                     <?php
                     $sql1 = 'SELECT subcompany_name from fluid_sub_company where id=' . $_SESSION['sub_company'];
@@ -84,16 +104,111 @@ include('connexion.php'); ?>
                     <br><label>Password</label><br>
                     <input type="password" name="password" class="form-control span3">
                     <br><label>e-mail</label><br>
-                    <input type="text" name="email" value="<?=$row['email']?>"  class="form-control span3">
+                    <input readonly disabled type="text" name="email" value="<?=$row['email']?>"  class="form-control span3">
                     <br>
-                    <br><a href="login.php"><input type="submit" name='save' value="Save" class="btn btn-primary pull-right"><br>
-                        <div class="clearfix"></div></div>
+                    <br><a href="logout.php"><input type="submit" name='save' value="Save" class="btn btn-primary pull-right"><br>
+                        <div class="clearfix"></div>
+                        </div>
             </form>
         </div>
-    </div>
+        </div>
+    
+    
+    
 </div>
+<?php include('include/footerui.php'); ?>
+<script>
+    
+    
+  
+  
+  $(function () {
+      "use strict";
+      var mainApp = {
+  
+          main_fun: function () {
+             
+              /*====================================
+                LOAD APPROPRIATE MENU BAR
+             ======================================*/
+              $(window).bind("load resize", function () {
+                  if ($(this).width() < 768) {
+                      $('div.sidebar-collapse').addClass('collapse')
+                  } else {
+                      $('div.sidebar-collapse').removeClass('collapse')
+                  }
+              });
+          },
+          initialization: function () {
+              mainApp.main_fun();
+  
+          }
+      }
+      // Initializing ///
+  
+      $(document).ready(function () {
+          var currentdate = new Date();
+          var datetime = currentdate.getDate() + "/"
+              + (currentdate.getMonth()+1)  + "/"
+              + currentdate.getFullYear() + " @ "
+              + currentdate.getHours() + ":"
+              + currentdate.getMinutes() + ":"
+              + currentdate.getSeconds();
+          mainApp.main_fun();
+          $('#datatable1').DataTable();        
+          $('#printable').DataTable( {
+              order: [[ 3, "desc" ]],
+              dom: 'Bfrtip',
+              buttons: [
+                 
+                  'print',
+                  {   extend: 'pdfHtml5',
+                      title: 'Booking report on '+ datetime,
+                      exportOptions: {
+                          columns: [ 0, 1, 2, 3,4,5,6,7 ],
+                          stripNewlines: false
+                      },
+                      messageBottom: function () {
+                          return $('#total').text();
+                      },
+  
+  
+                  }
+  
+      ]
+          } );
+  
+          $('#printable_car').DataTable( {
+              order: [[ 3, "desc" ]],
+              dom: 'Bfrtip',
+              buttons: [
+                  'print',
+                  {   extend: 'pdfHtml5',
+                      title: 'Car report on '+datetime,
+                      exportOptions: {
+                          columns: [ 0, 1, 2, 3,4,5,6,7 ],
+                          stripNewlines: true
+                      },
+                      messageBottom: function () {
+                          return "\n"+$('#total').text();
+                      },
+                      messageTop: function () {
+                          return "\n"+$('#top').text();
+                      },
+  
+  
+                  }
+  
+              ]
+          } );
+  
+      });
+  
+  }(jQuery));
+  
+  
+      </script>
 </body>
 </html>
 
 
-<?php include('footer.php'); ?> 

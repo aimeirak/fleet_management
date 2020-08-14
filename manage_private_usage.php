@@ -1,5 +1,12 @@
 <?php
-include('connexion.php');
+include 'include/authant.php';
+ob_start();
+include 'include/header.php' ; ?>
+
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+
 date_default_timezone_set('Africa/Kigali');
 $sql = "
             SELECT * FROM fluid_private_usage
@@ -7,10 +14,11 @@ $sql = "
 
 $headers = "MIME-Version: 1.0" . "\r\n";
 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-$to_mail = 'isababelle@gmail.com';
+$to_mail = 'sezeranochrisostom123@gmail.com';
 $subject = 'Car updates';
 
 $result = mysqli_query($connection, $sql);
+
 if (mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_array($result)) {
         $today = date('Y-m-d');

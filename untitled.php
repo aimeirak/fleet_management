@@ -149,7 +149,7 @@ $sql = "SELECT booking.id,full_name,start_time,end_time,departure_master,destina
                         }
                     } else {
                        echo "0 results";
-                    }}
+                    }
                 ?>
                 
             </table> 
@@ -159,4 +159,3 @@ $sql = "SELECT booking.id,full_name,start_time,end_time,departure_master,destina
     </div>
 </div>
 </div>
-

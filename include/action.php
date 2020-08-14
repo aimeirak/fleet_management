@@ -51,7 +51,7 @@ function validateUser($userName,$password){
                     $NotDismisedVerfied = $result->num_rows;
                     $fetchUser = $result->fetch_assoc();
                     if($fetchUser['verfied'] !== 1  || $fetchUser['verfied'] == 0){
-                        warning('please verify your email. we  sent you a link on email you gave us ');
+                        warning('please verify your email. we have sent you a link on email you gave us ');
                         
                         }else{
                             if($fetchUser['live'] !== 1 ){
@@ -81,8 +81,7 @@ function validateUser($userName,$password){
                                 $_SESSION['username']   = $fetchUser['username']; 
                                 $_SESSION['email']      = $fetchUser['email']; 
                                 $_SESSION['role']      = $fetchUser['role']; 
-                                //user compony and subcamp sessions  
-                                  
+                                //user compony and subcamp sessions                                    
                                 $_SESSION['blancName']  = $fetchCompany['subcompany_name']; 
                                 
                                                   

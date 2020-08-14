@@ -1,5 +1,5 @@
 <?php 
-    require_once "Mail.php";
+    
     include('connexion.php');
 
 
@@ -40,55 +40,63 @@
                     </div>
 
 </div></body>
-</html>
+
 
 <?php
 
-if(isset($_POST['email']))
-{
+if(isset($_POST['email'])){
     $email= mysqli_real_escape_string($connection,$_POST["email"]);
-    $query = "SELECT id FROM `fluid_user` WHERE `email`='".$email."'";
-    //echo $query;
-    $result=mysqli_query($connection,$query);
-    if (mysqli_num_rows ($result )>0) {
-        $pwd_reset_hash = bin2hex(openssl_random_pseudo_bytes(32));
-        $sql = "UPDATE `fluid_user` SET passreset='".$pwd_reset_hash."' WHERE `email`='".$email."'";
-        $result=mysqli_query($connection,$sql);
-        if(mysqli_affected_rows($connection)>0)
-        {}
+    $query = "SELECT id,email FROM `fluid_user` WHERE `email`= ? ";
+    $stmt = $connection->prepare($query);
+    $stmt->bind_param('s',$_POST['email']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $emialExist = $result->num_rows;
+    if($emialExist){
+        $row = $result->fetch_assoc(); 
+        $LOWN = rand(123,70000);
+        $date = date('y-d-m');
+        $key = $row['email'].$LOWN.$date;
+        $resetKey = password_hash($key,PASSWORD_DEFAULT);
+        $passrestQ = 'UPDATE   fluid_user SET passreset = ? where id = ?';
+        $stmt = $connection->prepare($passrestQ);
+        $stmt->bind_param('si',$resetKey,$row['id']);
+        $stmt->execute();
+        $inserted = $stmt->affected_rows;
+        if($inserted){
+            $to  = $row['email'];
+            $message = 'password rest key is '. $resetKey .'<BR>' ;
+            $sender = "ishyigasoftware900@gmail.com";
+            $sender_name = " Password reset ";
+            $subject= "freet account passwrod verfication key";
 
-        $from = 'Ishyiga';
-        $to = $email;
-        $subject = "Password reset link";
-        $body = 'http://ishyiga.net/fluid/reset.php?token='.$pwd_reset_hash;
-        
-        $headers = array(
-            'From' => $from,
-            'To' => $to,
-            'Subject' => $subject
-        );
-
-        $smtp = Mail::factory('smtp', array(
-                'host' => 'ssl://smtp.gmail.com',
-                'port' => '465',
-                'auth' => true,
-                'username' => 'your email',
-                'password' => 'your password'
-            ));
-
-        $mail = $smtp->send($to, $headers, $body);
-
-        if (PEAR::isError($mail)) {
-            echo('<p>' . $mail->getMessage() . '</p>');
-        } else {
-            echo('<p>Message successfully sent!</p>');
-            echo "check your email";
+            include 'include/deplicatSolver/emailSender.php';
+            $emailSent = sendEmail($subject,$sender,$sender_name,$to,$message);
+          
+            if($emailSent){
+                $success ='request is sent ' ;
+            header("Location: reset.php?success=$success");
+                
+            }else{
+            $msg ='request not ';
+            }     
+       
+        }else{
+            echo 'not inserted ';
         }
+        
+     
+     
+        
+    }else{
+        echo "Your email doesnot exist !! please try again";
+    
+    }     
 
     }else{
-        echo "Nop Invalid email!! please try again";
+        echo " Invalid email!! please try again";
     }
-}
+
 ?>
 
 

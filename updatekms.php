@@ -1,11 +1,27 @@
-<?php //ob_start();
-include('authenticate.php'); ?>
-<?php include('connexion.php'); ?>
+<?php 
+include 'include/authant.php';
+ob_start();
+include 'include/header.php' ; ?>
+<?php include('connexion.php');
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+?>
+
 <?php $id_subcompany = $_SESSION['sub_company']; ?>
 
+<title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
+</head>  
+<body id="page-top"  >
+<div id="wrapper">
+ <!--sidbar start -->
+<?php include 'include/navbar.php'; ?>
 
-<div id="page-wrapper">
-    <div id="page-center">
+
+<!--sidbar end-->
+<div id='content-wrapper' class="d-flex flex-column">
+<?php
+require_once('include/topbon.php');
+?>
         <div class="row">
             <div class="col-md-8 col-lg-offset-2">
                 <h2>update kilometers</h2>
@@ -141,7 +157,7 @@ include('authenticate.php'); ?>
         );
     });
 </script>
-<?php mysqli_close($connection); ?>
 
-<?php include('footer.php'); ?> 
+
+<?php include('include/footerui.php'); ?> 
 

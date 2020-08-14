@@ -5,23 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    
     <link href="assets/fontawesome-free-5.9.0-web/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
      
     <link rel="stylesheet" href="assets/maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="assets/css/font-awesome.css" rel="stylesheet"/>
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
     
   <!-- BOOTSTRAP STYLES-->
   <link rel="shortcut icon" href="assets/img/icon.png" />
   <link href="assets/css/jquery-ui.min.css" rel="stylesheet"/>
    
    <!-- CUSTOM STYLES-->
-   <link href="assets/css/custom.css" rel="stylesheet"/>
-   <link href="css/style.css" rel="stylesheet"/>
+    <!-- Custom styles for this template-->
+   
+   <!-- <link href="assets/css/custom.css" rel="stylesheet"/>
+   <link href="css/style.css" rel="stylesheet"/> -->
+
    <!-- GOOGLE FONTS-->
+   <link href="assets/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+
+       <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
 
    <link href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css' rel='stylesheet' type='text/css'/>
@@ -29,14 +39,15 @@
 
    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css"/>
    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.css" rel="stylesheet"/>-->
-   <link href="assets/DataTables/datatables.min.css" rel="stylesheet"/>
+  
    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
    <link href="assets/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-
-   <script src="assets/js/jquery-1.10.2.js"></script>
    <script src="assets/js/jquery-1.10.2.js"></script>
     <script src="assets/js/jquery-ui.min.js"></script>
     <script src="assets/js/moment.min.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+   
+
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
 
 <link href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css'
@@ -59,17 +70,62 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.full.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-   
-   <script type="text/javascript">
-
-
-      
-
-
-
-</script>
+    <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
 
    <style>
+     .pagination > li:first-child > a, .pagination > li:first-child > span{
+       
+    margin-left: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+     }
+     #dataRetrival div{
+       cursor:pointer;
+     }
+     .pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus{
+       
+    color: #777;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd;
+     }.pagination > li > a, .pagination > li > span{
+      position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #428bca;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+     }
+     .pagination > li {
+    display: inline;}
+     
+     ul{
+       list-style-type: none;
+       font-size:15px;
+     }
+     nav{
+      font-size:15px;
+     }
+     li{
+      list-style-type: none;
+     }
+     .paginate_button.active{
+       background-color:#4E73DF;
+       color:white;
+     }
+     a{    
+      color: #4e73df;
+    text-decoration: none;
+    background-color: transparent;
+     }
+     a:hover{    
+     
+    text-decoration: none;
+    background-color: transparent;
+     }
    .sorting:after {
     opacity: 0.2;
     content: "\e150";
@@ -189,5 +245,3 @@
     border-color: #28a745;
    }
    </style>
-
-  

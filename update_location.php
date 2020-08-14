@@ -25,7 +25,7 @@ if ($_POST['value']) {
 
     if ($result > 0) {
 
-        $sql2 = "SELECT id_place FROM fluid_car_location WHERE id=$id";
+        $sql2="SELECT id_place FROM fluid_car_location WHERE id=$id";
         $result2 = mysqli_query($connection, $sql2);
         $location = mysqli_fetch_array($res)['id_place'];
 
