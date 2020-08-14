@@ -116,12 +116,12 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                             </div>
                           </div>   
                       
-                        <div class="col-12 mt-3  col-sm-6 col-md-3 " id='new'>
+                        <div class="col-12 mt-3  col-sm-6 col-md-3" id='newCaptain'>
                           <div class="card border-left-info shadow h-100 py-2">
                               <div class="card-body">
                               <div class="row no-gutters align-items-center">
                                   <div class="col mr-2">
-                                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Authorise</div>
+                                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Adminstration</div>
                                   <div class="row no-gutters align-items-center">
                                                   
                                   </div>

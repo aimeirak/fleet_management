@@ -232,7 +232,4 @@
 
 
 
-<hr class="sidebar-divider mt-2 d-none d-md-block">
-
-
 </ul>

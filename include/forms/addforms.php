@@ -33,7 +33,7 @@ function newCump(){
               </div>
               <div class="form-group row">
               <div class="col-12">
-                    <span id="drop-me-on" class="btn btn-sm btn-info col-12" >Save</span>                 
+                    <span id="drop-me-on" class="btn btn-sm btn-secondary col-12" >Save</span>                 
               </div>              
                
               </div>
@@ -64,7 +64,7 @@ function newSub(){
               <div class="p-5">
               <div id="ms"></div>
                 <div class="text-center">
-                  <h1 class="h4 text-gray-900 mb-4">Create new sub company!</h1>
+                  <h1 class="h4 text-info mb-4">Create new sub company!</h1>
                 </div>
                 <form class="user">
                   <div class="form-group row">
@@ -115,12 +115,50 @@ function newSub(){
       </div>
         ';
 }
+function auth(){
+  $AD = 20;
+  $LIVE = 1 ;
+  $sql  ='SELECT username,subcompany_name from fluid_user 
+  inner join fluid_sub_company on fluid_sub_company.id = fluid_user.id_subcompany 
+  where role = ? and fluid_user.live = ?';
+  $stmt =$GLOBALS['conn']->prepare($sql);
+  $stmt->bind_param('ii',$AD,$LIVE);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  while($fetchAdmin = $result->fetch_assoc()){
+    echo '
+  <div class="col-9 mt-3  col-sm-6 col-md-3 " >
+   <div class="card  shadow h-100 py-2">
+      <div class="card-body">
+      <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+          <div class="text-xs font-weight-bold text-info text-uppercase mb-1">'.$fetchAdmin['username'].'</div>
+          <div class="row no-gutters align-items-center">
+                          
+          </div>
+          </div>
+          <div class="col-auto">
+          <span class="fas fa-fw fa-user"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+  ';
+  
+  }
+
+  
+}
 if( isset($_POST['formId']) and $_POST['formId'] == 2 and  isset($_POST['new']) and $_SESSION['userStatus'] == 'MASTER'){
     newCump();
 }
 
 if( isset($_POST['formId']) and $_POST['formId'] == 1 and  isset($_POST['new']) and $_SESSION['userStatus'] == 'MASTER'){
     newSub();
+}
+if( isset($_POST['new']) and $_POST['new'] == 'at' and $_POST['aut'] == 1 and $_SESSION['userStatus'] == 'MASTER'){
+    auth();
 }
 
 

@@ -148,27 +148,48 @@ var task = document.querySelectorAll('#task .card');
  })
 
  var newSub = document.getElementById('newSub');
- newSub.addEventListener('click',()=>{
-     $.ajax({
-         url:'include/forms/addforms.php',
-         method:'POST',
-         data:{
-            formId:1,
-            new:'su' 
-         },
-         success:(data)=>{
-            dataloader(dataView,data);
-                var subcompanyName = document.getElementById("subcompanyName");
-                var company = document.getElementById("company");
-                var tinNumber = document.getElementById("tinNumber");
-                var location = document.getElementById("location");
-                var compEmail = document.getElementById("compEmail");
-                var save = document.getElementById("drop-me-on");
-                var ms = document.getElementById("ms");
-                save.addEventListener('click',()=>{
-                    newsubcompanydroped(subcompanyName,company,tinNumber,location,compEmail,ms);
-                    
-                })
-         }
-     })     
- })
+ if(!isNull(newSub)){
+    newSub.addEventListener('click',()=>{
+        $.ajax({
+            url:'include/forms/addforms.php',
+            method:'POST',
+            data:{
+               formId:1,
+               new:'su' 
+            },
+            success:(data)=>{
+               dataloader(dataView,data);
+                   var subcompanyName = document.getElementById("subcompanyName");
+                   var company = document.getElementById("company");
+                   var tinNumber = document.getElementById("tinNumber");
+                   var location = document.getElementById("location");
+                   var compEmail = document.getElementById("compEmail");
+                   var save = document.getElementById("drop-me-on");
+                   var ms = document.getElementById("ms");
+                   save.addEventListener('click',()=>{
+                       newsubcompanydroped(subcompanyName,company,tinNumber,location,compEmail,ms);
+                       
+                   })
+            }
+        })     
+    })
+ }
+ 
+
+ var newCaptain =  document.getElementById("newCaptain");
+ if(!isNull(newCaptain)){
+    newCaptain.addEventListener('click',()=>{
+        $.ajax({
+            url:'include/forms/addforms.php',
+            method:'POST',
+            data:{
+               aut:1,
+               new:'at' 
+            },
+            success:(data)=>{
+               dataloader(dataView,data);               
+            }
+        })
+     })
+ }
+ 

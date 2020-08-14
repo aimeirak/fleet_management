@@ -10,7 +10,7 @@ function carlistOnly(){
   $result1 = mysqli_query($GLOBALS['conn'], $sql1);
   while($row = mysqli_fetch_array($result1)){
     echo'
-    <div class="col-xl-3 col-md-6 m-2  " id="'.$row["plaque"].'"  onClick="getvalue(this.id)" >
+    <div class=" col-md-4 col-xl-3 mt-1  " id="'.$row["plaque"].'"  onClick="getvalue(this.id)" >
               <div class="card  shadow h-100 py-2">
                   <div class="card-body" >
                   <div class="row no-gutters align-items-center">
@@ -133,7 +133,7 @@ function carsInfo($carId,$today,$tomorrow){
       } 
 
       echo '
-      <div class="card-header" > Fuel consumption from  '.$today.' until '.$tomorrow.'</div>
+      <div class="card-header" >'.$carId.'  Fuel consumption from  '.$today.' until '.$tomorrow.'</div>
         <div class="card-body" >
            <div class="row">
             <div class="col p-2" >
