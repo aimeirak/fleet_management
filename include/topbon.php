@@ -21,10 +21,10 @@
                 </a>
                     <!-- Dropdown - User Information -->
                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                      <span class="dropdown-item" id="profile1">
+                    <a class="dropdown-item" href="user.php">
                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-700"></i>
                         Profile
-                      </span>
+                     </a>
                       <a class="dropdown-item" href="#">
                         <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-700"></i>
                         Settings

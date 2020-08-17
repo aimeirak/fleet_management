@@ -78,7 +78,27 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                               </div>
                             </div>
                           </div>
-                        </div>    
+                        </div>
+                        <?php   if($_SESSION['userStatus'] =='MASTER' || $_SESSION['userStatus'] =='admin'){ ?> 
+                          <div class="col-12 mt-3  col-sm-6 col-md-3 " >
+                            <a href="adminstrationBook/adminBook.php" class="card ">
+                                <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Organization </div>
+                                    <div class="row no-gutters align-items-center">
+                                                    
+                                    </div>
+                                    </div>
+                                    <div class="col-auto">
+                                    <span class="fas fa-fw fa-user text-danger"></span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                          <?php  }?> 
+
                      <?php   if($_SESSION['userStatus'] =='MASTER' ){ ?> 
                                
                       <div class="col-12 mt-3  col-sm-6 col-md-3 " id='newCompany'>
@@ -137,8 +157,9 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                         
                       <?php } ?> 
                      
-                <?php } ?> 
-                <!-- driver content -->
+                <?php } 
+                //driver content ?> 
+                
                 <?php if($_SESSION['role'] == 30){ ?>
                   <?php if(!isset($_SESSION['CAR'])){?>
                   <div class="col-12 mt-3  col-sm-6 col-md-3 "  id='selectCar' data-toggle='modal' data-target='#carsection' >
