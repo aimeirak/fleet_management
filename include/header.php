@@ -21,11 +21,7 @@
   <link rel="shortcut icon" href="assets/img/icon.png" />
   <link href="assets/css/jquery-ui.min.css" rel="stylesheet"/>
    
-   <!-- CUSTOM STYLES-->
-    <!-- Custom styles for this template-->
-   
-   <!-- <link href="assets/css/custom.css" rel="stylesheet"/>
-   <link href="css/style.css" rel="stylesheet"/> -->
+
 
    <!-- GOOGLE FONTS-->
    <link href="assets/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
@@ -44,7 +40,7 @@
    <link href="assets/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
    <script src="assets/js/jquery-1.10.2.js"></script>
     <script src="assets/js/jquery-ui.min.js"></script>
-    <script src="assets/js/moment.min.js"></script>
+    
     <!-- BOOTSTRAP SCRIPTS -->
    
 

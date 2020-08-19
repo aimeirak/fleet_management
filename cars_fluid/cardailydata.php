@@ -705,7 +705,25 @@ if(isset($_POST['u']) && isset($_POST['dp']) && $_SESSION['role'] == 30){
   $stmt->bind_param('ssii',$confirmed,$updatedAt,$driver,$id);
   $stmt->execute();
   $updated = $stmt->affected_rows;
-  if($updated){    
+  if($updated){ 
+     //notification
+     $bookiID = $_POST['dp'];
+   $bootOwener = $connection->prepare('SELECT username,fluid_user.id as "owner" from fluid_booking inner join fluid_user on fluid_user.id = fluid_booking.id_user where fluid_booking.id = ?');
+   $bootOwener->bind_param('i',$bookiID);   
+   $bootOwener->execute();
+   $result  = $bootOwener->get_result();
+   $row = $result->fetch_assoc();
+   $date = date('Y-m-d  h:m:s');
+   $boOwner = $row['owner'];
+   $username =  $row['username'];
+   $msg = $username.', your booking have been '.$confirmed.'  by '.$_SESSION['username'].' :) ';
+
+   $note = $connection->prepare('INSERT INTO fluid_notification_lead(note,userId,created_at) values (?,?,?) ');
+   $note->bind_param('sss',$msg,$boOwner,$date);
+   $note->execute();
+   $bootOwener->close();
+   $note->close();
+   //===== notification =====   
     Booking('confirmed');
   }else{    
     echo'<div class="alert alert-danger">Booking was not confirmed</div>';
