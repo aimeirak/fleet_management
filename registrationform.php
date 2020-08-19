@@ -72,11 +72,10 @@ if (isset($_REQUEST['username'])) {
                     $sender_name = "ishyiga Freet Managiment system ";
                     $m   = password_hash($email,PASSWORD_DEFAULT);
                     $to  = $email;
-                    $contents = ''.$varKey.'  copy and past in you verfication in put';
+                    $contents = ''.$varKey.'  copy and past in you verfication input';
                     $isSent = sendEmail($subject,$sender,$sender_name,$to,$contents);
-                    //will be changed manuel 
+                    //will be changed manuel               
                    
-                    $sent = 0;
                     
                     if($isSent){
                         $query  = "INSERT into fluid_user(id,id_subcompany,username,full_name,phone_number,password,passreset,email,vercod)  values (?,?,?,?,?,?,?,?,?)";
