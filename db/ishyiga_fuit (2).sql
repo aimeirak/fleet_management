@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2020 at 02:52 PM
+-- Generation Time: Aug 19, 2020 at 10:32 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -56,6 +56,13 @@ CREATE TABLE `fluid_booking` (
   `updated_at` datetime DEFAULT NULL,
   `driver_id` int(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `fluid_booking`
+--
+
+INSERT INTO `fluid_booking` (`id`, `start_time`, `end_time`, `id_user`, `id_place0`, `id_placef`, `status_id`, `departments_id`, `description`, `rank`, `created_at`, `updated_at`, `driver_id`) VALUES
+(1232, '2020-08-19 10:00', '2020-08-19 12:00', 24, 1, 4, 1, 1, '0', 'confirmed', '2020-08-19 09:03:49', '2020-08-19 00:00:00', 152);
 
 -- --------------------------------------------------------
 
@@ -195,7 +202,8 @@ CREATE TABLE `fluid_car` (
 INSERT INTO `fluid_car` (`id`, `id_subcompany`, `plaque`, `marque`, `insurance_date`, `control_technique_date`, `standard`, `fuel_consumption`, `id_driver`, `seats`) VALUES
 (1, 3, 'RAC650V(NISSAN)', 'NISSAN MARCH', '2018-10-10', '2018-08-16', 'mechanical issue', 8, 0, 8),
 (2, 3, 'RAD478P(AVANZA)', 'AVANZA', '2018-11-21', '2017-10-01', 'available', 9, 0, 8),
-(3, 3, 'RAD672S(BMW325)', 'BMW325', '0000-00-00', '0000-00-00', 'available', 6, 0, 6);
+(3, 3, 'RAD672S(BMW325)', 'BMW325', '0000-00-00', '0000-00-00', 'available', 6, 0, 6),
+(27, 3, 'RAE612M(TOYOTA)', 'toyota', '0000-00-00', '0000-00-00', 'available', 7, 0, 4);
 
 -- --------------------------------------------------------
 
@@ -2424,7 +2432,8 @@ CREATE TABLE `fluid_company` (
 INSERT INTO `fluid_company` (`id`, `company_name`, `tin_number`, `email`, `location`, `live`) VALUES
 (5, 'ALGORITHM', '101909872', 'kimainyi@gmail.com', 'KIMIHURURA', 1),
 (6, 'KAURWA LTD', '10317279', 'kaurwaltd@gmail.com', 'KIMIRONKO', 1),
-(7, 'linkmeon', '12345679', 'sezeranochrisostom123@gmail.com', 'kigali', 0);
+(7, 'linkmeon', '12345679', 'sezeranochrisostom123@gmail.com', 'kigali', 0),
+(8, 'new nation', '1019098722', 'eamo@gmail.com', 'kimironko', 0);
 
 -- --------------------------------------------------------
 
@@ -2810,7 +2819,14 @@ INSERT INTO `fluid_driver_logs` (`id`, `driver_id`, `date_log`, `car_id`, `live`
 (13, 75, '2020-08-05 15:08', 3, 1),
 (14, 75, '2020-08-06 09:08', 2, 1),
 (15, 152, '2020-08-07 12:08', 2, 1),
-(16, 152, '2020-08-08 10:08', 2, 1);
+(16, 152, '2020-08-08 10:08', 2, 1),
+(17, 152, '2020-08-10 15:08', 2, 1),
+(18, 152, '2020-08-11 11:08', 2, 1),
+(19, 93, '2020-08-11 15:08', 3, 1),
+(22, 152, '2020-08-12 14:08', 3, 1),
+(23, 93, '2020-08-12 14:08', 2, 1),
+(24, 152, '2020-08-18 17:08', 2, 1),
+(25, 152, '2020-08-19 07:08', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -2864,6 +2880,13 @@ CREATE TABLE `fluid_km_count` (
   `live` int(11) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `fluid_km_count`
+--
+
+INSERT INTO `fluid_km_count` (`id`, `id_booking`, `id_place0`, `id_placef`, `live`) VALUES
+(38, 1232, 1, 4, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -2876,6 +2899,41 @@ CREATE TABLE `fluid_location` (
   `longt` varchar(250) DEFAULT NULL,
   `artut` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fluid_notification_lead`
+--
+
+CREATE TABLE `fluid_notification_lead` (
+  `id` int(11) NOT NULL,
+  `note` varchar(250) DEFAULT NULL,
+  `live` int(11) DEFAULT '1',
+  `userId` int(11) DEFAULT NULL,
+  `created_at` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fluid_notification_lead`
+--
+
+INSERT INTO `fluid_notification_lead` (`id`, `note`, `live`, `userId`, `created_at`) VALUES
+(1, 'UWERA, your booking have been confirmed', 0, 24, '2020-08-18'),
+(2, 'UWERA, your booking have been completed  by Gilles and on 2020-08-18  05:08:19', 0, 24, '2020-08-18  05:08:19'),
+(3, ', your booking have been rejected  by Gilles and on 2020-08-18  06:08:51', 1, NULL, '2020-08-18  06:08:51'),
+(4, 'UWERA, your booking have been rejected  by Gilles and on 2020-08-18  06:08:37', 0, 24, '2020-08-18  06:08:37'),
+(5, 'UWERA, your booking have been confirmed  by Gilles :) ', 0, 24, '2020-08-19  07:08:23'),
+(6, 'UWERA, your booking have been started  by Gilles ', 0, 24, '2020-08-19 07:08:51'),
+(7, 'UWERA, your booking have been completed  by Gilles ', 0, 24, '2020-08-19  07:08:18'),
+(8, 'UWERA, your booking have been confirmed  by Gilles :) ', 0, 24, '2020-08-19  07:08:23'),
+(9, 'UWERA, your booking have been confirmed  by Gilles :) ', 0, 24, '2020-08-19  07:08:53'),
+(10, 'UWERA, your booking have been confirmed  by Gilles :) ', 0, 24, '2020-08-19  08:08:51'),
+(11, 'UWERA, your booking have been started  by Gilles ', 0, 24, '2020-08-19 08:08:39'),
+(12, 'UWERA, your booking have been completed  by Gilles ', 0, 24, '2020-08-19  08:08:49'),
+(13, 'UWERA, your booking have been confirmed  by Gilles :) ', 0, 24, '2020-08-19  09:08:00'),
+(14, 'UWERA, your booking have been confirmed  by Gilles :) ', 0, 24, '2020-08-19  09:08:53'),
+(15, 'UWERA, your booking have been confirmed  by Gilles :) ', 0, 24, '2020-08-19  09:08:03');
 
 -- --------------------------------------------------------
 
@@ -3663,7 +3721,8 @@ CREATE TABLE `fluid_sub_company` (
 INSERT INTO `fluid_sub_company` (`id`, `id_company`, `subcompany_name`, `tin_number`, `email`, `location`) VALUES
 (3, 5, 'ALGORITHM', '101909872', 'kimainyi@gmail.com', 'KIMIHURURA'),
 (4, 6, 'KAURWA LTD', '10317279', 'kaurwaltd@gmail.com', 'KIMIRONKO'),
-(5, 7, 'local', '12345679', 'sezeranochrisostom123@gmail.com', 'kigali');
+(5, 7, 'local', '12345679', 'sezeranochrisostom123@gmail.com', 'kigali'),
+(6, 5, 'new', '12456', 'eamo@gmail.com', 'kigali');
 
 -- --------------------------------------------------------
 
@@ -3750,27 +3809,27 @@ CREATE TABLE `fluid_user` (
 
 INSERT INTO `fluid_user` (`id`, `id_subcompany`, `username`, `full_name`, `phone_number`, `auth_key`, `password`, `passreset`, `email`, `role`, `last_login`, `live`, `status`, `vercod`, `verfied`) VALUES
 (5, 3, 'linda', 'Dushimire Linda Sylvie', '0788869326', '10', '25f9e794323b453885f5181f1b624d0b', '', 'lindadusy2@gmail.com', 10, '2017-11-27 11:17:59', 1, 'lebour', '', 1),
-(24, 3, 'UWERA', 'UWERA ODETTE', '0782138025', '1', '25f9e794323b453885f5181f1b624d0b', '', 'odette.uwera@ishyiga.info', 10, '2020-08-10 14:31:41', 1, 'lebour', '', 1),
+(24, 3, 'UWERA', 'UWERA ODETTE', '0782138025', '1', '25f9e794323b453885f5181f1b624d0b', '', 'odette.uwera@ishyiga.info', 10, '2020-08-19 10:27:21', 1, 'lebour', '', 1),
 (26, 3, 'corneille', 'Corneille Mvuyekure', '+250000000000', '1', '25f9e794323b453885f5181f1b624d0b', '', 'corneille.mvuyekure@ishyiga.info', 10, '2019-01-31 12:16:03', 1, 'lebour', '', 1),
 (27, 3, 'THEONESTE', 'BIZIMUNGU THEONESTE', '0787533098', '1', '25f9e794323b453885f5181f1b624d0b', '', 'theoneste.bizimungu@ishyiga.info', 10, '2018-11-05 13:39:34', 1, 'lebour', '', 1),
-(28, 3, 'aimable', 'Aimable Kimenyi', '0788000000', '1', '25f9e794323b453885f5181f1b624d0b', '', 'aimable.kimenyi@ishyiga.info', 20, '2020-08-07 11:30:32', 1, 'ALGORITHM', '', 1),
+(28, 3, 'aimable', 'Aimable Kimenyi', '0788000000', '1', '25f9e794323b453885f5181f1b624d0b', '', 'aimable.kimenyi@ishyiga.info', 20, '2020-08-19 09:22:03', 1, 'MASTER', '', 1),
 (30, 3, 'emelyne', 'ntigurirwa emelyne', '0782286200', '1', '25f9e794323b453885f5181f1b624d0b', '', 'emelyne.ntigurirwa@ishyiga.info', 20, '2018-07-30 12:27:32', 1, 'lebour', '', 1),
 (38, 3, 'telesphore', 'nsabimana telesphore', '0782402205', '1', '25f9e794323b453885f5181f1b624d0b', '', 'telesphore.nsabimana@ishyiga.info', 10, '2019-03-31 13:43:20', 1, 'lebour', '', 1),
 (57, 3, 'bizimana', 'Bizimana JMV', '+250784460563', '10', '25f9e794323b453885f5181f1b624d0b', '', 'jmv.bizimana@ishyiga.info', 10, '2018-10-02 11:36:59', 1, 'lebour', '', 1),
 (58, 3, 'delphine', 'DELPHINE MUKAHIRWA', '0785989244', '10', '25f9e794323b453885f5181f1b624d0b', '', 'delphine.mukahirwa@ishyiga.info', 10, '2019-02-12 19:28:46', 1, 'lebour', '', 1),
-(61, 3, 'rose', 'uwamariya marie rose', '0788975432', '10', '25f9e794323b453885f5181f1b624d0b', '1bbf28165a1dcbcfd145c68ff7fbe0ff685cc83646a3e253f786f4af1a7961bd', 'marie.rose.uwamariya@ishyiga.info', 20, '2020-07-08 14:01:43', 1, 'lebour', '', 1),
+(61, 3, 'rose', 'uwamariya marie rose', '0788975432', '10', '25f9e794323b453885f5181f1b624d0b', '1bbf28165a1dcbcfd145c68ff7fbe0ff685cc83646a3e253f786f4af1a7961bd', 'marie.rose.uwamariya@ishyiga.info', 10, '2020-07-08 14:01:43', 1, 'lebour', '', 1),
 (80, 3, 'ella', 'Irangabiye ella', '0789623684', '10', '25f9e794323b453885f5181f1b624d0b', '', 'ella.hestia@ishyiga.info', 10, '2019-01-17 13:11:28', 1, 'lebour', '', 1),
 (84, 3, 'sued', 'IRADUKUNDA Amri Sued', '0788970708', '10', '25f9e794323b453885f5181f1b624d0b', '', 'amri.sued.iradukunda@ishyiga.info', 10, '2019-01-31 12:15:07', 1, 'lebour', '', 1),
 (87, 3, 'barthelemy', 'NIYIGIRIMBABAZI Barthelemy', '783288362', '10', '25f9e794323b453885f5181f1b624d0b', '', 'barthelemy.niyigirimbabazi@ishyiga.info', 10, '2018-08-08 17:23:41', 1, 'lebour', '', 1),
 (88, 3, 'irakuzwa', 'Irakuzwa Jean Aime', '0782229123', '10', '25f9e794323b453885f5181f1b624d0b', 'efa080a8e06f479915f2be8f17236a84df3fb7a0b64ca47a8b3498fd03f28d52', 'jean.aime.irakuzwa@ishyiga.info', 10, '2020-07-07 15:49:43', 1, 'lebour', '', 1),
 (91, 3, 'pacifique2', 'Pacifique Uwimana', '+250783248715', '10', '25f9e794323b453885f5181f1b624d0b', '8bbbb45e75a0748c92b2a7ed7fb0858928d42c62792eb6c770bc11627791aa11', 'pacifique.Uwimana@ishyiga.info', 10, '2019-01-28 17:52:49', 1, 'lebour', '', 1),
-(92, 3, 'jeannine', 'nuyonkuru jeannine manariyo', '078843008', '10', '25f9e794323b453885f5181f1b624d0b', '81f061eabf0699fbbb7016324faf4ed04486df4684900cdbc553582fdd3fbe9d', 'jeannine.manariyo@ishyiga.info', 30, '2018-11-27 12:58:47', 1, 'lebour', '', 1),
-(93, 3, 'Hagenimana', 'Hagenimana emmanuel', '0780273467', '10', '25f9e794323b453885f5181f1b624d0b', '', 'hagenimanemmanuel@gmail.com', 30, '2020-01-31 09:10:41', 1, 'lebour', '', 1),
-(131, 3, 'seze', 'sez fent ', '123456799', '10', '25f9e794323b453885f5181f1b624d0b', '$2y$10$B.R8YqAPLYzJ0n.pU./tj.kqU/h7EV5Ix.a6ru59DMLCTa9NgVlJ.', 'sezeranochrisostom123@gmail.com', 20, '2020-08-08 10:35:23', 1, 'lebour', '6aeb853060bef4912be572ffdd6445b2', 1),
+(92, 3, 'jeannine', 'nuyonkuru jeannine manariyo', '078843008', '10', '25f9e794323b453885f5181f1b624d0b', '81f061eabf0699fbbb7016324faf4ed04486df4684900cdbc553582fdd3fbe9d', 'jeannine.manariyo@ishyiga.info', 10, '2018-11-27 12:58:47', 1, 'lebour', '', 1),
+(93, 3, 'Hagenimana', 'Hagenimana emmanuel', '0780273467', '10', '25f9e794323b453885f5181f1b624d0b', '', 'hagenimanemmanuel@gmail.com', 10, '2020-08-12 14:15:52', 1, 'lebour', '', 1),
+(131, 3, 'seze', 'sez fent ', '25000000000000', '10', '25f9e794323b453885f5181f1b624d0b', '$2y$10$B.R8YqAPLYzJ0n.pU./tj.kqU/h7EV5Ix.a6ru59DMLCTa9NgVlJ.', 'sezeranochrisostom123@gmail.com', 20, '2020-08-18 16:08:12', 1, 'lebour', '6aeb853060bef4912be572ffdd6445b2', 1),
 (137, 3, 'STEVE', 'hakizimana steve', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'steve.hakizimana@ishyiga.info', 10, NULL, 1, 'lebour', '', 1),
 (139, 3, 'sheila', 'Annie Sheila Munezero', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'annieroy0412@gmail.com', 10, NULL, 1, 'lebour', '', 1),
 (140, 3, 'NIYIKORA', 'NIYIKORA Jean', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'jean.niyikora@ishyiga.info', 10, NULL, 1, 'lebour', '', 1),
-(141, 3, 'MANIRAKIZA', 'MANIRAKIZA Patience', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'patience.manirakiza@ishyiga.info', 10, NULL, 0, 'lebour', '', 1),
+(141, 3, 'MANIRAKIZA', 'MANIRAKIZA Patience', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'patience.manirakiza@ishyiga.info', 10, NULL, 1, 'lebour', '', 1),
 (142, 3, 'aristide', 'Nijimbere aristide', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'aristide.nijimbere@ishyiga.info', 10, NULL, 1, 'lebour', '', 1),
 (143, 3, 'mwungura', 'Mwungura muhire', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'mwunguramuhire@gmail.com', 10, NULL, 1, 'lebour', '', 1),
 (144, 3, 'elyse12', 'Elyse Ihirwe', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'elyse.ihirwe@ishyiga.info', 10, NULL, 1, 'lebour', '', 1),
@@ -3779,9 +3838,10 @@ INSERT INTO `fluid_user` (`id`, `id_subcompany`, `username`, `full_name`, `phone
 (147, 3, 'MUGABO', 'MUGABO Francois', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'mugabofrancois1997@gmail.com', 10, NULL, 1, 'lebour', '', 1),
 (148, 3, 'NTAKIRUTIMANA', 'Ntakirutimana Elyssa', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'ntakirelyssa@gmail.com', 10, NULL, 1, 'lebour', '', 1),
 (149, 3, 'POUL', 'JEAN PAUL NIYIGENA', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'niyigenathewinner@gmail.com', 10, NULL, 1, 'lebour', '', 1),
-(150, 3, 'UGIRIMBABAZI', 'Etienne UGIRIMBABAZI', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'ugira77@gmail.com', 10, NULL, 1, 'lebour', '', 1),
+(150, 3, 'UGIRIMBABAZI', 'Etienne UGIRIMBABAZI', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'ugira77@gmail.com', 10, '2020-08-11 15:49:39', 1, 'lebour', '', 1),
 (151, 3, 'NIYONSABA', 'NIYONSABA Claudine', '', '10', '25f9e794323b453885f5181f1b624d0b', '', 'niclaudine41@gmail.com', 10, NULL, 1, 'lebour', '', 1),
-(152, 3, 'Gilles', 'Gilles', '+2500000000', '123456', '25f9e794323b453885f5181f1b624d0b', '', '', 30, '2020-08-08 10:33:16', 1, 'lebour', '', 1);
+(152, 3, 'Gilles', 'Gilles', '+2500000000', '123456', '25f9e794323b453885f5181f1b624d0b', '', '', 30, '2020-08-19 10:28:27', 1, 'lebour', '', 1),
+(153, 5, 'juju', 'julia ', '1234567890', '10', 'c19c8f9b6caad92726f88434d1493ad5', '4899a839454d9b687fac884350146cb2', 'agasarojulia03@gmail.com', 10, NULL, 0, 'lebour', '9143bed468f4b552aaab032434d0a97d', 0);
 
 -- --------------------------------------------------------
 
@@ -3939,6 +3999,12 @@ ALTER TABLE `fluid_location`
   ADD KEY `sector_id` (`sector_id`);
 
 --
+-- Indexes for table `fluid_notification_lead`
+--
+ALTER TABLE `fluid_notification_lead`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `fluid_place`
 --
 ALTER TABLE `fluid_place`
@@ -4025,7 +4091,7 @@ ALTER TABLE `fuel_cost`
 -- AUTO_INCREMENT for table `fluid_booking`
 --
 ALTER TABLE `fluid_booking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1216;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1233;
 
 --
 -- AUTO_INCREMENT for table `fluid_booking_row`
@@ -4043,7 +4109,7 @@ ALTER TABLE `fluid_book_date_lead`
 -- AUTO_INCREMENT for table `fluid_car`
 --
 ALTER TABLE `fluid_car`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `fluid_car_location`
@@ -4061,7 +4127,7 @@ ALTER TABLE `fluid_cell`
 -- AUTO_INCREMENT for table `fluid_company`
 --
 ALTER TABLE `fluid_company`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `fluid_departments`
@@ -4091,7 +4157,7 @@ ALTER TABLE `fluid_driver_avail`
 -- AUTO_INCREMENT for table `fluid_driver_logs`
 --
 ALTER TABLE `fluid_driver_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `fluid_kms`
@@ -4103,13 +4169,19 @@ ALTER TABLE `fluid_kms`
 -- AUTO_INCREMENT for table `fluid_km_count`
 --
 ALTER TABLE `fluid_km_count`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
+--
+-- AUTO_INCREMENT for table `fluid_notification_lead`
+--
+ALTER TABLE `fluid_notification_lead`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `fluid_place`
 --
 ALTER TABLE `fluid_place`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=466;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=467;
 
 --
 -- AUTO_INCREMENT for table `fluid_private_usage`
@@ -4133,7 +4205,7 @@ ALTER TABLE `fluid_sector`
 -- AUTO_INCREMENT for table `fluid_sub_company`
 --
 ALTER TABLE `fluid_sub_company`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `fluid_unavailable_car`
@@ -4145,7 +4217,7 @@ ALTER TABLE `fluid_unavailable_car`
 -- AUTO_INCREMENT for table `fluid_user`
 --
 ALTER TABLE `fluid_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
 
 --
 -- AUTO_INCREMENT for table `fuel_cost`
