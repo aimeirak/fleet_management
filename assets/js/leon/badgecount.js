@@ -1,23 +1,24 @@
-var total = document.getElementById('totalBooked');
+function loadNote(dt = '',view = ''){
+  $.ajax({
+      url:'notification_lead/note.php',
+      method:'post',
+      data:{
+          data:dt,
+          view:view
+      },
+      dataType:'json',
+      success:(data)=>{
+          $('.alert-field').html(data.note);
+          if(data.count > 0){
+            $('.note').html(data.count);
+          }
+         
+      }
+  })
+}
 
-
-function loadBadge (){
-    $.ajax({
-        url:'include/bdgecounter.php',
-        method:'POST',
-        data:{
-            totalBooked:3
-        },
-        success:(data)=>{
-            total.innerHTML=data;
-        } 
-
-    });
-} 
-
-total != null ? 
-setInterval(function(){
-    loadBadge();
-},1100)
-:'';
-
+loadNote();
+setInterval(()=>{
+    loadNote()
+  }
+    ,5000);
