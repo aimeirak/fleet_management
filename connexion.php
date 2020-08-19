@@ -10,3 +10,4 @@ if (!$select_db){
 }
 
 $GLOBALS['conn'] = $connection;
+date_default_timezone_set("Africa/Kigali");

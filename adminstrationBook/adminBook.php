@@ -5,11 +5,11 @@ if(isset($_SESSION['sub_company'] ) && $_SESSION['role'] == 20 && ($_SESSION['us
  <!DOCTYPE html>
  <html lang="en">
  <head>
-
+ <meta name="viewport" content="width=device-width, initial-scale=1">
  
- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.css">
  
- <script  src="https://code.jquery.com/jquery-2.0.3.min.js" integrity="sha256-sTy1mJ4I/LAjFCCdEB4RAvPSmRCb3CU7YqodohyeOLo=" crossorigin="anonymous"></script>
+<script  src="https://code.jquery.com/jquery-2.0.3.min.js" integrity="sha256-sTy1mJ4I/LAjFCCdEB4RAvPSmRCb3CU7YqodohyeOLo=" crossorigin="anonymous"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <link rel="shortcut icon" href="../assets/img/icon.png" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap-editable/css/bootstrap-editable.css">
