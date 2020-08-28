@@ -1,6 +1,6 @@
 <?php
 ob_start();
-include 'include/emailSender.php';
+include 'include/deplicatSolver/emailSender.php';
 include('connexion.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
@@ -9,6 +9,7 @@ ini_set('display_errors', 'On');
 
 
 <?php
+$sent = 0; 
 // If form submitted, insert values into the database.
 if (isset($_REQUEST['username'])) {
     // removes backslashes
@@ -43,6 +44,7 @@ if (isset($_REQUEST['username'])) {
                 $stmt->close();
                 $status = 0;
                 $msg.="Username already taken "."</br>";
+                
                                               
                     
               }  
