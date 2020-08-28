@@ -69,7 +69,7 @@ ini_set('display_errors', 'On');
                             <th>From</th>
                             <th>to</th>
                             <th>Km</th>
-            <?php if($_SESSION['role']==20 ){?>  <th>Modify</th> <?php } ?> 
+            <?php if($_SESSION['role']== 20 ){?>  <th>Modify</th> <?php } ?> 
 
 
                         </tr>
@@ -84,7 +84,7 @@ ini_set('display_errors', 'On');
 
 
                             $sql1 = "SELECT fluid_distance.id,place1.name AS a,place2.name AS b,kilometers
-                FROM fluid_distance               
+                                   FROM fluid_distance               
                 INNER JOIN fluid_place AS place1 on fluid_distance.id_sector0=place1.id
                 INNER JOIN fluid_place AS place2 on fluid_distance.id_sectorf=place2.id where a=" . $name . " ORDER BY fluid_distance.id ASC";
                             $result1 = mysqli_query($connection, $sql1);

@@ -50,7 +50,35 @@
  
     <script src="assets/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 
+<style>
+.loader{
+  position: fixed;
+  z-index:99;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loader > img {
+  width: 50%;
+  height: 75%;
+} 
+.loader.lodh{
+  animation: loadmeout 1s;
+  animation-fill-mode: forwards;
+}
+@keyframes loadmeout {
+  100% {
+    opacity: 0;
+    visibility: hidden;
+      }
+}
 
+    </style>
 
 
 <!-- 

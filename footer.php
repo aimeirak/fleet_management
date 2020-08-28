@@ -38,6 +38,10 @@
 <script src="assets/js/leon/carInfo.js"></script>
    
 <script>
+     window.addEventListener('load',()=>{
+            const loader = document.querySelector('.loader');
+            loader.classList.add('lodh'); 
+        })
     
     $(document).ready(function() {
         $('.table').DataTable({           

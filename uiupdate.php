@@ -22,6 +22,7 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
 <!-- navigation  -->
 
  <div id="wrapper">
+   
    <!--sidbar start -->
   <?php include 'include/navbar.php' ?>
   <!--sidbar end-->
@@ -255,7 +256,7 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
 
                  
                   <?php } ?> 
-                  <?php if($_SESSION['role'] == 10){ ?>
+                  <?php if($_SESSION['role'] == 10 || $_SESSION['role'] == 20){ ?>
 
                     <div class="col-12 mt-3  col-sm-6 col-md-3 " id='bookRide'>
                     <div class="card border-left-secondary shadow h-100 py-2">

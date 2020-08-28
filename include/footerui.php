@@ -72,6 +72,10 @@ $json = json_encode($data);
 <script src="assets/js/leon/fruid_back_inc_bone.js"></script>
 
     <script>
+        window.addEventListener('load',()=>{
+            const loader = document.querySelector('.loader');
+            loader.classList.add('lodh'); 
+        })
           
     var DriverProg = document.getElementById('DriverProg'); 
 if(!isNull(DriverProg)){

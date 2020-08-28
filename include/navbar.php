@@ -1,4 +1,7 @@
 <?php $id_subcompany = $_SESSION['sub_company'] ?>
+<div class="loader">
+     <img src="assets/bootstrap3-editable/img/Loading-Image.gif" alt="" srcset="">
+   </div>
 <ul  class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion " id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
@@ -27,7 +30,7 @@
   Modification
 </div>
 
-<li class="nav-item">
+<li class="nav-item">  
   <a class="nav-link" href="edituser.php" id="Profile" >
     <i class="fas fa-fw fa-user"></i>
     <span>Profile</span></a>
