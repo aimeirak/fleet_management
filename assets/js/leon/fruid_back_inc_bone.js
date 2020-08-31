@@ -135,6 +135,7 @@ if(!isNull(newCompany)){
          })
      }) 
 }
+
 var task = document.querySelectorAll('#task .card');
  task.forEach((card)=>{
     card.addEventListener('mouseover',()=>{
@@ -192,4 +193,31 @@ var task = document.querySelectorAll('#task .card');
         })
      })
  }
+ function onSpinner(){
+    document.getElementById('ajax-loader').style.display = 'block';
+} 
+function UnonSpinner(){
+    document.getElementById('ajax-loader').style.display = 'none';
+} 
+
+task.forEach((card)=>{
+    card.addEventListener('click',()=>{
+        onSpinner();
+        setInterval(()=>{
+            UnonSpinner();
+        },2000);
+        var data1 = document.getElementById('dataRetrival');
+        var data2 = document.getElementById('data2Retrival');  
+        data1.addEventListener('onload',()=>{
+            onSpinner();
+        });
+        data2.addEventListener('onload',()=>{
+            onSpinner();
+        });
+
+     })
+    
+   
+ })
+
  

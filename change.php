@@ -1,27 +1,17 @@
-<?php 
-    
+<?php     
     include('connexion.php');
-
-
 ?>
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simple Responsive Admin</title>
-    <!-- BOOTSTRAP STYLES-->
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-
-    <link rel="stylesheet" href="assets/css/styles.css" >
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />       
+    <link rel="stylesheet" href="assets/css/sb-admin-2.min.css" >
+    <script src="assets/js/sb-admin-2.min.js"></script>
+    <link rel="shortcut icon" href="assets/img/icon.png" />
+    <title>Request password reset</title>
+   
 </head>
 <body>
 <div id="page-wrapper" >
@@ -39,12 +29,12 @@
                      </div>
                     </div>
 
-</div></body>
+</div></body></html>
 
 
 <?php
 
-if(isset($_POST['email'])){
+if(isset($_POST['ForgotPassword'])){
     $email= mysqli_real_escape_string($connection,$_POST["email"]);
     $query = "SELECT id,email FROM `fluid_user` WHERE `email`= ? ";
     $stmt = $connection->prepare($query);
@@ -65,7 +55,7 @@ if(isset($_POST['email'])){
         $inserted = $stmt->affected_rows;
         if($inserted){
             $to  = $row['email'];
-            $message = 'password rest key is '. $resetKey .'<BR>' ;
+            $message = 'password rest key  <code> '. $resetKey .'  </code><BR>' ;
             $sender = "ishyigasoftware900@gmail.com";
             $sender_name = " Password reset ";
             $subject= "freet account passwrod verfication key";

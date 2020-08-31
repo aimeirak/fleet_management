@@ -72,6 +72,7 @@ $json = json_encode($data);
 <script src="assets/js/leon/fruid_back_inc_bone.js"></script>
 
     <script>
+
         window.addEventListener('load',()=>{
             const loader = document.querySelector('.loader');
             loader.classList.add('lodh'); 
@@ -120,7 +121,6 @@ if(!isNull(DriverProg)){
     })
 }
 
-   
       var bur = document.getElementById('sidebarToggleTop'); 
       var sider =  document.getElementById('accordionSidebar');
       var clearb =  document.getElementById('returnB');
@@ -222,6 +222,12 @@ function getvalue(indi){
           }
        
       })
+      if(window.innerWidth >= 768){
+          sider.style.display = '';
+        }else{
+            sider.style.display = 'none'
+        }
+       
 
       //book
       var bookRide =  document.getElementById('bookRide');

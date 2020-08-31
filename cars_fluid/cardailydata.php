@@ -917,11 +917,12 @@ function carProgressMod($from,$to){
                 
            ';
       
-     
+      //bookin should be done 
+      $done = 'done';
       while($fetchDriver = $results->fetch_assoc()){
         $diverid = $fetchDriver['id'];
-        $stmtp = $GLOBALS['conn']->prepare('SELECT count(fluid_booking.id) as num FROM fluid_booking where date(start_time) between date(?) and (?)  and driver_id = ?');
-        $stmtp->bind_param('ssi',$now,$to,$diverid);
+        $stmtp = $GLOBALS['conn']->prepare('SELECT count(fluid_booking.id) as num FROM fluid_booking where date(start_time) between date(?) and (?) and rank = ?  and driver_id = ?');
+        $stmtp->bind_param('sssi',$now,$to,$done,$diverid);
         $stmtp->execute();
         $result = $stmtp->get_result();
         $fecthBprog = $result->fetch_assoc();

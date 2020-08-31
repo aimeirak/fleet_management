@@ -48,6 +48,14 @@
               } );
     } )
     
+    var sider =  document.getElementById('accordionSidebar');    
+    if(window.innerWidth >= 768){
+          sider.style.display = '';
+        }else{
+            sider.style.display = 'none'
+        }
+       
+    
   
   
   $(function () {

@@ -28,11 +28,8 @@ if(!isset($_SESSION['sub_company'])){
             require_once('include/topbon.php');
             ?>          
     <div id="page-inner">
-      <div class="row p-5">
-        <div class="col-md-6">
-        <h2>Joined</h2>
-        </div> </div>
-<form action="handshake.php" method="post">
+      
+<form action="handshake.php" class="p-2" method="post">
         <div class="row">
             <div class="form-group col-md-5">
                 <div class='input-group date' id='datetimepicker1'>
@@ -78,8 +75,13 @@ if(!isset($_SESSION['sub_company'])){
 
         
         <div class="row" style="padding:10px;">
-        
-            <table class="table table-striped table-bordered table-hover display" id="datatable1" cellspacing="0"
+        <div class="card shadow m-2">
+            <div class="card-header">
+              <h2>Joined</h2>
+            </div>
+            <div class="card-body">
+                 <div class="table-responsive">
+                 <table class="table table-striped table-bordered table-hover display" id="datatable1" cellspacing="0"
                    width="100%">
                 <thead>
                     <tr>
@@ -95,7 +97,7 @@ if(!isset($_SESSION['sub_company'])){
                         <th></th>
                     </tr>
                 </thead>
-                <body>
+                <tbody>
                 <?php
                 $USERID  = $_SESSION['id'];
                 if(isset($_POST['start_date']) and $_POST['end_date']!=''){
@@ -283,9 +285,14 @@ if(isset($_GET['bkid'])){
 
                     });
                 </script>
-                </body>
+                </tbody>
 
             </table> 
+                 </div>
+            </div>
+        </div>
+        
+          
 
                </div>
              </div>

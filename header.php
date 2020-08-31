@@ -51,7 +51,7 @@
     <script src="assets/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 
 <style>
-.loader{
+ .loader{
   position: fixed;
   z-index:99;
   top:0;
@@ -63,9 +63,10 @@
   justify-content: center;
   align-items: center;
 }
+
 .loader > img {
-  width: 50%;
-  height: 75%;
+  width: 60%;
+  height: 60%;
 } 
 .loader.lodh{
   animation: loadmeout 1s;
@@ -77,6 +78,14 @@
     visibility: hidden;
       }
 }
+
+
+@media screen and (max-width:760px){
+  .loader > img {
+    width: 100%;
+    height: 50%;
+  }
+   }
 
     </style>
 

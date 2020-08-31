@@ -38,7 +38,7 @@ require_once('include/topbon.php');
        
 
         <div class="row m-4" style="padding:10px;">
-            <div class="card">
+            <div class="card shadow-lg">
                 <div class="card-header">
                     <h3>Place list</h3>
                 </div>

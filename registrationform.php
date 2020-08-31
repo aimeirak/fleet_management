@@ -74,7 +74,7 @@ if (isset($_REQUEST['username'])) {
                     $sender_name = "ishyiga Freet Managiment system ";
                     $m   = password_hash($email,PASSWORD_DEFAULT);
                     $to  = $email;
-                    $contents = ''.$varKey.'  copy and past in you verfication input';
+                    $contents = '<code> '.$varKey.' </code> copy and past in you verfication input';
                     $isSent = sendEmail($subject,$sender,$sender_name,$to,$contents);
                     //will be changed manuel               
                    
@@ -147,7 +147,7 @@ include 'include/header.php'
                   <form class=" " name="registration" action="registrationform.php" method="post">
                     <div class="span3">
                         <?php
-                        $sqlu = "SELECT * FROM fluid_sub_company inner join  fluid_company  on fluid_sub_company.id_company = fluid_company.id where  fluid_company.live = 1";
+                        $sqlu = "SELECT fluid_sub_company.* FROM fluid_sub_company inner join  fluid_company  on fluid_sub_company.id_company = fluid_company.id where  fluid_company.live = 1";
                         $rst = mysqli_query($connection, $sqlu); ?>
 
                         <label>Company</label>

@@ -9,7 +9,7 @@
               </a></div>
           
 <?php 
-if($_SESSION['role'] == 10){
+if($_SESSION['role'] == 10 || $_SESSION['role'] == 20){
  //notification     ?>
 <li class="nav-item dropdown no-arrow mx-1">
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
