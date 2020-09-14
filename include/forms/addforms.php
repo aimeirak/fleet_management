@@ -1,6 +1,45 @@
 <?php 
 include '../../connexion.php';
 session_start();
+
+if(isset($_SESSION['role'])){ 
+  $now = new DateTime();
+  $id = $_SESSION['id'];
+$stmt = $connection->prepare('SELECT last_login from fluid_user where id = ?');
+$stmt->bind_param('i',$id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$lastLogin = new DateTime($row['last_login']);
+// echo ;
+// echo '<br>';
+// echo ;
+if($lastLogin->format('Y m d') < $now->format('Y m d')){
+  $msg = '
+  <div class="container">
+  <div class="card shadow mt-5">
+  <div class=" alert alert-warning text-center m-5"><div class" p-5">Please login again </div> </div>
+  </div>
+  </div>
+ ';
+  session_destroy();
+  exit($msg);
+ 
+}
+
+}else{
+  $msg = '
+  <div class="container">
+  <div class="card shadow mt-5">
+  <div class=" alert alert-warning text-center m-5"><div class" p-5">Please login again </div> </div>
+  </div>
+  </div>
+ ';
+ 
+ exit($msg);
+
+ 
+}
 function newCump(){
     echo '
     <div class="card o-hidden border-0 shadow-lg my-5 col-12">
@@ -149,6 +188,38 @@ function auth(){
   }
 
   
+}
+if(isset($_SESSION['role']) and $_SESSION['role'] == 30 and $_POST['ACT'] == 're' and isset($_POST['b'])){
+  echo '<div class="modal-body" >
+         
+          
+          <div class="col-sm-12">
+              Description
+              <input type="text" class="form-control " id="reason" placeholder="Reason..">
+            </div>
+            
+       </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" type="button" data-dismiss="modal" onClick ="dismiss('.$_POST['b'].')" >reject</button>
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+      </div>
+  ';
+}
+if(isset($_SESSION['role']) and $_SESSION['role'] == 30 and $_POST['ACT'] == 'ca' and isset($_POST['b'])){
+  echo '<div class="modal-body" >
+         
+          
+          <div class="col-sm-12">
+              Description
+              <input type="text" class="form-control " id="reason" placeholder="Reason..">
+            </div>
+            
+       </div>
+      <div class="modal-footer">
+        <button class="btn btn-warning" type="button" data-dismiss="modal" onClick ="procced('.$_POST['b'].')" >procced</button>
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+      </div>
+  ';
 }
 if( isset($_POST['formId']) and $_POST['formId'] == 2 and  isset($_POST['new']) and $_SESSION['userStatus'] == 'MASTER'){
     newCump();

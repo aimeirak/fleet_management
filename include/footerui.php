@@ -16,9 +16,40 @@
       </div>
     </div>
   </div>
-
+  <?php if($_SESSION['role'] == 30){?>
+  <div class="modal fade" id="reject" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Why are you rejecting?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div id='rep'>
+           
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="diss" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Why are you canceling ?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div id='intro'>
+           
+        </div>
+      </div>
+    </div>
+  </div>
+  <?php } ?>
  <?php
-$sql = "SELECT fluid_place.id,Lcase(name) as name FROM fluid_place 
+$sql = "SELECT fluid_place.id,Ucase(name) as name FROM fluid_place 
 INNER JOIN fluid_user ON fluid_place.id_user=fluid_user.id WHERE fluid_user.id_subcompany=" . $_SESSION['sub_company'];
 $res = mysqli_query($connection, $sql);
 $data = [];
@@ -204,6 +235,7 @@ function getvalue(indi){
         if(window.outerWidth >= 770){
           sider.style.display = '';
         }
+        
      });
      
        
@@ -266,25 +298,7 @@ function getvalue(indi){
          });
 
      }
-    function endAvail(tank){
-
-         //  gettin id
-         var tank = document.getElementById(`${tank}`);
-         var dt = tank.getAttribute('data-tanker');
-         $.ajax({
-            url:'include/avail.php',
-            method:'POST',
-            data:{
-                d:1,
-                dt:dt,
-                t:2
-            },
-            success:(data)=>{
-                dataloader(dataView,data);
-            }
-         });
-
-    }
+   
 
      function getTime(startEndTime){
           //  gettin time
@@ -397,26 +411,6 @@ function getvalue(indi){
 
       //end book
 
-$("#dataRetrival").bind('DOMSubtreeModified', function() {
-    var saveAvail = document.getElementById('saveAvail'); 
-
-});
-
-if(!isNull(Avail)){
-    Avail.addEventListener('click',()=>{
-   $.ajax({
-        url:'include/avail.php',
-        method:'POST',
-        data:{
-            list:1,
-            plate:1
-        },
-        success:(data)=>{
-            dataloader(dataView,data);
-        }
-   })
-})
-}
 function getV(btn){
     var saveAvail = document.getElementById('saveAvail'); 
     var fromDate = document.getElementById('fromDate').value; 
@@ -512,24 +506,50 @@ function startTrip(picker){
 
 //end_trip
 function endTrip(picker){
-     var pick   = document.getElementById(`${picker}`); 
-     var tanker = pick.getAttribute('dta-b');
-     $.ajax({
+    var pick   = document.getElementById(`${picker}`); 
+    var tanker = pick.getAttribute('dta-b');
+    if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((pos)=>{
+      var long = pos.coords.longitude;
+      var lat = pos.coords.latitude;
+     
+      $.ajax({
         url:'booklead/booklead.php',
         method:'POST',
         data:{           
-            endb:1,
-            dt:tanker
+            lo:long,
+            la:lat,
+            pt:tanker
         },
         success:(data)=>{
             dataloader(dataView,data);
-            //confirmed bookin
-            confBook();
-            //===========
+            $.ajax({
+            url:'booklead/booklead.php',
+            method:'POST',
+            data:{           
+                endb:1,
+                dt:tanker
+            },
+            success:(data)=>{
+                dataloader(dataView,data);
+                //confirmed bookin
+                confBook();
+                //===========
+                
+            }
+    })
             
         }
    })
+    });
+    
+    
+    
+   }
+   else { 
+    alert("You need to allow us .");
     }
+ }
 //end of endtrip
 
 //=====end driver
@@ -616,7 +636,11 @@ function  getCar(car){
             };
             //end car selection 
 //end+++++++======end
+
+
+
 function action(placeToc){
+  
     var upTo = document.getElementById(`${placeToc}`);
     var p    = upTo.getAttribute('dta-b');
     $.ajax({
@@ -631,23 +655,88 @@ function action(placeToc){
             dataloader(dataView,data);
         }
     }); 
+   
+   
 }
+
 function dismiss(placeToc){
-    var upTo = document.getElementById(`${placeToc}`);
-    var p    = upTo.getAttribute('dta-b');
-    $.ajax({
+    var ks = document.getElementById(`reason`);
+    var ksv = ks.value;
+    if(ksv.trim() == ''){
+        dataloader(dataView,`<div class="alert alert-danger mt-3" style="margin:auto">Please mention your reason</div>'`);
+    }else{
+        $.ajax({
         url:'cars_fluid/cardailydata.php',
         method:'POST',
         data:{
             u:1,
-            dp:p,
-            re:1
+            dp:placeToc,
+            re:1,
+            ks:ksv          
            
         },
         success:(data)=>{
             dataloader(dataView,data);
         }
     }); 
+    }
+   
+}
+function reject(placeToc){
+    var pro = document.getElementById(`rep`);
+    var upTo = document.getElementById(`${placeToc}`);
+    var p    = upTo.getAttribute('dta-b');
+    $.ajax({
+        url:'include/forms/addforms.php',
+        method:'POST',
+        data:{
+            ACT:'re',
+            b:p           
+        },
+        dataType:'text',
+        success:(data)=>{
+            dataloader(pro,data);
+        }
+    }); 
+}
+function cancel(placeToc){
+    var pro = document.getElementById(`intro`);
+    var upTo = document.getElementById(`${placeToc}`);
+    var p    = upTo.getAttribute('dta-b');
+    $.ajax({
+        url:'include/forms/addforms.php',
+        method:'POST',
+        data:{
+            ACT:'ca',
+            b:p           
+        },
+        dataType:'text',
+        success:(data)=>{
+            dataloader(pro,data);
+        }
+    }); 
+}
+function procced(placeToc){
+    var ks = document.getElementById(`reason`);
+    var ksv = ks.value;
+    if(ksv.trim() == ''){
+        dataloader(dataView,`<div class="alert alert-danger mt-3" style="margin:auto">Please mention your reason</div>'`);
+    }else{
+        $.ajax({
+        url:'cars_fluid/cardailydata.php',
+        method:'POST',
+        data:{
+            u:1,
+            dp:placeToc,
+            re:2,
+            ks:ksv          
+           
+        },
+        success:(data)=>{
+            dataloader(dataView,data);
+        }
+    }); 
+    }
 }
 
 var clear =  document.getElementById('returnB');

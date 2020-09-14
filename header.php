@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8"/>
+   <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="  transport in rwanda, are you in need of controlling your cars? here is the best choice in rwanda   ">
+    <meta name="keywords" content="rwanda transport , ishyiga , urugendo, chrisostome">
+    <meta name="author" content="sezerano jean chrisostome" >
+
     <title></title>
     <link rel="shortcut icon" href="assets/img/icon.png" />
     <!-- BOOTSTRAP STYLES-->

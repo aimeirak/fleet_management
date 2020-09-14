@@ -12,7 +12,7 @@ if(isset($_SESSION['username']) ){
 
 include('include/header.php'); 
 ?>
-<title>Ishyiga freet(ms) </title>
+<title>Ishyiga fleet </title>
 </head>
 <body class="container">
 <div class="col-12  align-items-center ">

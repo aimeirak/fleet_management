@@ -1,6 +1,11 @@
 <?php
 //$id_subcompany = 3;
 include('connexion.php');
+session_start();
+
+if(!isset($_SESSION["username"])){
+    header("Location: uiupdate.php");
+    exit(); }
 
 $sql = "SELECT * from fluid_car";
 $result = mysqli_query($connection, $sql);

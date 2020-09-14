@@ -2,34 +2,67 @@
     include('connexion.php');
 ?>
 
+
 <!DOCTYPE html>
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />       
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Password reset</title>
+    <link rel="shortcut icon" href="assets/img/icon.png" />
     <link rel="stylesheet" href="assets/css/sb-admin-2.min.css" >
     <script src="assets/js/sb-admin-2.min.js"></script>
-    <link rel="shortcut icon" href="assets/img/icon.png" />
-    <title>Request password reset</title>
-   
 </head>
 <body>
 <div id="page-wrapper" >
           <div id="page-inner">
                 <div class="row">
-                    <div class="col-md-4">
-                    </div>
-                    <div class="col-md-5">
-                    <form action="change.php" method="POST">
+                   
+                    <div class="card o-hidden border-0 shadow-lg my-5 col-12 col-sm-4" style="margin:auto">
+                        <div class="card-body p-0">
+                           
+                          <div class="row">
+                            
+                            <div class="col-12">
+                              <div class="p-5">
+                              <div id="ms"></div>
+                                <div class="text-center">
+                                  <h1 class="h4 text-info mb-4">Resetting password</h1>
+                                </div>
+                                <form  action="change.php" method="POST">
+                                  <div class="form-group row">                                  
+                                    
+                                 <div class="col-sm-12">
+                                  E-mail Address:
+                                   <input type="email" name="email"  class="form-control " id="Reset" placeholder="example@mail.com">
+                                 </div>
+                               </div>                               
+                              
+                               <div class="form-group row">
+                               <div class="col-12">
+                                                 
+                                     <input type="submit" name="ForgotPassword" value=" Request Reset " class="btn btn-sm btn-info col-12"/>
 
-                        E-mail Address: <input type="text" name="email" size="20" /> 
-                        <input type="submit" name="ForgotPassword" value=" Request Reset " />
-
-                     </form>
+                                    </div>              
+                                
+                               </div>
+                           
+                              
+                             </form>
+                             <hr>
+                             
+                           
+                           </div>
+                         </div>
+                       </div>
                      </div>
-                    </div>
+                   </div> 
+                   </div>               
+            </div>
+        </div>
+</body>
+</html>
 
-</div></body></html>
 
 
 <?php
@@ -58,7 +91,7 @@ if(isset($_POST['ForgotPassword'])){
             $message = 'password rest key  <code> '. $resetKey .'  </code><BR>' ;
             $sender = "ishyigasoftware900@gmail.com";
             $sender_name = " Password reset ";
-            $subject= "freet account passwrod verfication key";
+            $subject= "fleet account passwrod reset verfication key";
 
             include 'include/deplicatSolver/emailSender.php';
             $emailSent = sendEmail($subject,$sender,$sender_name,$to,$message);
@@ -79,12 +112,10 @@ if(isset($_POST['ForgotPassword'])){
      
         
     }else{
-        echo "Your email doesnot exist !! please try again";
+        echo "Your email does not exist !! please try again";
     
-    }     
+    }    
 
-    }else{
-        echo " Invalid email!! please try again";
     }
 
 ?>

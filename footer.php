@@ -1,5 +1,21 @@
 
+  <?php
+$sql = "SELECT fluid_place.id,Ucase(name) as name FROM fluid_place 
+INNER JOIN fluid_user ON fluid_place.id_user=fluid_user.id WHERE fluid_user.id_subcompany=" . $_SESSION['sub_company'];
+$res = mysqli_query($connection, $sql);
+$data = [];
+while ($row = mysqli_fetch_array($res)) {
+    $data[] = [
+        'id' => $row['id'],
+        'text' => $row['name'],
+    ];
+}
+
+$json = json_encode($data);
+//var_dump($json);
+?>
  <!-- Bootstrap core JavaScript-->
+ 
  <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -7,15 +23,16 @@
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="assets/js/sb-admin-2.min.js"></script>
-
+  
 
     <script src="assets/js/jquery-1.10.2.js"></script>
     <script src="assets/js/jquery-ui.min.js"></script>
     <script src="assets/js/moment.min.js"></script>
     <!-- BOOTSTRAP SCRIPTS -->
-    <script src="assets/js/sb-admin-2.min.js"></script>
+    
     <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/sb-admin-2.min.js"></script>
+
     <!-- CUSTOM SCRIPTS -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.full.js"></script>

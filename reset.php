@@ -25,17 +25,18 @@
                                 <div class="text-center">
                                   <h1 class="h4 text-info mb-4">Resetting password</h1>
                                 </div>
-                                <form class="">
+                                <form >
                                   <div class="form-group row">                                  
                                     
                                  <div class="col-sm-12">
+                                   Insert reset key:
                                    <input type="text" class="form-control " id="Reset" placeholder="Reset key">
                                  </div>
                                </div>                               
                               
                                <div class="form-group row">
                                <div class="col-12">
-                                     <span id="drop-me-on" class="btn btn-sm btn-info col-12" >Reset</span>                 
+                                     <span id="drop-me-on" class="btn btn-sm btn-primary col-12" >Next</span>                 
                                </div>              
                                 
                                </div>

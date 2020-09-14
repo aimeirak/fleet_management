@@ -1,6 +1,46 @@
 <?php
 session_start();
 include('../connexion.php');
+
+if(isset($_SESSION['role'])){ 
+    $now = new DateTime();
+    $id = $_SESSION['id'];
+  $stmt = $connection->prepare('SELECT last_login from fluid_user where id = ?');
+  $stmt->bind_param('i',$id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $row = $result->fetch_assoc();
+  $lastLogin = new DateTime($row['last_login']);
+  // echo ;
+  // echo '<br>';
+  // echo ;
+  if($lastLogin->format('Y m d') < $now->format('Y m d')){
+    $msg = '
+    <div class="container">
+    <div class="card shadow mt-5">
+    <div class=" alert alert-warning text-center m-5"><div class" p-5">Please login again </div> </div>
+    </div>
+    </div>
+   ';
+    session_destroy();
+    exit($msg);
+   
+  }
+  
+  }else{
+    $msg = '
+    <div class="container">
+    <div class="card shadow mt-5">
+    <div class=" alert alert-warning text-center m-5"><div class" p-5">Please login again </div> </div>
+    </div>
+    </div>
+   ';
+   
+   exit($msg);
+  
+   
+  }
+
 $id_subcompany = $_SESSION['sub_company'];
 $SESSION_ID = $_SESSION['id'];
 if(isset($_POST['mybookin'])){ ?>
@@ -14,8 +54,8 @@ if(isset($_POST['mybookin'])){ ?>
                 <table class="table table-bordered table-hover table-striped dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                     <thead>
                     <tr>
-                        <th>#</th>
-                        <th>book-time</th>
+                       
+                      
                         <th>Start time</th>
                         <th>End time</th>
                         <th>User</th>
@@ -28,7 +68,7 @@ if(isset($_POST['mybookin'])){ ?>
 
                     </tr>
                     </thead>
-                    <body>
+                    <tbody>
 
  <?php
   $sql = "SELECT fluid_booking.id,created_at,start_time,end_time,username,a.name AS 'departure',b.name AS 'destination',statusname,name_dep,rank ,fluid_booking.id_user FROM `fluid_booking` 
@@ -47,26 +87,27 @@ if(isset($_POST['mybookin'])){ ?>
 
       while ($row = mysqli_fetch_array($rS)) {
           if($row["rank"] == 'rejected'){
-              $re = 'class="bg-warning text text-gray-800"';
-          }else{
-            if($row["rank"] == 'done'){
-                $re = 'class="bg-secondary text text-success"';
+              $re = 'class="bg-warning text text-gray-900"';
+          }
+          elseif($row["rank"] == 'done'){
+                $re = 'class="bg-secondary  text-white"';
             }
-            if($row["rank"] == 'confirmed'){
+          elseif($row["rank"] == 'confirmed'){
                 $re = 'class="bg-success text  text-gray-800"';
             }
-          }
+            else{
+                $re = '';
+            }
+         
 
           $d1 = new DateTime($row['start_time']);
           $d2 = new DateTime();
           echo(
               '<tr '.$re.'>'.
-                 '<td>'.$row["id"].'</td>'.
-                  '<td>'.$row["created_at"].'</td>'.
+         
                   '<td>'.$row["start_time"].'</td>'.
                   '<td>'.$row["end_time"].'</td>'.
                   '<td>'.$row["username"].'</td>'. 
-          
                   '<td>'.$row["departure"].'</td>'.
                   '<td>'.$row["destination"].'</td>'.
                   '<td>'.$row["statusname"].'</td>'.
@@ -84,7 +125,7 @@ if(isset($_POST['mybookin'])){ ?>
 
 ?>
  
-                </body>
+                </tbody>
              </table>
              </div>
              </div>

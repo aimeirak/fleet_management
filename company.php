@@ -4,7 +4,7 @@ include('authenticate.php'); ?>
 <?php include('connexion.php'); ?>
 <?php include('include/header.php');?>
 
-<?php //include('navSide.php');?>
+
 
 <title><?= $_SESSION['blancName'] ?>(<?=$_SESSION['branchLocation']?>)</title>
 </head>  
@@ -30,6 +30,7 @@ require_once('include/topbon.php');
                         </div>";
             }
             ?>
+             <div class="col-12 col-md-8">
             <div class="card shadow-lg">
                 <div class="card-header">
                   <h2>Companies</h2>
@@ -39,13 +40,10 @@ require_once('include/topbon.php');
             <table class="table table-striped table-bordered table-hover" id="datatable1">
                 <thead>
                 <tr>
-
                     <th>company</th>
-
                     <th>Tin_number</th>
                     <th>Email</th>
                     <th>Location</th>
-
                 </tr>
                 </thead>
                 <tbody>
@@ -87,12 +85,13 @@ require_once('include/topbon.php');
                 }
                 ?>
 
-</tbody>
-            </table>
-            </div>                    
+                    </tbody>
+                  </table>
+                 </div>                    
                 </div>
 
             </div>
+         </div>
            
             <!-- /. ROW  -->
 

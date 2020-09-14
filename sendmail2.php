@@ -1,5 +1,11 @@
 <?php ob_start(); //include('authenticate.php'); ?>
 <?php 
+session_start();
+
+if(!isset($_SESSION["username"])){
+    header("Location: uiupdate.php");
+    exit(); }
+    
     include('connexion.php');
     //require_once "Mail.php";
 ?>

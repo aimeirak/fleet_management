@@ -1,7 +1,12 @@
 <?php 
 session_start();
 ob_start();
-include 'include/header.php' ; ?>
+include 'include/header.php' ; 
+
+if(!isset($_SESSION["username"])){
+    header("Location: uiupdate.php");
+    exit(); }
+?>
 
 <?php include('connexion.php');
 error_reporting(E_ALL);
@@ -63,6 +68,7 @@ ini_set('display_errors', 'On');
 
 
                 <div class="row  " >
+                    <div class="col-12 col-md-8">
                     <div class="card m-3 shadow-lg">
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
@@ -75,6 +81,7 @@ ini_set('display_errors', 'On');
                             </div>
                            
                         </div>
+                      
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="datatable1" class="table table-striped table-bordered table-hover">
@@ -98,10 +105,13 @@ ini_set('display_errors', 'On');
                                         //var_dump($name);
             
             
-                                        $sql1 = "SELECT fluid_distance.id,place1.name AS a,place2.name AS b,kilometers
+                                        $sql1 = "SELECT fluid_distance.id,place1.name AS a,place2.name AS b,kilometers 
                             FROM fluid_distance               
                             INNER JOIN fluid_place AS place1 on fluid_distance.id_sector0=place1.id
-                            INNER JOIN fluid_place AS place2 on fluid_distance.id_sectorf=place2.id where a=" . $name . " ORDER BY fluid_distance.id ASC";
+                            INNER JOIN fluid_place AS place2 on fluid_distance.id_sectorf=place2.id
+                            
+
+                            where a=" . $name . " ORDER BY fluid_distance.id ASC";
                                         $result1 = mysqli_query($connection, $sql1);
                                         //$row = mysqli_fetch_assoc($result1);
                                         //var_dump($row);
@@ -142,7 +152,7 @@ ini_set('display_errors', 'On');
                             }
             
                         } else {
-                            $sql3 = "SELECT fluid_user.id_subcompany,fluid_place.id,fluid_place.id_user,fluid_place.name,fluid_place.id_sector0 FROM fluid_place INNER JOIN fluid_user on fluid_place.id_user=fluid_user.id where id_subcompany=" . $id_subcompany . " ORDER BY fluid_place.id LIMIT 1";
+                            $sql3 = "SELECT fluid_user.id_subcompany,fluid_place.id,fluid_place.id_user,fluid_place.name,fluid_place.id_sector0,fromsector.name as 'fromname'  FROM fluid_place inner join fluid_sector as fromsector on fromsector.id = fluid_place.id_sector0   INNER JOIN fluid_user on fluid_place.id_user=fluid_user.id where id_subcompany=" . $id_subcompany . " ORDER BY fluid_place.id LIMIT 1";
                             $res = mysqli_query($connection, $sql3);
                             $rows1 = [];
                             while ($row = mysqli_fetch_array($res)) {
@@ -151,7 +161,9 @@ ini_set('display_errors', 'On');
                         }
             
             
-                        $sql3 = "SELECT fluid_user.id_subcompany,fluid_place.id,fluid_place.id_user,fluid_place.name,fluid_place.id_sector0 FROM fluid_place INNER JOIN fluid_user on fluid_place.id_user=fluid_user.id where id_subcompany=" . $id_subcompany;
+                        $sql3 = "SELECT fluid_user.id_subcompany,fluid_place.id,fluid_place.id_user,fluid_place.name,fluid_place.id_sector0 ,tosector.name as 'toname' FROM fluid_place 
+                        inner join fluid_sector as tosector on tosector.id = fluid_place.id_sector0
+                          INNER JOIN fluid_user on fluid_place.id_user=fluid_user.id where id_subcompany=" . $id_subcompany;
                         $res = mysqli_query($connection, $sql3);
                         $rows = [];
                         while ($row = mysqli_fetch_array($res)) {
@@ -162,7 +174,9 @@ ini_set('display_errors', 'On');
                         foreach ($rows1 as $from) {
                             foreach ($rows as $to) {
                                 if ($from != $to) {
-                                    $sql = "SELECT kilometers FROM fluid_distance WHERE id_sector0=" . $from['id_sector0'] . " AND id_sectorf=" . $to['id_sector0'];
+                                    $sql = "SELECT kilometers  FROM fluid_distance                                   
+                                    
+                                      WHERE id_sector0=" . $from['id_sector0'] . " AND id_sectorf=" . $to['id_sector0'];
                                     $res = mysqli_query($connection, $sql);
                                     $row = mysqli_fetch_array($res);
                                     $km = $row['kilometers'];
@@ -172,6 +186,9 @@ ini_set('display_errors', 'On');
                                         'to' => $to['name'],
                                         'to_id' => $to['id_sector0'],
                                         'km' => $km,
+                                        'fromname' => $from['fromname'],
+                                        'toname' => $to['toname'],
+
                                     ];
             
                                 }
@@ -187,8 +204,8 @@ ini_set('display_errors', 'On');
             
             
                  <tr>' .
-                                '<td>' . $row["from"] . '</td>' .
-                                '<td>' . $row["to"] . '</td>' .
+                                '<td>' . $row["from"] . ' (' . $row["fromname"] . ')</td>' .
+                                '<td>' . $row["to"] . ' (' . $row["toname"] . ')</td>' .
                                 '<td>' . $row["km"] . '</td>';   
             
                                 if($_SESSION['role'] == 20){
@@ -210,6 +227,7 @@ ini_set('display_errors', 'On');
                             </div>
                         </div>
                     </div>
+                  </div>
                 </div>
             </div>
         </div>

@@ -63,6 +63,7 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                           </div>
                         </div>
                       </div>   
+                      
                       <div class="col-12 mt-3  col-sm-6 col-md-3 " id='DriverProg'>
                         <div class="card border-left-info shadow h-100 py-2">
                             <div class="card-body">
@@ -181,31 +182,44 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                       </div>
                     </div>
                   <?php } ?>
-                    <?php if(isset($_SESSION['CAR'])){?>
-                      <div class="col-12 mt-3  col-sm-6 col-md-3 " id='availability'>
-                    <div class="card border-left-info shadow h-100 py-2">
-                        <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">availability</div>
-                            <div class="row no-gutters align-items-center">
-                                            
-                            </div>
-                            </div>
-                            <div class="col-auto">
-                            <span class="fa fa-flag text-info"></span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <?php if(isset($_SESSION['CAR'])){
+                       function badgeCount($rank){
+                         $date  = new DateTime;
+                         $today = $date->format('Y-m-d');
+                         $to = clone $date ;
+                         $to->modify('+1day');
+                         $tomorrow = $to->format('Y-m-d');
+                         $stmt = $GLOBALS['conn']->prepare('SELECT id from fluid_booking where (date(start_time) between date(?) and date(?)) and (date(end_time) between date(?) and date(?)) and rank = ?');
+                         $stmt->bind_param('sssss',$today,$tomorrow,$today,$tomorrow,$rank);
+                         $stmt->execute();
+                         $stmt->store_result();
+                         $counted = $stmt->num_rows;                        
+                         return $counted;
+                         $stmt->close();
+                       }
+                       function badgeCountMy($rank,$id){
+                        $date  = new DateTime;
+                        $today = $date->format('Y-m-d');
+                        $to = clone $date ;
+                        $to->modify('+1day');
+                        $tomorrow = $to->format('Y-m-d');
+                        $stmt = $GLOBALS['conn']->prepare('SELECT id from fluid_booking where (date(start_time) between date(?) and date(?)) and (date(end_time) between date(?) and date(?)) and rank = ? and driver_id = ?');
+                        $stmt->bind_param('sssssi',$today,$tomorrow,$today,$tomorrow,$rank,$id);
+                        $stmt->execute();
+                        $stmt->store_result();
+                        $counted = $stmt->num_rows;                        
+                        return $counted;
+                        $stmt->close();
+                      }
+                      ?>
+                      
 
                   <div class="col-12 mt-3  col-sm-6 col-md-3 " id='dailBook'>
                     <div class="card border-left-primary shadow h-100 py-2">
                         <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Bookings</div>
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Bookings<?php $count = badgeCount('pending');  if( $count > 0 ){ ?> <sup class="badge badge-primary" > <?php echo $count ?> </sup> <?php } ?></div>
                             <div class="row no-gutters align-items-center">
                                             
                             </div>
@@ -222,7 +236,7 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                           <div class="card-body">
                           <div class="row no-gutters align-items-center">
                               <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Rejected</div>
+                              <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Rejected<?php $count = badgeCountMy('rejected',$_SESSION['id']);  if( $count > 0 ){ ?> <sup class="badge badge-danger" > <?php echo $count ?> </sup> <?php } ?></div>
                               <div class="row no-gutters align-items-center">
                                               
                               </div>
@@ -240,7 +254,7 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                             <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Confirmed</div>
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Confirmed<?php $count = badgeCountMy('confirmed',$_SESSION['id']);  if( $count > 0 ){ ?> <sup class="badge badge-success" > <?php echo $count ?> </sup> <?php } ?></div>
                                 <div class="row no-gutters align-items-center">
                                                 
                                 </div>

@@ -1,6 +1,44 @@
 <?php
 session_start();
 include '../connexion.php';
+if(isset($_SESSION['role'])){ 
+  $now = new DateTime();
+  $id = $_SESSION['id'];
+$stmt = $connection->prepare('SELECT last_login from fluid_user where id = ?');
+$stmt->bind_param('i',$id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$lastLogin = new DateTime($row['last_login']);
+// echo ;
+// echo '<br>';
+// echo ;
+if($lastLogin->format('Y m d') < $now->format('Y m d')){
+  $msg = '
+  <div class="container">
+  <div class="card shadow mt-5">
+  <div class=" alert alert-warning text-center m-5"><div class" p-5">Please login again </div> </div>
+  </div>
+  </div>
+ ';
+  session_destroy();
+  exit($msg);
+ 
+}
+
+}else{
+  $msg = '
+  <div class="container">
+  <div class="card shadow mt-5">
+  <div class=" alert alert-warning text-center m-5"><div class" p-5">Please login again </div> </div>
+  </div>
+  </div>
+ ';
+ 
+ exit($msg);
+
+ 
+}
 if(isset($_SESSION['sub_company'] ) && $_SESSION['role'] == 20 && ($_SESSION['userStatus'] == 'MASTER' || $_SESSION['userStatus'] == 'admin')){ ?>
  <!DOCTYPE html>
  <html lang="en">

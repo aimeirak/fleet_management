@@ -24,23 +24,17 @@ ini_set('display_errors', 'On');
 require_once('include/topbon.php');
 ?>
 
-        
-<div class="row">
-    <div class="col-md-6">
-        <h2>List of places</h2>
-    </div>
-    <div class="col-md-6">
-        <button type="button" class="btn btn-primary pull-right" style="bottom: opx;">
-            <a href="place.php"><span class="btn btn-primary">add</span></a>
-        </button>
-    </div>
-</div>
+
        
 
         <div class="row m-4" style="padding:10px;">
+            <div class="col-12 col-md-8">
             <div class="card shadow-lg">
-                <div class="card-header">
-                    <h3>Place list</h3>
+                <div class="card-header d-flex justify-content-between">
+                    <h3>Place list</h3>  
+                    
+                        <a href="place.php" class="btn btn-primary btn-md" ><span >add</span></a>
+                    
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -159,6 +153,7 @@ require_once('include/topbon.php');
                     </div>                    
                 </div>
             </div>
+        </div>
 
         </div>
     </div>

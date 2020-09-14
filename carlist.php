@@ -2,7 +2,13 @@
 
 ob_start();
 include 'include/header.php' ; 
-include 'include/authant.php' ;?>
+include 'include/authant.php' ;
+
+if(!isset($_SESSION["username"])){
+    header("Location: uiupdate.php");
+    exit(); }
+?>
+
 <?php include('connexion.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');

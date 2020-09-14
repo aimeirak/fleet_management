@@ -1,6 +1,11 @@
      <?php
           //error_reporting(0);
 include('connexion.php');
+session_start();
+
+if(!isset($_SESSION["username"])){
+    header("Location: uiupdate.php");
+    exit(); }
 
  $sql="SELECT* FROM booking"; 
      $result=mysqli_query($connection,$sql); 

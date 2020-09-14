@@ -1,5 +1,48 @@
+<?php
+
+if(isset($_SESSION['role'])){ 
+  $now = new DateTime();
+  $id = $_SESSION['id'];
+$stmt = $connection->prepare('SELECT last_login from fluid_user where id = ?');
+$stmt->bind_param('i',$id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$lastLogin = new DateTime($row['last_login']);
+// echo ;
+// echo '<br>';
+// echo ;
+if($lastLogin->format('Y m d') < $now->format('Y m d')){
+  $msg = '
+  <div class="container">
+  <div class="card shadow mt-5">
+  <div class=" alert alert-warning text-center m-5"><div class" p-5">Please login again </div> </div>
+  </div>
+  </div>
+ ';
+  session_destroy();
+  exit($msg);
+ 
+}
+
+}else{
+  $msg = '
+  <div class="container">
+  <div class="card shadow mt-5">
+  <div class=" alert alert-warning text-center m-5"><div class" p-5">Please login again </div> </div>
+  </div>
+  </div>
+ ';
+ 
+ exit($msg);
+
+ 
+}
+
+?>
+
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow align-items-center d-flex justify-content-between"   >
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <button id="sidebarToggleTop" class="btn btn-link d-lg-none rounded-circle mr-3">
             <i class="fa fa-bars text-secondary"></i>
           </button>
             <div class="logo">
@@ -20,7 +63,7 @@ if($_SESSION['role'] == 10 || $_SESSION['role'] == 20){
             
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header text-center" style="background-color:gray;" >
-                 You are notified
+                Notification!
                 </h6>
                 <div class="alert-field">              
                  

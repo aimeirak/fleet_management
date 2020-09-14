@@ -3,6 +3,9 @@
 include 'include/authant.php';
 include 'include/header.php' ;
 
+if(!isset($_SESSION["username"])){
+    header("Location: uiupdate.php");
+    exit(); }
 $id_subcompany = $_SESSION['sub_company'] ;
  ?>
 
@@ -89,7 +92,7 @@ $SESSION_ID = $_SESSION['id'];
          <div class="card shadow-lg">
                 <div class="card-header col-md-12 d-flex justify-content-between mb-5">
                         <h2>All bookings</h2>
-                        <a href="uiupdate.php"><span class="btn btn-primary pull-right" style="bottom: opx;">add</span></a>
+                        <a href="uiupdate.php"><span class="btn btn-primary pull-right" style="bottom: opx;">Book</span></a>
                 </div>
                 <div class="card-boby">
                 <div class="table-responsive p-2">

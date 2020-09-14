@@ -1,5 +1,9 @@
 <?php 
 session_start();
+
+if(!isset($_SESSION["username"])){
+    header("Location: uiupdate.php");
+    exit(); }
 ob_start();
 include 'include/header.php' ; ?>
 <?php include('connexion.php');
