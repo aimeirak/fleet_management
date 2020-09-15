@@ -551,7 +551,7 @@ function BookingCo($conf){
                   </span>              
                    <span  class="text">complete</span>             
                  </span>
-                 '.'<span id="bl4554'.$i.'22"  dta-b="'.$fetchBooking["bookId"].'"  onClick ="cancel(this.id)" class="btn btn-warning btn-sm m-2">Cancel</span> 
+                 '.'<span id="bl4554'.$i.'22"  dta-b="'.$fetchBooking["bookId"].'"  onClick ="cancel(this.id)" class="btn btn-warning btn-sm m-2"  data-toggle="modal"  data-target="#diss">Cancel</span> 
                  
                  ';
                }
@@ -776,7 +776,7 @@ if(isset($_POST['u']) && isset($_POST['dp']) && $_SESSION['role'] == 30){
     
     if(!isset($_POST['ks']) || trim($_POST['ks']) == ''){     
       echo '<div class="alert alert-danger mt-3" style="margin:auto">Please mention your reason</div>';
-      exit(Booking());
+      exit(BookingCo('confirmed'));
     }else{
       $ks = $_POST['ks'];
       $now = new DateTime;
@@ -843,7 +843,17 @@ if(isset($_POST['u']) && isset($_POST['dp']) && $_SESSION['role'] == 30){
    //===== notification =====
    $bootOwener->close();
    $note->close();
-     Booking();
+   
+   if($_POST['re'] == 0){     
+    Booking();
+  }
+  elseif($_POST['re'] == 2){
+    BookingCo('confirmed');
+  }
+  else{    
+    Booking();
+  }
+
   }else{    
     echo'<div class="alert alert-danger">Booking was not confirmed</div>';
   }

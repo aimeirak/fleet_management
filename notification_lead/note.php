@@ -1,7 +1,10 @@
 <?php 
 include('../connexion.php');
 session_start();
+if(isset($_SESSION['id'])){
 if(isset($_POST['view'])){
+    $count = 0;
+    $output = '';
     if($_POST['data'] != '' and !empty(trim($_POST['data'])) ){
         $seen = 0;
         $id = $_POST['data'];
@@ -60,5 +63,5 @@ else{
     echo json_encode($data);
 }
 
-
+}
 ?>

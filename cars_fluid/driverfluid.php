@@ -70,7 +70,7 @@ function allbook($year,$mo){
     $allresult =  $allstmt->get_result();
     if($allresult->num_rows > 0){  
      
-            $allBookinMonths= $allresult->num_rows;
+            $allBookinMonths = $allresult->num_rows;
       
     }else{
         $allBookinMonths = 0;
@@ -107,7 +107,7 @@ while($i < 12){
         
         $sql = "SELECT fluid_booking.*,month(start_time) as 'mo' FROM fluid_booking where  year(start_time) = ? and month(start_time)  = ?  and driver_id = ?  ";
         $stmt = $GLOBALS['conn']->prepare($sql);
-        $stmt->bind_param('ssi',$year,$i,$driverId);
+        $stmt->bind_param('ssi',$year,$lead,$driverId);
         $stmt->execute();  
         $result = $stmt->get_result();
         $num = $result->num_rows;       

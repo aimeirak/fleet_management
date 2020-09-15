@@ -68,6 +68,18 @@ if( isset($_SESSION['sub_company'] ) && $_SESSION['role'] == 20 ){ ?>
                                             <?php } ?> 
                                             
                                             </div>
+                                             <!-- firstResponse -->
+              <div class="row" id="dataRetrival">
+                <img src="http://preloaders.net/preloaders/290/preview.gif" id="ajax-loader"  />
+              </div>
+                <!-- end firstResponse -->
+
+            <!-- secondResponse -->
+            <div class="row" id="data2Retrival">
+              <img src="http://preloaders.net/preloaders/290/preview.gif" id="ajax-loader"  />
+              
+            </div>
+              <!-- end secondResponse -->
                 <!-- end task -->
  
                                            </div>

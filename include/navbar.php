@@ -13,6 +13,8 @@ $lastLogin = new DateTime($row['last_login']);
 // echo '<br>';
 // echo ;
 if($lastLogin->format('Y m d') < $now->format('Y m d')){
+  session_destroy();
+  session_start();
   echo'<script> window.open("logout.php","_self") </script>'; 
 }
 
