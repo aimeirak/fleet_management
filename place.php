@@ -23,10 +23,7 @@ ini_set('display_errors', 'On');
 require_once('include/topbon.php');
 ?>
         <div class="row">
-            <div class="col-md-12 text-center">
-                <h2>Add place</h2>
-
-            </div>
+           
 
             <!-- /. ROW  -->
 
@@ -60,15 +57,19 @@ require_once('include/topbon.php');
 
             ?>
 
-            <div class="col-md-8 p-5 col-lg-offset-2">
+  
+            <div class="col-12 col-md-9 " >
 
-                    <div class="row" style="padding:10px">
+                    <div class="card shadow" style="margin: auto;">
+                        <div class="card-header d-flex">
+                            <h2>Adding place</h2>
+                        </div>
+                        <div class="card-body ">
+                            <form action="place.php" method="post" >
 
-                        <form action="place.php" method="post" class="form-horizontal">
 
-
-                                <br><label >Client</label><br>
-                                <input class="form-control" type="text" name="departure" value="client">
+                                <br><label >place(hotpoint)</label><br>
+                                <input class="form-control" type="text" name="departure" placeholder="place(hotpoint)" required>
 
 
 
@@ -96,9 +97,18 @@ require_once('include/topbon.php');
 
 
                         </form>
+                        </div>
+                        <div class="card-footer text-info d-flex">
+                            <p>Please make sure you mention well hotpoint or write hot point only: <code> Muhire(town) or town </code>  </p>
+                        </div>
+                        
 
                     </div>
-                </div>
+
+                   
+
+                    </div>
+                
             </div>
         </div>
     </div>

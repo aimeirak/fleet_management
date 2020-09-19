@@ -27,9 +27,9 @@ require_once('include/topbon.php');
 
        
 
-        <div class="row m-4" style="padding:10px;">
+        <div class="row " >
             <div class="col-12 col-md-8">
-            <div class="card shadow-lg">
+            <div class="card shadow-lg"  style="margin: auto;">
                 <div class="card-header d-flex justify-content-between">
                     <h3>Place list</h3>  
                     

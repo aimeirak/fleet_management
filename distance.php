@@ -73,10 +73,12 @@ ini_set('display_errors', 'On');
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
                                 <h3>Routes</h3> 
-                                <button class="btn  btn-info btn-sm " data-toggle="modal" data-target="#kmaddform">
-                                    <span    class="fas  fa-plus fa-sm text-white"></span>
-                                     Add
-                                </button>
+                                <?php  if ($_SESSION["role"] == 20) { ?>
+                                    <button class="btn  btn-info btn-sm " data-toggle="modal" data-target="#kmaddform">
+                                        <span    class="fas  fa-plus fa-sm text-white"></span>
+                                         Add
+                                    </button>
+                                        <?php  } ?>
 
                             </div>
                            
