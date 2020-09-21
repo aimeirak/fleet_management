@@ -53,7 +53,51 @@ if(isset($_POST['view'])){
         'count'=>$count
     );
     echo json_encode($data);
-}
+}elseif(isset($_POST['btcre'])){
+    $task = $_POST['btcre'];
+    $data = 0;
+    function badgeCount($rank){
+        $date  = new DateTime;
+        $today = $date->format('Y-m-d');
+        $to = clone $date ;
+        $to->modify('+1day');
+        $tomorrow = $to->format('Y-m-d');
+        $stmt = $GLOBALS['conn']->prepare('SELECT id from fluid_booking where (date(start_time) between date(?) and date(?)) and (date(end_time) between date(?) and date(?)) and rank = ?');
+        $stmt->bind_param('sssss',$today,$tomorrow,$today,$tomorrow,$rank);
+        $stmt->execute();
+        $stmt->store_result();
+        $counted = $stmt->num_rows;                        
+        $data = array(            
+            'count'=>$counted
+        );
+        echo json_encode($data);
+        $stmt->close();
+      }
+      function badgeCountMy($rank,$id){
+       $date  = new DateTime;
+       $today = $date->format('Y-m-d');
+       $to = clone $date ;
+       $to->modify('+1day');
+       $tomorrow = $to->format('Y-m-d');
+       $stmt = $GLOBALS['conn']->prepare('SELECT id from fluid_booking where (date(start_time) between date(?) and date(?)) and (date(end_time) between date(?) and date(?)) and rank = ? and driver_id = ?');
+       $stmt->bind_param('sssssi',$today,$tomorrow,$today,$tomorrow,$rank,$id);
+       $stmt->execute();
+       $stmt->store_result();
+       $counted = $stmt->num_rows;                        
+       $data = array(
+        'count'=>$counted
+        );
+        echo json_encode($data);
+       $stmt->close();
+     }
+    if($task == 1){
+        badgeCount('pending');    
+    }elseif($task == 2){
+        badgeCount('rejected'); 
+    }else{
+        badgeCountMy('confirmed',$_SESSION['id']);
+    }
+} 
 else{
  
     $data = array(

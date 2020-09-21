@@ -101,7 +101,73 @@ $json = json_encode($data);
 <script src="assets/js/leon/badgecount.js"></script>
 <script src="assets/js/leon/carInfo.js"></script>
 <script src="assets/js/leon/fruid_back_inc_bone.js"></script>
+<?php
+if($_SESSION['role'] == 30){
+?>
+<script>
 
+function loadBadge(bp){
+    var noteLead = '';
+    $.ajax({
+      url:'notification_lead/note.php',
+      method:'post',
+      data:{
+          btcre:bp
+      },
+      dataType:'json',
+      success:(data)=>{
+         if(bp == 1){
+           noteLead =document.querySelector('.cb') ;
+           if(data.count <= 0 ){
+             noteLead.classList.add('d-none');
+           }else{
+             noteLead.innerHTML = data.count;
+           }
+         }else if(bp == 2){
+           noteLead = document.querySelector('.ck');
+           if(data.count <= 0 ){
+            noteLead.classList.add('d-none');
+          }else{
+            noteLead.innerHTML = data.count;
+          }
+         }else{
+           noteLead = document.querySelector('.co');
+           if(data.count <= 0 ){
+            noteLead.classList.add('d-none');
+          }else{
+            noteLead.innerHTML = data.count;
+           
+          }
+         }
+
+      }
+
+    });
+
+
+  } 
+
+  $(document).ready(function(){
+  try{
+    setInterval(()=>{
+      for( var i = 1 ; i <= 3 ; i++){
+        loadBadge(i);
+      } 
+    },9000);
+  }
+  catch(error){
+   
+  }
+   
+})
+ 
+
+ 
+
+</script>
+<?php
+  }
+?>
     <script>
 
         window.addEventListener('load',()=>{

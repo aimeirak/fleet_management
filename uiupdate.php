@@ -219,7 +219,7 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                         <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Bookings<?php $count = badgeCount('pending');  if( $count > 0 ){ ?> <sup class="badge badge-primary" > <?php echo $count ?> </sup> <?php } ?></div>
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Bookings<?php $count = badgeCount('pending'); ?> <sup class="badge badge-primary cb" > <?php echo $count ?> </sup> </div>
                             <div class="row no-gutters align-items-center">
                                             
                             </div>
@@ -236,7 +236,7 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                           <div class="card-body">
                           <div class="row no-gutters align-items-center">
                               <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Rejected<?php $count = badgeCountMy('rejected',$_SESSION['id']);  if( $count > 0 ){ ?> <sup class="badge badge-danger" > <?php echo $count ?> </sup> <?php } ?></div>
+                              <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Rejected<?php $count = badgeCountMy('rejected',$_SESSION['id']); ?> <sup class="badge badge-danger ck" > <?php echo $count ?> </sup> </div>
                               <div class="row no-gutters align-items-center">
                                               
                               </div>
@@ -254,7 +254,7 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                             <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Confirmed<?php $count = badgeCountMy('confirmed',$_SESSION['id']);  if( $count > 0 ){ ?> <sup class="badge badge-success" > <?php echo $count ?> </sup> <?php } ?></div>
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Confirmed<?php $count = badgeCountMy('confirmed',$_SESSION['id']);   ?> <sup class="badge badge-success co" > <?php echo $count ?> </sup> </div>
                                 <div class="row no-gutters align-items-center">
                                                 
                                 </div>
