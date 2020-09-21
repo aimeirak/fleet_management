@@ -118,26 +118,41 @@ function loadBadge(bp){
       success:(data)=>{
          if(bp == 1){
            noteLead =document.querySelector('.cb') ;
-           if(data.count <= 0 ){
-             noteLead.classList.add('d-none');
-           }else{
-             noteLead.innerHTML = data.count;
+           if(!isNull(noteLead)){
+            if(data.count <= 0 ){
+           
+           noteLead.classList.add('d-none');
+                }else{
+                    
+                noteLead.innerHTML = data.count;
+                }
+
            }
+           
          }else if(bp == 2){
            noteLead = document.querySelector('.ck');
-           if(data.count <= 0 ){
-            noteLead.classList.add('d-none');
-          }else{
-            noteLead.innerHTML = data.count;
-          }
+           if(!isNull(noteLead)){
+            if(data.count <= 0 ){
+           
+           noteLead.classList.add('d-none');
+                }else{
+                    
+                noteLead.innerHTML = data.count;
+                }
+
+           }
          }else{
            noteLead = document.querySelector('.co');
-           if(data.count <= 0 ){
-            noteLead.classList.add('d-none');
-          }else{
-            noteLead.innerHTML = data.count;
+           if(!isNull(noteLead)){
+            if(data.count <= 0 ){
            
-          }
+           noteLead.classList.add('d-none');
+                }else{
+                    
+                noteLead.innerHTML = data.count;
+                }
+
+           }
          }
 
       }
