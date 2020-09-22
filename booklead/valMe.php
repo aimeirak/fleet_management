@@ -89,6 +89,7 @@ function firstStep(){
 }
 
 function secondstep($dure,$cleanUp,$start,$end,$picked){
+    $tfrom = $start;
     $start = new DateTime($start);
     $end = new DateTime($end);
     $interval = new DateInterval('PT'.$dure.'M');
@@ -98,8 +99,8 @@ function secondstep($dure,$cleanUp,$start,$end,$picked){
    //now time for picked date
     $pickedDt = new DateTime($picked);  
     $toNow = new DateTime();
-    //  $pickedDt->modify('+4day');  
-    //  $toNow->modify('-1day');  
+    //  $pickedDt->modify('+8hours +30m');  
+    //  $toNow->modify('+20m');  
 
     $ti = $toNow->format('H');
     $mi = $toNow->format('m');
@@ -135,8 +136,50 @@ function secondstep($dure,$cleanUp,$start,$end,$picked){
                         $slots[] = ' <td><span class="btn btn-sm btn-secondary">'. $intStart->format('H:iA').'-'.$endP->format('H:iA'). ' </span> </td>';
 
                      }else{
-                        $slots[] = ' <td><span class="btn btn-sm btn-info" onClick="getTime(this.id)" daily-time="'. $intStart->format('H:iA').'-'.$endP->format('H:iA').'"  id="'.$i.$it.'" actual="'.$picked.'" >'. $intStart->format('H:iA').'-'.$endP->format('H:iA').' </span> </td>';
-        
+                         $time = strval($intStart->format('H:i'));
+                         $referedTime = new DateTime;
+                         $refCloned  =  new DateTime($time);
+                        //  $referedTime->add(new DateInterval('PT9H'));
+                        //  $referedTime->add(new DateInterval('PT40M'));
+                        //  var_dump($referedTime ); 
+                        //  echo '<br>';  
+                        $deference = $refCloned->diff($referedTime); 
+                        $rank = 'canceled';
+                        $stmt = $GLOBALS['conn']->prepare('SELECT id FROM fluid_booking where date(start_time) = ? and time(start_time) = ? and rank != ?');
+                        $stmt->bind_param('sss',$picked,$time,$rank);
+                        $stmt->execute();
+                        $stmt->store_result();
+
+                        //if booked time is greater than driver we got to day
+                        if($stmt->num_rows >= 2 ){
+                            $slots[] = ' <td><span class="btn btn-sm btn-danger">'. $intStart->format('H:iA').'-'.$endP->format('H:iA'). '(booked) </span> </td>';
+
+                        }else{
+                            // if picked date is tomorrow 
+                            if($pickedDt->format('Y-m-d') > $referedTime->format('Y-m-d') ){
+                                                        
+                                $slots[] = ' <td><span class="btn btn-sm btn-info" onClick="getTime(this.id)" daily-time="'. $intStart->format('H:iA').'-'.$endP->format('H:iA').'"  id="'.$i.$it.'" actual="'.$picked.'" >'. $intStart->format('H:iA').'-'.$endP->format('H:iA'). ' </span> </td>';
+
+                            }
+                            else{
+                                // if no hour in defference
+                                if($deference->h <= 1 ){
+                                    // if defference min is more dan 20 min
+                                    if($deference->i >= 20 || $deference->h >= 1 ){                                   
+                                        $slots[] = ' <td><span class="btn btn-sm btn-info" onClick="getTime(this.id)" daily-time="'. $intStart->format('H:iA').'-'.$endP->format('H:iA').'"  id="'.$i.$it.'" actual="'.$picked.'" >'. $intStart->format('H:iA').'-'.$endP->format('H:iA').' </span> </td>';
+
+                                    }else{
+                                        $slots[] = ' <td><span class="btn btn-sm btn-danger">'. $intStart->format('H:iA').'-'.$endP->format('H:iA').' ( to be start in '. $deference->i .' minutes )  </span> </td>';
+                                    }
+                                }
+                                else{                               
+                                    $slots[] = ' <td><span class="btn btn-sm btn-info" onClick="getTime(this.id)" daily-time="'. $intStart->format('H:iA').'-'.$endP->format('H:iA').'"  id="'.$i.$it.'" actual="'.$picked.'" >'. $intStart->format('H:iA').'-'.$endP->format('H:iA').' </span> </td>';
+                                }
+                            }
+                        }                        
+                        
+                        
+                      
                      }
                   
                  }

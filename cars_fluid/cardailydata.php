@@ -159,6 +159,7 @@ function getCost($km,$carConsuption){
     if($result->num_rows > 0){
       $fuelCost = $result->fetch_assoc();
       $costs =  ($km/$carConsuption) * $fuelCost['cost'] ;
+      // $costs =  (($km*2)/$carConsuption) * $fuelCost['cost'] ;
     }else{
       $costs =  ($km/$carConsuption) * 960;
     }       
