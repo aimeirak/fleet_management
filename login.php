@@ -36,7 +36,7 @@ include('include/header.php');
             </div>    
      </div> 
         <div class="card-footer p-3">
-        <i class="btn btn-md btn-primary btn-block" id="allow_me_bone" >Login</i>
+        <button type="submit" class="btn btn-md btn-info btn-block" id="allow_me_bone" ><span class="d-bock" id="log-content" >Login</span> <span class="d-none" id="progress" ><img src="assets/bootstrap3-editable/img/loading.gif" alt="" srcset=""></span></button>
         <a href="change.php"><p>Forgot your password?</p>
            <a class="btn btn-md btn-primary space-between" href="registrationform.php">Register</a>
            <a class="btn btn-md btn-primary space-between" href="include/verification.php">verify email</a>
