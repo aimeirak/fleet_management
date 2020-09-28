@@ -311,14 +311,21 @@ if( isset($_SESSION['sub_company'] ) ){ ?>
                 </div>
                 <!-- end task -->
             <!-- firstResponse -->
-              <div class="row" id="dataRetrival">
-                <img src="http://preloaders.net/preloaders/290/preview.gif" id="ajax-loader"  />
+            <div class="row p-3 " >
+                <img src="http://preloaders.net/preloaders/290/preview.gif"  id="ajax-loader"   />
+              <div class="remarkeble">
+
               </div>
+              
+              </div>
+
+             <div class="row" id="dataRetrival">
+                
+            </div>
                 <!-- end firstResponse -->
 
             <!-- secondResponse -->
             <div class="row" id="data2Retrival">
-              <img src="http://preloaders.net/preloaders/290/preview.gif" id="ajax-loader"  />
               
             </div>
               <!-- end secondResponse -->

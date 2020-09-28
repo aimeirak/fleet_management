@@ -189,22 +189,31 @@ function loadBadge(bp){
             const loader = document.querySelector('.loader');
             loader.classList.add('lodh'); 
         })
-          
+  
+    var remarkeble = document.getElementById('remarkeble');
     var DriverProg = document.getElementById('DriverProg'); 
 if(!isNull(DriverProg)){
     DriverProg.addEventListener('click',()=>{
+        ajaxloader.style.display='block';
+        ajaxloader.parentElement.style.display='block';
        $.ajax({
            url:'cars_fluid/cardailydata.php',
            method:'POST',
            data:{
                pro:12,
                 },
+            beforeSend:()=>{
+                ajaxloader.style.display='block';
+            },
            success:(data)=>{
-              
+            ajaxloader.style.display='none';
+            ajaxloader.parentElement.style.display='none';
             dataloader(dataView,data);
             var processPro =  document.getElementById('processPro'); 
             
             processPro.addEventListener('click',()=>{
+            ajaxloader.style.display='block';
+            ajaxloader.parentElement.style.display='block';
                 var start_date =  document.getElementById('start_date'); 
                 var end_date =  document.getElementById('end_date'); 
                 var endV = end_date.value;
@@ -219,15 +228,30 @@ if(!isNull(DriverProg)){
                             from:startV,
                             until:endV,
                            
-    
+                        },
+                        beforeSend:()=>{
+                            ajaxloader.style.display='block';
                         },
                        success:(data)=>{
+                        ajaxloader.style.display='none';
+                        ajaxloader.parentElement.style.display='none';
                        dataloader(seconddataView,data);
                        
                 
                        }
+                       ,
+                        error:()=>{
+                            ajaxloader.style.display='none';
+                            dataloader(dataView,'<div class="alert alert-warning"> please check  the internet and try again! </div>');
+
+                        }
                     })
                 });
+            },
+             error:()=>{
+                ajaxloader.style.display='none';
+                dataloader(dataView,'<div class="alert alert-warning"> please check  the internet and try again! </div>');
+
             } 
        })
     })
@@ -347,14 +371,26 @@ function getvalue(indi){
       var pickedDate = document.getElementById('picked-date');
      if(!isNull(bookRide)){
         bookRide.addEventListener('click',()=>{
+            ajaxloader.style.display='block';
+            ajaxloader.parentElement.style.display='block';
          $.ajax({
             url:'booklead/valMe.php',
             method:'POST',
             data:{
                 b:1,
             },
+            beforeSend:()=>{
+                ajaxloader.style.display='block';
+            },
             success:(data)=>{
+                ajaxloader.style.display='none';
+                ajaxloader.parentElement.style.display='none';
                 dataloader(dataView,data);
+            },
+            error:()=>{
+                ajaxloader.style.display='none';
+                dataloader(dataView,'<div class="alert alert-warning"> please check  the internet and try again! </div>');
+
             }
          });
       })
@@ -536,15 +572,27 @@ function getV(btn){
 var confirmedb = document.getElementById('confirmedb');
 if(!isNull(confirmedb)){
     confirmedb.addEventListener('click',()=>{
+    ajaxloader.style.display='block';
+    ajaxloader.parentElement.style.display='block';  
    $.ajax({
         url:'cars_fluid/cardailydata.php',
         method:'POST',
         data:{           
             confirmedb:1
         },
+        beforeSend:()=>{
+            ajaxloader.style.display='block';
+        },       
         success:(data)=>{
+            ajaxloader.style.display='none';
+            ajaxloader.parentElement.style.display='none';
             dataloader(dataView,data);
             dataloader(seconddataView,' ');
+        },
+        error:()=>{
+            ajaxloader.style.display='none';
+            dataloader(dataView,'<div class="alert alert-warning"> please check  the internet and try again! </div>');
+
         }
    })
 })
@@ -586,15 +634,60 @@ function startTrip(picker){
 //=====end of start
 
 //end_trip
+// function endTrip(picker){
+//     var pick   = document.getElementById(`${picker}`); 
+//     var tanker = pick.getAttribute('dta-b');
+//     if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition((pos)=>{
+//       var long = pos.coords.longitude;
+//       var lat = pos.coords.latitude;
+     
+//       $.ajax({
+//         url:'booklead/booklead.php',
+//         method:'POST',
+//         data:{           
+//             lo:long,
+//             la:lat,
+//             pt:tanker
+//         },
+//         success:(data)=>{
+//             dataloader(dataView,data);
+//             $.ajax({
+//             url:'booklead/booklead.php',
+//             method:'POST',
+//             data:{           
+//                 endb:1,
+//                 dt:tanker
+//             },
+//             success:(data)=>{
+//                 dataloader(dataView,data);
+//                 //confirmed bookin
+//                 confBook();
+//                 //===========
+                
+//             }
+//     })
+            
+//         }
+//    })
+//     });
+    
+    
+    
+//    }
+//    else { 
+//     alert("You need to allow us .");
+//     }
+//  }
+
 function endTrip(picker){
     var pick   = document.getElementById(`${picker}`); 
     var tanker = pick.getAttribute('dta-b');
-    if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((pos)=>{
-      var long = pos.coords.longitude;
-      var lat = pos.coords.latitude;
-     
-      $.ajax({
+      var long = '-- ';
+      var lat = '--';
+    //if we enable https we change function over
+
+     $.ajax({
         url:'booklead/booklead.php',
         method:'POST',
         data:{           
@@ -622,14 +715,6 @@ function endTrip(picker){
             
         }
    })
-    });
-    
-    
-    
-   }
-   else { 
-    alert("You need to allow us .");
-    }
  }
 //end of endtrip
 
@@ -638,16 +723,28 @@ function endTrip(picker){
 var ViewBook = document.getElementById('ViewBook');
 if(!isNull(ViewBook)){
     ViewBook.addEventListener('click',()=>{
+        ajaxloader.style.display='block';
+        ajaxloader.parentElement.style.display='block';
    $.ajax({
         url:'booklead/mybookin.php',
         method:'POST',
         data:{           
             mybookin:1
         },
+        beforeSend:()=>{
+                ajaxloader.style.display='block';
+            },
         success:(data)=>{
+            ajaxloader.style.display='none';
+            ajaxloader.parentElement.style.display='none';
             dataloader(dataView,data);
             dataloader(seconddataView,' ');
-        }
+        },
+         error:()=>{
+                ajaxloader.style.display='none';
+                dataloader(dataView,'<div class="alert alert-warning"> please check  the internet and try again! </div>');
+
+            }
    })
 })
 }

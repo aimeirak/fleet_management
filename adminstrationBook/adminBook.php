@@ -126,6 +126,9 @@ if(isset($_SESSION['sub_company'] ) && $_SESSION['role'] == 20 && ($_SESSION['us
  </div>
   
  <script>
+ document.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+});
     $(document).ready(function(){
        
        var datafield = document.getElementById("employ");

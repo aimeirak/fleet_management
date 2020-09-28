@@ -193,36 +193,14 @@ var task = document.querySelectorAll('#task .card');
         })
      })
  }
- function onSpinner(){
-    var ajaxLoader = document.getElementById('ajax-loader');
-    if(!isNull(ajaxLoader)){
-        document.getElementById('ajax-loader').style.display = 'none';
 
-    }
-} 
-function UnonSpinner(){
-    var ajaxLoader = document.getElementById('ajax-loader');
-    if(!isNull(ajaxLoader)){
-        document.getElementById('ajax-loader').style.display = 'none';
 
-    }
-    } 
 
 task.forEach((card)=>{
     card.addEventListener('click',()=>{
-        onSpinner();
-        setInterval(()=>{
-            UnonSpinner();
-        },2000);
         var data1 = document.getElementById('dataRetrival');
         var data2 = document.getElementById('data2Retrival');  
-        data1.addEventListener('onload',()=>{
-            onSpinner();
-        });
-        data2.addEventListener('onload',()=>{
-            onSpinner();
-        });
-
+       
      })   
    
  })
