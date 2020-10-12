@@ -1,6 +1,6 @@
 <?php
 ob_start();
-include 'include/emailSender.php';
+include 'include/deplicatSolver/emailSender.php';
 include('connexion.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
@@ -9,6 +9,7 @@ ini_set('display_errors', 'On');
 
 
 <?php
+$sent = 0; 
 // If form submitted, insert values into the database.
 if (isset($_REQUEST['username'])) {
     // removes backslashes
@@ -43,6 +44,7 @@ if (isset($_REQUEST['username'])) {
                 $stmt->close();
                 $status = 0;
                 $msg.="Username already taken "."</br>";
+                
                                               
                     
               }  
@@ -72,7 +74,7 @@ if (isset($_REQUEST['username'])) {
                     $sender_name = "ishyiga Freet Managiment system ";
                     $m   = password_hash($email,PASSWORD_DEFAULT);
                     $to  = $email;
-                    $contents = ''.$varKey.'  copy and past in you verfication input';
+                    $contents = '<code> '.$varKey.' </code> copy and past in you verfication input';
                     $isSent = sendEmail($subject,$sender,$sender_name,$to,$contents);
                     //will be changed manuel               
                    
@@ -145,7 +147,7 @@ include 'include/header.php'
                   <form class=" " name="registration" action="registrationform.php" method="post">
                     <div class="span3">
                         <?php
-                        $sqlu = "SELECT * FROM fluid_sub_company inner join  fluid_company  on fluid_sub_company.id_company = fluid_company.id where  fluid_company.live = 1";
+                        $sqlu = "SELECT fluid_sub_company.* FROM fluid_sub_company inner join  fluid_company  on fluid_sub_company.id_company = fluid_company.id where  fluid_company.live = 1";
                         $rst = mysqli_query($connection, $sqlu); ?>
 
                         <label>Company</label>

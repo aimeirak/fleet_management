@@ -1,7 +1,12 @@
 <?php 
 session_start();
 ob_start();
-include 'include/header.php' ; ?>
+include 'include/header.php' ; 
+
+if(!isset($_SESSION["username"])){
+    header("Location: uiupdate.php");
+    exit(); }
+?>
 
 <?php include('connexion.php');
 error_reporting(E_ALL);
@@ -22,177 +27,209 @@ ini_set('display_errors', 'On');
     ?>
         <div class="row">
 
-            <div class="col-md-12">
-                <span class="btn icon-btn btn-success pull-right" data-toggle="modal" data-target="#kmaddform">
-                    <span    class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
-                     Add
-                </span>
+            <div class="col-md-12 m-2">
+               
 
 
                 <?php
                 if (isset($_GET["success"])) {
                     echo "<div class=\"alert alert-success alert-dismissable\">
-          <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>
-          <strong>Success!</strong> Distance successfully added.
-          </div>";
+                        <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>
+                        <strong>Success!</strong> Distance successfully added.
+                        </div>";
                 }
                 ?>
-                <h2>Routes</h2>
-                <hr>
+               
 
                 <h5><bold>Please select departure</bold></h5>
 
 
-                <form id="myForm" method="post" action="distance.php" class="search-form">
-                    <div class="form-group has-feedback">
-                        <label for="search" class="sr-only">Select depart</label>
-                    </div>
-                    <div>
-                        <select class="myselect" name="place" class="col-lg-12 col-xs-12">
-
+                <form id="myForm "  method="post" action="distance.php" class=" d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    
+                    <label for="search" class="sr-only">Select depart</label>
+                    <div class="input-group">
+                        
+                        <select class="myselect form-control bg-light border-0 small" name="place" class="col-lg-12 col-xs-12">
+    
                         </select>
-
-                    </div>
-
-
+                        <div class="input-group-append">
+                            
+                         
+                           <button type="submit" name="search" class="btn btn-primary btn-sm" type="button">
+                            <i class="fas fa-search fa-sm"></i>
+                          </button>
+                        </div>
+                      </div>
+                    
+                
                 </form>
 
                 <hr>
 
 
-                <div class="row" style="padding:10px;">
+                <div class="row  " >
+                    <div class="col-12 col-md-8">
+                    <div class="card m-3 shadow-lg">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <h3>Routes</h3> 
+                                <?php  if ($_SESSION["role"] == 20) { ?>
+                                    <button class="btn  btn-info btn-sm " data-toggle="modal" data-target="#kmaddform">
+                                        <span    class="fas  fa-plus fa-sm text-white"></span>
+                                         Add
+                                    </button>
+                                        <?php  } ?>
 
-                    <table id="datatable1" class="table table-striped table-bordered table-hover">
-                        <thead>
-                        <tr>
+                            </div>
+                           
+                        </div>
+                      
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="datatable1" class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+            
+                                        <th>From</th>
+                                        <th>to</th>
+                                        <th>Km</th>
+                        <?php if($_SESSION['role']==20 ){?>  <th>Modify</th> <?php } ?> 
+            
+            
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+            
+                                    <?php
+                                    if (isset($_POST['submit'])) {
+                                        //var_dump($_POST);
+                                        $name = stripslashes($_POST['search']);
+                                        //var_dump($name);
+            
+            
+                                        $sql1 = "SELECT fluid_distance.id,place1.name AS a,place2.name AS b,kilometers 
+                            FROM fluid_distance               
+                            INNER JOIN fluid_place AS place1 on fluid_distance.id_sector0=place1.id
+                            INNER JOIN fluid_place AS place2 on fluid_distance.id_sectorf=place2.id
+                            
 
-                            <th>From</th>
-                            <th>to</th>
-                            <th>Km</th>
-            <?php if($_SESSION['role']==20 ){?>  <th>Modify</th> <?php } ?> 
-
-
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        <?php
-                        if (isset($_POST['submit'])) {
-                            //var_dump($_POST);
-                            $name = stripslashes($_POST['search']);
-                            //var_dump($name);
-
-
-                            $sql1 = "SELECT fluid_distance.id,place1.name AS a,place2.name AS b,kilometers
-                FROM fluid_distance               
-                INNER JOIN fluid_place AS place1 on fluid_distance.id_sector0=place1.id
-                INNER JOIN fluid_place AS place2 on fluid_distance.id_sectorf=place2.id where a=" . $name . " ORDER BY fluid_distance.id ASC";
-                            $result1 = mysqli_query($connection, $sql1);
-                            //$row = mysqli_fetch_assoc($result1);
-                            //var_dump($row);
-                            if (mysqli_num_rows($result1) > 0) {
-                                // output data of each row
-                                while ($row = mysqli_fetch_assoc($result1)) {
-
-
-                                    echo'                                     
-
-                                    <tr>' .
-
-                                        '<td>' . $row["id"] . '</td>' .
-                                        '<td>' . $row["a"] . '</td>' .
-                                        '<td>' . $row["b"] . '</td>' .
-                                        '<td>' . $row["kilometers"] . '</td>';
-                                        if($_SESSION['role']==20 ){
-                                            echo   '<td>' . '<a class="btn btn-success" href="upkilometers.php?id=' . $row["id"] . '"; >update</a>' . '</td>';                                          
-                                        };
-                                        echo  '</tr>';
-                                    
-                               
-
-                                }
-
-
+                            where a=" . $name . " ORDER BY fluid_distance.id ASC";
+                                        $result1 = mysqli_query($connection, $sql1);
+                                        //$row = mysqli_fetch_assoc($result1);
+                                        //var_dump($row);
+                                        if (mysqli_num_rows($result1) > 0) {
+                                            // output data of each row
+                                            while ($row = mysqli_fetch_assoc($result1)) {
+            
+            
+                                                echo'                                     
+            
+                                                <tr>' .
+            
+                                                    '<td>' . $row["id"] . '</td>' .
+                                                    '<td>' . $row["a"] . '</td>' .
+                                                    '<td>' . $row["b"] . '</td>' .
+                                                    '<td>' . $row["kilometers"] . '</td>';
+                                                    if($_SESSION['role']==20 ){
+                                                        echo   '<td>' . '<a class="btn btn-success" href="upkilometers.php?id=' . $row["id"] . '"; >update</a>' . '</td>';                                          
+                                                    };
+                                                    echo  '</tr>';
+                                                
+                                           
+            
+                                            }
+            
+            
+                                        }
+                    } else {
+            
+                        //$result1 = mysqli_query($connection, $sql1);
+                        if (isset($_POST['place'])) {
+                            $place = $_POST['place'];
+                            $sql3 = "SELECT fluid_user.id_subcompany,fluid_place.id,fluid_place.id_user,fluid_place.name,fluid_place.id_sector0 FROM fluid_place INNER JOIN fluid_user on fluid_place.id_user=fluid_user.id where id_subcompany=" . $id_subcompany . " and fluid_place.id=" . $place;
+                            $res = mysqli_query($connection, $sql3);
+                            $rows1 = [];
+                            while ($row = mysqli_fetch_array($res)) {
+                                $rows1[] = $row;
                             }
-        } else {
+            
+                        } else {
+                            $sql3 = "SELECT fluid_user.id_subcompany,fluid_place.id,fluid_place.id_user,fluid_place.name,fluid_place.id_sector0,fromsector.name as 'fromname'  FROM fluid_place inner join fluid_sector as fromsector on fromsector.id = fluid_place.id_sector0   INNER JOIN fluid_user on fluid_place.id_user=fluid_user.id where id_subcompany=" . $id_subcompany . " ORDER BY fluid_place.id LIMIT 1";
+                            $res = mysqli_query($connection, $sql3);
+                            $rows1 = [];
+                            while ($row = mysqli_fetch_array($res)) {
+                                $rows1[] = $row;
+                            }
+                        }
+            
+            
+                        $sql3 = "SELECT fluid_user.id_subcompany,fluid_place.id,fluid_place.id_user,fluid_place.name,fluid_place.id_sector0 ,tosector.name as 'toname' FROM fluid_place 
+                        inner join fluid_sector as tosector on tosector.id = fluid_place.id_sector0
+                          INNER JOIN fluid_user on fluid_place.id_user=fluid_user.id where id_subcompany=" . $id_subcompany;
+                        $res = mysqli_query($connection, $sql3);
+                        $rows = [];
+                        while ($row = mysqli_fetch_array($res)) {
+                            $rows[] = $row;
+                        }
+            
+                        $routes = [];
+                        foreach ($rows1 as $from) {
+                            foreach ($rows as $to) {
+                                if ($from != $to) {
+                                    $sql = "SELECT kilometers  FROM fluid_distance                                   
+                                    
+                                      WHERE id_sector0=" . $from['id_sector0'] . " AND id_sectorf=" . $to['id_sector0'];
+                                    $res = mysqli_query($connection, $sql);
+                                    $row = mysqli_fetch_array($res);
+                                    $km = $row['kilometers'];
+                                    $routes[] = [
+                                        'from' => $from['name'],
+                                        'from_id' => $from['id_sector0'],
+                                        'to' => $to['name'],
+                                        'to_id' => $to['id_sector0'],
+                                        'km' => $km,
+                                        'fromname' => $from['fromname'],
+                                        'toname' => $to['toname'],
 
-            //$result1 = mysqli_query($connection, $sql1);
-            if (isset($_POST['place'])) {
-                $place = $_POST['place'];
-                $sql3 = "SELECT fluid_user.id_subcompany,fluid_place.id,fluid_place.id_user,fluid_place.name,fluid_place.id_sector0 FROM fluid_place INNER JOIN fluid_user on fluid_place.id_user=fluid_user.id where id_subcompany=" . $id_subcompany . " and fluid_place.id=" . $place;
-                $res = mysqli_query($connection, $sql3);
-                $rows1 = [];
-                while ($row = mysqli_fetch_array($res)) {
-                    $rows1[] = $row;
-                }
-
-            } else {
-                $sql3 = "SELECT fluid_user.id_subcompany,fluid_place.id,fluid_place.id_user,fluid_place.name,fluid_place.id_sector0 FROM fluid_place INNER JOIN fluid_user on fluid_place.id_user=fluid_user.id where id_subcompany=" . $id_subcompany . " ORDER BY fluid_place.id LIMIT 1";
-                $res = mysqli_query($connection, $sql3);
-                $rows1 = [];
-                while ($row = mysqli_fetch_array($res)) {
-                    $rows1[] = $row;
-                }
-            }
-
-
-            $sql3 = "SELECT fluid_user.id_subcompany,fluid_place.id,fluid_place.id_user,fluid_place.name,fluid_place.id_sector0 FROM fluid_place INNER JOIN fluid_user on fluid_place.id_user=fluid_user.id where id_subcompany=" . $id_subcompany;
-            $res = mysqli_query($connection, $sql3);
-            $rows = [];
-            while ($row = mysqli_fetch_array($res)) {
-                $rows[] = $row;
-            }
-
-            $routes = [];
-            foreach ($rows1 as $from) {
-                foreach ($rows as $to) {
-                    if ($from != $to) {
-                        $sql = "SELECT kilometers FROM fluid_distance WHERE id_sector0=" . $from['id_sector0'] . " AND id_sectorf=" . $to['id_sector0'];
-                        $res = mysqli_query($connection, $sql);
-                        $row = mysqli_fetch_array($res);
-                        $km = $row['kilometers'];
-                        $routes[] = [
-                            'from' => $from['name'],
-                            'from_id' => $from['id_sector0'],
-                            'to' => $to['name'],
-                            'to_id' => $to['id_sector0'],
-                            'km' => $km,
-                        ];
-
+                                    ];
+            
+                                }
+                            }
+                        }
+            
+                        foreach ($routes as $row) {
+            
+            
+                            echo
+            
+                                '
+            
+            
+                 <tr>' .
+                                '<td>' . $row["from"] . ' (' . $row["fromname"] . ')</td>' .
+                                '<td>' . $row["to"] . ' (' . $row["toname"] . ')</td>' .
+                                '<td>' . $row["km"] . '</td>';   
+            
+                                if($_SESSION['role'] == 20){
+                                    echo '<td class="text-center">' . '<a href="upkilometers.php?from_id=' . $row["from_id"] . '&to_id=' . $row['to_id'] . '&from=' . $row['from'] . '&to=' . $row['to'] . '"; class="btn btn-info">update</a>' . '</td>';
+                                                    
+                                };
+                              
+                            echo   '</tr>';
+                           
+            
+                        }
+            
                     }
-                }
-            }
-
-            foreach ($routes as $row) {
-
-
-                echo
-
-                    '
-
-
-     <tr>' .
-                    '<td>' . $row["from"] . '</td>' .
-                    '<td>' . $row["to"] . '</td>' .
-                    '<td>' . $row["km"] . '</td>';   
-
-                    if($_SESSION['role'] == 20){
-                        '<td class="text-center">' . '<a href="upkilometers.php?from_id=' . $row["from_id"] . '&to_id=' . $row['to_id'] . '&from=' . $row['from'] . '&to=' . $row['to'] . '"; class="btn btn-info">update</a>' . '</td>';
-                                        
-                    };
-                  
-                echo   '</tr>';
-               
-
-            }
-
-        }
-
-
-                        ?>
-                        </tbody>
-                    </table>
-
+            
+            
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>
@@ -333,10 +370,10 @@ $json = json_encode($data);
     });
 
     $('.myselect').on('select2:select', function (e) {
-
         $("#myForm").submit();
-
     });
+   
+    
 </script>
 <script src="assets/js/jquery-1.10.2.js"></script>
     <script src="assets/js/jquery-ui.min.js"></script>
@@ -347,8 +384,7 @@ $json = json_encode($data);
     <!-- CUSTOM SCRIPTS -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.full.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+   
 
    
 
@@ -362,17 +398,45 @@ $json = json_encode($data);
 
     
     <script src="assets/DataTables/datatables.min.js"></script>
-    <script src="assets/DataTables/dataTables.buttons.min.js"></script>
-    <script src="assets/DataTables/buttons.print.min.js"></script>
-    <script src="assets/DataTables/pdfmake.min.js"></script>
-    <script src="assets/DataTables/vfs_fonts.js"></script>
-    <script src="assets/DataTables/buttons.html5.min.js"></script>
-   
-    <script src="assets/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-<script src="assets/js/leon/fluid_inner_bon.js"></script>
-    
+ 
+ 
 <script>
-    
+    window.addEventListener('load',()=>{
+            const loader = document.querySelector('.loader');
+            loader.classList.add('lodh'); 
+        })
+       
+     var bur = document.getElementById('sidebarToggleTop'); 
+      var sider =  document.getElementById('accordionSidebar');
+      var clearb =  document.getElementById('returnB');
+      var page =  document.getElementById('page-top');
+      page.addEventListener('mouseover',()=>{
+        if(window.outerWidth >= 768){
+          sider.style.display = '';
+        }
+     });
+     if(window.innerWidth >= 768){
+          sider.style.display = '';
+        }else{
+            sider.style.display = 'none'
+        }
+       
+      bur.addEventListener('click',()=>{
+          if(sider.style.display == 'none'){
+            sider.style.display = '';
+            if(clearb){
+                clearb.style.display = 'none';
+            }
+            
+          }else{
+            if(clearb){
+                clearb.style.display = '';
+            }            
+            sider.style.display = 'none';
+          }
+       
+      })
+
     $(document).ready(function() {
         $('#datatable1').DataTable( {
             

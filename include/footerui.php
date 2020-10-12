@@ -16,9 +16,40 @@
       </div>
     </div>
   </div>
-
+  <?php if($_SESSION['role'] == 30){?>
+  <div class="modal fade" id="reject" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Why are you rejecting?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div id='rep'>
+           
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="diss" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Why are you canceling ?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div id='intro'>
+           
+        </div>
+      </div>
+    </div>
+  </div>
+  <?php } ?>
  <?php
-$sql = "SELECT fluid_place.id,Lcase(name) as name FROM fluid_place 
+$sql = "SELECT fluid_place.id,Ucase(name) as name FROM fluid_place 
 INNER JOIN fluid_user ON fluid_place.id_user=fluid_user.id WHERE fluid_user.id_subcompany=" . $_SESSION['sub_company'];
 $res = mysqli_query($connection, $sql);
 $data = [];
@@ -70,24 +101,119 @@ $json = json_encode($data);
 <script src="assets/js/leon/badgecount.js"></script>
 <script src="assets/js/leon/carInfo.js"></script>
 <script src="assets/js/leon/fruid_back_inc_bone.js"></script>
+<?php
+if($_SESSION['role'] == 30){
+?>
+<script>
 
+function loadBadge(bp){
+    var noteLead = '';
+    $.ajax({
+      url:'notification_lead/note.php',
+      method:'post',
+      data:{
+          btcre:bp
+      },
+      dataType:'json',
+      success:(data)=>{
+         if(bp == 1){
+           noteLead =document.querySelector('.cb') ;
+           if(!isNull(noteLead)){
+            if(data.count <= 0 ){
+           
+           noteLead.classList.add('d-none');
+                }else{
+                    
+                noteLead.innerHTML = data.count;
+                }
+
+           }
+           
+         }else if(bp == 2){
+           noteLead = document.querySelector('.ck');
+           if(!isNull(noteLead)){
+            if(data.count <= 0 ){
+           
+           noteLead.classList.add('d-none');
+                }else{
+                    
+                noteLead.innerHTML = data.count;
+                }
+
+           }
+         }else{
+           noteLead = document.querySelector('.co');
+           if(!isNull(noteLead)){
+            if(data.count <= 0 ){
+           
+           noteLead.classList.add('d-none');
+                }else{
+                    
+                noteLead.innerHTML = data.count;
+                }
+
+           }
+         }
+
+      }
+
+    });
+
+
+  } 
+
+  $(document).ready(function(){
+  try{
+    setInterval(()=>{
+      for( var i = 1 ; i <= 3 ; i++){
+        loadBadge(i);
+      } 
+    },9000);
+  }
+  catch(error){
+   
+  }
+   
+})
+ 
+
+ 
+
+</script>
+<?php
+  }
+?>
     <script>
-          
+
+        window.addEventListener('load',()=>{
+            const loader = document.querySelector('.loader');
+            loader.classList.add('lodh'); 
+        })
+  
+    var remarkeble = document.getElementById('remarkeble');
     var DriverProg = document.getElementById('DriverProg'); 
 if(!isNull(DriverProg)){
     DriverProg.addEventListener('click',()=>{
+        ajaxloader.style.display='block';
+        ajaxloader.parentElement.style.display='block';
        $.ajax({
            url:'cars_fluid/cardailydata.php',
            method:'POST',
            data:{
                pro:12,
                 },
+            beforeSend:()=>{
+                ajaxloader.style.display='block';
+            },
            success:(data)=>{
-              
+            ajaxloader.style.display='none';
+            ajaxloader.parentElement.style.display='none';
             dataloader(dataView,data);
             var processPro =  document.getElementById('processPro'); 
             
             processPro.addEventListener('click',()=>{
+            ajaxloader.style.display='block';
+            ajaxloader.parentElement.style.display='block';
                 var start_date =  document.getElementById('start_date'); 
                 var end_date =  document.getElementById('end_date'); 
                 var endV = end_date.value;
@@ -102,21 +228,35 @@ if(!isNull(DriverProg)){
                             from:startV,
                             until:endV,
                            
-    
+                        },
+                        beforeSend:()=>{
+                            ajaxloader.style.display='block';
                         },
                        success:(data)=>{
+                        ajaxloader.style.display='none';
+                        ajaxloader.parentElement.style.display='none';
                        dataloader(seconddataView,data);
                        
                 
                        }
+                       ,
+                        error:()=>{
+                            ajaxloader.style.display='none';
+                            dataloader(dataView,'<div class="alert alert-warning"> please check  the internet and try again! </div>');
+
+                        }
                     })
                 });
+            },
+             error:()=>{
+                ajaxloader.style.display='none';
+                dataloader(dataView,'<div class="alert alert-warning"> please check  the internet and try again! </div>');
+
             } 
        })
     })
 }
 
-   
       var bur = document.getElementById('sidebarToggleTop'); 
       var sider =  document.getElementById('accordionSidebar');
       var clearb =  document.getElementById('returnB');
@@ -200,6 +340,7 @@ function getvalue(indi){
         if(window.outerWidth >= 770){
           sider.style.display = '';
         }
+        
      });
      
        
@@ -218,20 +359,38 @@ function getvalue(indi){
           }
        
       })
+      if(window.innerWidth >= 768){
+          sider.style.display = '';
+        }else{
+            sider.style.display = 'none'
+        }
+       
 
       //book
       var bookRide =  document.getElementById('bookRide');
       var pickedDate = document.getElementById('picked-date');
      if(!isNull(bookRide)){
         bookRide.addEventListener('click',()=>{
+            ajaxloader.style.display='block';
+            ajaxloader.parentElement.style.display='block';
          $.ajax({
             url:'booklead/valMe.php',
             method:'POST',
             data:{
                 b:1,
             },
+            beforeSend:()=>{
+                ajaxloader.style.display='block';
+            },
             success:(data)=>{
+                ajaxloader.style.display='none';
+                ajaxloader.parentElement.style.display='none';
                 dataloader(dataView,data);
+            },
+            error:()=>{
+                ajaxloader.style.display='none';
+                dataloader(dataView,'<div class="alert alert-warning"> please check  the internet and try again! </div>');
+
             }
          });
       })
@@ -256,25 +415,7 @@ function getvalue(indi){
          });
 
      }
-    function endAvail(tank){
-
-         //  gettin id
-         var tank = document.getElementById(`${tank}`);
-         var dt = tank.getAttribute('data-tanker');
-         $.ajax({
-            url:'include/avail.php',
-            method:'POST',
-            data:{
-                d:1,
-                dt:dt,
-                t:2
-            },
-            success:(data)=>{
-                dataloader(dataView,data);
-            }
-         });
-
-    }
+   
 
      function getTime(startEndTime){
           //  gettin time
@@ -387,26 +528,6 @@ function getvalue(indi){
 
       //end book
 
-$("#dataRetrival").bind('DOMSubtreeModified', function() {
-    var saveAvail = document.getElementById('saveAvail'); 
-
-});
-
-if(!isNull(Avail)){
-    Avail.addEventListener('click',()=>{
-   $.ajax({
-        url:'include/avail.php',
-        method:'POST',
-        data:{
-            list:1,
-            plate:1
-        },
-        success:(data)=>{
-            dataloader(dataView,data);
-        }
-   })
-})
-}
 function getV(btn){
     var saveAvail = document.getElementById('saveAvail'); 
     var fromDate = document.getElementById('fromDate').value; 
@@ -451,15 +572,27 @@ function getV(btn){
 var confirmedb = document.getElementById('confirmedb');
 if(!isNull(confirmedb)){
     confirmedb.addEventListener('click',()=>{
+    ajaxloader.style.display='block';
+    ajaxloader.parentElement.style.display='block';  
    $.ajax({
         url:'cars_fluid/cardailydata.php',
         method:'POST',
         data:{           
             confirmedb:1
         },
+        beforeSend:()=>{
+            ajaxloader.style.display='block';
+        },       
         success:(data)=>{
+            ajaxloader.style.display='none';
+            ajaxloader.parentElement.style.display='none';
             dataloader(dataView,data);
             dataloader(seconddataView,' ');
+        },
+        error:()=>{
+            ajaxloader.style.display='none';
+            dataloader(dataView,'<div class="alert alert-warning"> please check  the internet and try again! </div>');
+
         }
    })
 })
@@ -501,25 +634,88 @@ function startTrip(picker){
 //=====end of start
 
 //end_trip
+// function endTrip(picker){
+//     var pick   = document.getElementById(`${picker}`); 
+//     var tanker = pick.getAttribute('dta-b');
+//     if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition((pos)=>{
+//       var long = pos.coords.longitude;
+//       var lat = pos.coords.latitude;
+     
+//       $.ajax({
+//         url:'booklead/booklead.php',
+//         method:'POST',
+//         data:{           
+//             lo:long,
+//             la:lat,
+//             pt:tanker
+//         },
+//         success:(data)=>{
+//             dataloader(dataView,data);
+//             $.ajax({
+//             url:'booklead/booklead.php',
+//             method:'POST',
+//             data:{           
+//                 endb:1,
+//                 dt:tanker
+//             },
+//             success:(data)=>{
+//                 dataloader(dataView,data);
+//                 //confirmed bookin
+//                 confBook();
+//                 //===========
+                
+//             }
+//     })
+            
+//         }
+//    })
+//     });
+    
+    
+    
+//    }
+//    else { 
+//     alert("You need to allow us .");
+//     }
+//  }
+
 function endTrip(picker){
-     var pick   = document.getElementById(`${picker}`); 
-     var tanker = pick.getAttribute('dta-b');
+    var pick   = document.getElementById(`${picker}`); 
+    var tanker = pick.getAttribute('dta-b');
+      var long = '-- ';
+      var lat = '--';
+    //if we enable https we change function over
+
      $.ajax({
         url:'booklead/booklead.php',
         method:'POST',
         data:{           
-            endb:1,
-            dt:tanker
+            lo:long,
+            la:lat,
+            pt:tanker
         },
         success:(data)=>{
             dataloader(dataView,data);
-            //confirmed bookin
-            confBook();
-            //===========
+            $.ajax({
+            url:'booklead/booklead.php',
+            method:'POST',
+            data:{           
+                endb:1,
+                dt:tanker
+            },
+            success:(data)=>{
+                dataloader(dataView,data);
+                //confirmed bookin
+                confBook();
+                //===========
+                
+            }
+    })
             
         }
    })
-    }
+ }
 //end of endtrip
 
 //=====end driver
@@ -527,16 +723,28 @@ function endTrip(picker){
 var ViewBook = document.getElementById('ViewBook');
 if(!isNull(ViewBook)){
     ViewBook.addEventListener('click',()=>{
+        ajaxloader.style.display='block';
+        ajaxloader.parentElement.style.display='block';
    $.ajax({
         url:'booklead/mybookin.php',
         method:'POST',
         data:{           
             mybookin:1
         },
+        beforeSend:()=>{
+                ajaxloader.style.display='block';
+            },
         success:(data)=>{
+            ajaxloader.style.display='none';
+            ajaxloader.parentElement.style.display='none';
             dataloader(dataView,data);
             dataloader(seconddataView,' ');
-        }
+        },
+         error:()=>{
+                ajaxloader.style.display='none';
+                dataloader(dataView,'<div class="alert alert-warning"> please check  the internet and try again! </div>');
+
+            }
    })
 })
 }
@@ -606,7 +814,11 @@ function  getCar(car){
             };
             //end car selection 
 //end+++++++======end
+
+
+
 function action(placeToc){
+  
     var upTo = document.getElementById(`${placeToc}`);
     var p    = upTo.getAttribute('dta-b');
     $.ajax({
@@ -621,23 +833,88 @@ function action(placeToc){
             dataloader(dataView,data);
         }
     }); 
+   
+   
 }
+
 function dismiss(placeToc){
-    var upTo = document.getElementById(`${placeToc}`);
-    var p    = upTo.getAttribute('dta-b');
-    $.ajax({
+    var ks = document.getElementById(`reason`);
+    var ksv = ks.value;
+    if(ksv.trim() == ''){
+        dataloader(dataView,`<div class="alert alert-danger mt-3" style="margin:auto">Please mention your reason</div>'`);
+    }else{
+        $.ajax({
         url:'cars_fluid/cardailydata.php',
         method:'POST',
         data:{
             u:1,
-            dp:p,
-            re:1
+            dp:placeToc,
+            re:1,
+            ks:ksv          
            
         },
         success:(data)=>{
             dataloader(dataView,data);
         }
     }); 
+    }
+   
+}
+function reject(placeToc){
+    var pro = document.getElementById(`rep`);
+    var upTo = document.getElementById(`${placeToc}`);
+    var p    = upTo.getAttribute('dta-b');
+    $.ajax({
+        url:'include/forms/addforms.php',
+        method:'POST',
+        data:{
+            ACT:'re',
+            b:p           
+        },
+        dataType:'text',
+        success:(data)=>{
+            dataloader(pro,data);
+        }
+    }); 
+}
+function cancel(placeToc){
+    var pro = document.getElementById(`intro`);
+    var upTo = document.getElementById(`${placeToc}`);
+    var p    = upTo.getAttribute('dta-b');
+    $.ajax({
+        url:'include/forms/addforms.php',
+        method:'POST',
+        data:{
+            ACT:'ca',
+            b:p           
+        },
+        dataType:'text',
+        success:(data)=>{
+            dataloader(pro,data);
+        }
+    }); 
+}
+function procced(placeToc){
+    var ks = document.getElementById(`reason`);
+    var ksv = ks.value;
+    if(ksv.trim() == ''){
+        dataloader(dataView,`<div class="alert alert-danger mt-3" style="margin:auto">Please mention your reason</div>'`);
+    }else{
+        $.ajax({
+        url:'cars_fluid/cardailydata.php',
+        method:'POST',
+        data:{
+            u:1,
+            dp:placeToc,
+            re:2,
+            ks:ksv          
+           
+        },
+        success:(data)=>{
+            dataloader(dataView,data);
+        }
+    }); 
+    }
 }
 
 var clear =  document.getElementById('returnB');

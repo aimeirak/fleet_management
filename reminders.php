@@ -1,4 +1,10 @@
 <?php
+session_start();
+
+if(!isset($_SESSION["username"])){
+  header("Location: uiupdate.php");
+  exit(); }
+  
 include('connexion.php');
 date_default_timezone_set('Africa/Kigali');
 $sql = "    SELECT fluid_user.full_name,fluid_car.id_driver,fluid_booking.id as booking_id,fluid_car.id as car_id,fluid_car.plaque,start_time,end_time,username,a.name AS 'departure',b.name AS 'destination' ,rank,description 

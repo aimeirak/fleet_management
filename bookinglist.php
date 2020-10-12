@@ -3,6 +3,9 @@
 include 'include/authant.php';
 include 'include/header.php' ;
 
+if(!isset($_SESSION["username"])){
+    header("Location: uiupdate.php");
+    exit(); }
 $id_subcompany = $_SESSION['sub_company'] ;
  ?>
 
@@ -42,26 +45,20 @@ $SESSION_ID = $_SESSION['id'];
             </div>
 
 <?php endif?>
-        <div class="row">
-            
-            <div class="col-md-12 d-flex justify-content-between mb-5">
-            <h2>Bookings</h2>
-                <a href="uiupdate.php"><span class="btn btn-primary pull-right" style="bottom: opx;">add</span></a>
-            </div>
-        </div>
-        <form action="bookinglist.php" method="post">
+        
+        <form action="bookinglist.php" class="p-4" method="post">
             <div class="row">
                 <div class="form-group col-md-5">
                     <div class='input-group date' id='datetimepicker1'>
-                        <input name='start_date' type='text' class="form-control"/>
-                        <span class="input-group-addon input-group-append btn btn-info">
+                        <input name='start_date' type='text' class="form-control" placeholder="From"/>
+                        <span class="input-group-addon input-group-append btn btn-info"  >
                                     <span class="fa fa-calendar"></span>
                                 </span>
                     </div>
                 </div>
                 <div class="form-group col-md-5">
                     <div class='input-group date' id='datetimepicker2'>
-                        <input name='end_date' type='text' class="form-control"/>
+                        <input name='end_date' type='text' class="form-control" placeholder="Until"/>
                         <span class="input-group-addon input-group-append btn btn-primary">
                                     <span class="fa fa-calendar"></span>
                                 </span>
@@ -91,8 +88,14 @@ $SESSION_ID = $_SESSION['id'];
         </script>
 
 
-        <div class="row" style="padding:10px;">
-            <div class="table-responsive">
+        <div class="row p-2" style="padding:10px;">
+         <div class="card shadow-lg">
+                <div class="card-header col-md-12 d-flex justify-content-between mb-5">
+                        <h2>All bookings</h2>
+                        <a href="uiupdate.php"><span class="btn btn-primary pull-right" style="bottom: opx;">Book</span></a>
+                </div>
+                <div class="card-boby">
+                <div class="table-responsive p-2">
                 <table class="table table-striped table-bordered table-hover display" id="datatable1" cellspacing="0"
                    width="100%">
                     <thead>
@@ -107,11 +110,11 @@ $SESSION_ID = $_SESSION['id'];
                         <th>status</th>
                         <th>Departments</th>
                         <th>Rank</th>
-                        <th></th>
+                    
 
                     </tr>
                     </thead>
-                    <body>
+                    <tbody>
                     <?php
 
                     if (isset($_POST['start_date']) and $_POST['end_date'] != '') {
@@ -165,7 +168,7 @@ $SESSION_ID = $_SESSION['id'];
 
                         $sql = "SELECT fluid_booking.id,created_at,start_time,end_time,username,a.name AS 'departure',b.name AS 'destination',statusname,name_dep,rank ,fluid_booking.id_user FROM `fluid_booking` inner join fluid_user on fluid_user.id=fluid_booking.id_user JOIN fluid_place AS a ON fluid_booking.id_place0=a.id JOIN fluid_place AS b ON fluid_booking.id_placef=b.id inner join fluid_status on fluid_status.id=fluid_booking.status_id inner join fluid_departments on fluid_departments.id=fluid_booking.Departments_id where fluid_user.id_subcompany=".$id_subcompany." AND fluid_booking.end_time>=NOW()";
                         //echo  $sql;
-                        echo "All bookings";
+                       
                         $rS = mysqli_query($connection, $sql);
                         //var_dump($rS);
                         //die();
@@ -208,25 +211,14 @@ $SESSION_ID = $_SESSION['id'];
 
                     ?>
 
-                    <script>
-               <?= $json = json_encode($data);?>
-                    var data = <?= $json?>;
-                    
-                    $(".myselect").select2({
-                        data: data
-                    });
-
-                    $('.myselect').on('select2:select', function (e) {
-
-                        $("#myForm").submit();
-
-                    });
                    
-                </script>
 
-                 </body>
+                 </tbody>
                 </table>
             </div>
+                </div>
+         </div>
+           
 
         </div>
     </div>

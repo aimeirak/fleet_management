@@ -2,7 +2,12 @@
 include 'include/authant.php';
 include('include/header.php'); ?>
 <?php include('connexion.php');?>
-<?php $id_subcompany = $_SESSION['sub_company']; ?>
+<?php $id_subcompany = $_SESSION['sub_company'];
+
+if(!isset($_SESSION["username"])){
+    header("Location: uiupdate.php");
+    exit(); }
+ ?>
 
 <body  id="page-top"   >
     

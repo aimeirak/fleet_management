@@ -1,6 +1,7 @@
 var contentW = document.getElementById('page-inner');
 var adddep = document.getElementById('adddep');
 var addDestin = document.getElementById('addDestin');
+var ajaxloader = document.getElementById('ajax-loader');
 adddep != null?
 adddep.addEventListener('click',()=>{
     $.ajax({

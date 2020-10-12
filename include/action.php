@@ -87,9 +87,10 @@ function validateUser($userName,$password){
                                                   
                          
                                 if($_SESSION['username'] && $_SESSION['blancName']){
-                                    $setLogInStatusQuery = "UPDATE fluid_user set  last_login = NOW() where id = ?  ";
+                                    $date = date("Y-m-d h:i:s");
+                                    $setLogInStatusQuery = "UPDATE fluid_user set  last_login = ? where id = ?  ";
                                     $stmt = $GLOBALS['conn']->prepare($setLogInStatusQuery);
-                                    $stmt->bind_param('i',$fetchUser['id']); 
+                                    $stmt->bind_param('si',$date,$fetchUser['id']); 
                                     $stmt->execute();
                                     $loggedin = $stmt->affected_rows;                                  
                                     

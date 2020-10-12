@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8"/>
+   <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="  transport in rwanda, are you in need of controlling your cars? here is the best choice in rwanda   ">
+    <meta name="keywords" content="rwanda transport , ishyiga , urugendo, chrisostome">
+    <meta name="author" content="sezerano jean chrisostome" >
+
     <title></title>
     <link rel="shortcut icon" href="assets/img/icon.png" />
     <!-- BOOTSTRAP STYLES-->
@@ -50,7 +54,44 @@
  
     <script src="assets/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 
+<style>
+ .loader{
+  position: fixed;
+  z-index:99;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.loader > img {
+  width: 60%;
+  height: 60%;
+} 
+.loader.lodh{
+  animation: loadmeout 1s;
+  animation-fill-mode: forwards;
+}
+@keyframes loadmeout {
+  100% {
+    opacity: 0;
+    visibility: hidden;
+      }
+}
+
+
+@media screen and (max-width:760px){
+  .loader > img {
+    width: 100%;
+    height: 50%;
+  }
+   }
+
+    </style>
 
 
 <!-- 

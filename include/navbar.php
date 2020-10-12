@@ -1,4 +1,30 @@
+<?php
+
+if(isset($_SESSION['role'])){ 
+  $now = new DateTime();
+  $id = $_SESSION['id'];
+$stmt = $connection->prepare('SELECT last_login from fluid_user where id = ?');
+$stmt->bind_param('i',$id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$lastLogin = new DateTime($row['last_login']);
+// echo ;
+// echo '<br>';
+// echo ;
+if($lastLogin->format('Y m d') < $now->format('Y m d')){
+
+  echo'<script> window.open("logout.php","_self") </script>'; 
+}
+
+}
+
+?>
+
 <?php $id_subcompany = $_SESSION['sub_company'] ?>
+<div class="loader">
+     <img src="assets/bootstrap3-editable/img/Loading-Image.gif" alt="" srcset="">
+   </div>
 <ul  class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion " id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
@@ -27,7 +53,7 @@
   Modification
 </div>
 
-<li class="nav-item">
+<li class="nav-item">  
   <a class="nav-link" href="edituser.php" id="Profile" >
     <i class="fas fa-fw fa-user"></i>
     <span>Profile</span></a>
@@ -153,7 +179,7 @@
 </div>
 
 <!-- Nav Item - report -->
-<?php if($_SESSION['role'] != 10){ ?>
+<?php if($_SESSION['role'] == 110){ ?>
 <li class="nav-item">
   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRepo" aria-expanded="true" aria-controls="collapsePages">
     <i class="fas fa-fw fa-database"></i>

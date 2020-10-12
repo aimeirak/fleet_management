@@ -2,7 +2,48 @@
 <?php
 session_start();
 include '../connexion.php';
-$id_comany =  $_SESSION['sub_company'];
+
+
+if(isset($_SESSION['role'])){ 
+  $now = new DateTime();
+  $id = $_SESSION['id'];
+$stmt = $connection->prepare('SELECT last_login from fluid_user where id = ?');
+$stmt->bind_param('i',$id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$lastLogin = new DateTime($row['last_login']);
+// echo ;
+// echo '<br>';
+// echo ;
+if($lastLogin->format('Y m d') < $now->format('Y m d')){
+  $msg = '
+  <div class="container">
+  <div class="card shadow mt-5">
+  <div class=" alert alert-warning text-center m-5"><div class" p-5">Please login again </div> </div>
+  </div>
+  </div>
+ ';
+  session_destroy();
+  exit($msg);
+ 
+}
+
+}else{
+  $msg = '
+  <div class="container">
+  <div class="card shadow mt-5">
+  <div class=" alert alert-warning text-center m-5"><div class" p-5">Please login again </div> </div>
+  </div>
+  </div>
+ ';
+ 
+ exit($msg);
+
+ 
+}
+
+$id_comany =  $_SESSION["sub_company"];
 function carlistOnly(){
   $sql1 = "SELECT * from fluid_car 
    where fluid_car.id_subcompany=" . $_SESSION["sub_company"];
@@ -32,6 +73,7 @@ function carlistOnly(){
   }
 }
 
+
 //cars info 
 function finder($Plaques,$carplaque){
  foreach($Plaques as $plate){
@@ -43,62 +85,106 @@ function finder($Plaques,$carplaque){
  } 
 }
 
-function carsInfo($carId,$today,$tomorrow){
-
- 
- 
-   //making sure that we have this is date in any bookin to day 
-   $rank = 'confirmed';
-   $done = 'done';
-   $active = 'active';
-  $sqlStmt = "  SELECT fluid_car.plaque ,fluid_car.id,fluid_car.fuel_consumption  FROM fluid_booking 
-  inner join fluid_driver_logs on fluid_driver_logs.driver_id = fluid_booking.driver_id 
-  inner join fluid_car on fluid_driver_logs.car_id = fluid_car.id   where date(start_time) between ? and ? and rank = ? or rank =  ? or rank =  ? ";
-  $stmt = $GLOBALS['conn']->prepare($sqlStmt);
-  $stmt->bind_param('sssss',$today,$tomorrow,$rank,$done,$active);
+function getCarFuelConsuption($plate){
+  $car = array();
+  $sql  = "SELECT * FROM fluid_car where plaque = ? and id_subcompany = ? ";
+  $stmt = $GLOBALS['conn']->prepare($sql);
+  $stmt->bind_param('si',$plate,$_SESSION["sub_company"]);
   $stmt->execute();
   $result = $stmt->get_result();
+  $fetchCar = $result->fetch_assoc();
+  
+  $car = array(
+    'id' => $fetchCar['id'],
+    'fuel' => $fetchCar['fuel_consumption']
+  );
+  return $car;
+  $stmt->close();
+}
+function getAllBooking($from,$until,$id){
+  $done = 'done';
+  $book = array();
+  $sql = "SELECT start_time,end_time,car_id,startP.id_sector0 as sectorIdFrom,endP.id_sector0 as sectorIdto  from fluid_booking
+   inner join fluid_driver_logs on (fluid_booking.driver_id = fluid_driver_logs.driver_id and date(fluid_driver_logs.date_log) between date(?) and date(?) )
+   inner join fluid_place as startP on startP.id = fluid_booking.id_place0 inner join fluid_place as endP on endP.id = fluid_booking.id_placef   
+   where  date(start_time) between date(?) and date(?) and fluid_booking.rank = ? and car_id = ?";
+  $stmt = $GLOBALS['conn']->prepare($sql);
+  $stmt->bind_param("sssssi",$from,$until,$from,$until,$done,$id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $i = 0;
+  while($fetchBook = $result->fetch_assoc()){
+    $book[$i] = array(
+      'start_time'=> $fetchBook['start_time'],
+      'end_time'=> $fetchBook['end_time'],
+      'car_id' => $fetchBook['car_id'],
+      'from' => $fetchBook['sectorIdFrom'],
+      'to' => $fetchBook['sectorIdto'],
+      
+    );
+   $i++;
+  }
+  return $book;
+  $stmt->close();
+};
+function getKm($allBookings){
+    //  we may add joined booking
+     $km = 0;
+     $i = 0;
+     $sql  = "SELECT * FROM fluid_distance where id_sector0 = ? and id_sectorf = ?";
+     $stmt = $GLOBALS['conn']->prepare($sql);
+     while($i < sizeof($allBookings)){
+       $from = $allBookings[$i]['from'];
+       $to = $allBookings[$i]['to'];
+       $stmt->bind_param('ii',$from,$to);
+       $stmt->execute();
+       $result = $stmt->get_result();
+       $fetchKm = $result->fetch_assoc();
+      // echo $from .' to '. $to .'<br>';
+       $km += $fetchKm['kilometers'];       
+       $i++;
+     }
+    return $km;
+    $stmt->close();
+}
+
+function getCost($km,$carConsuption){
+    $live= 1;
+    $company = $_SESSION['sub_company'];
+    $sql = "SELECT * FROM fuel_cost where id_subcompany = ? and live = ?";
+    $stmt = $GLOBALS['conn']->prepare($sql);
+    $stmt->bind_param('ii',$company,$live);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if($result->num_rows > 0){
+      $fuelCost = $result->fetch_assoc();
+      $costs =  ($km/$carConsuption) * $fuelCost['cost'] ;
+      // $costs =  (($km*2)/$carConsuption) * $fuelCost['cost'] ;
+    }else{
+      $costs =  ($km/$carConsuption) * 960;
+    }       
+    return round($costs);
+    $stmt->close();
+}
+
+
+function carsInfo($carId,$from,$to){
+
+ //call consuption and id
+ $fuelInfo = getCarFuelConsuption($carId);   
+ //=======
+
+ //start place and destination and bookid in return
+ $bookInfos = getAllBooking($from,$to,$fuelInfo['id']);
+ //=======      
  
-  $wehaveBookToday =  $result->num_rows;
+ //counting km
+ $kmSpent = getKm($bookInfos);    
+ //====
 
-  if($wehaveBookToday){
-    $allPlates = $result->fetch_assoc();
-
-    $carConsuption = $allPlates['fuel_consumption'];
-        //if there is any car which with the plate given
-        
-    $hasCarOnceBooked = finder($allPlates,$carId);
-    // if($hasCarOnceBooked){
-      
-      // car km count
-      $company = $_SESSION['sub_company'];
-      $fuelCostQuery = "SELECT cost from fuel_cost where id_subcompany = ?";
-      $stmCost =  $GLOBALS['conn']->prepare($fuelCostQuery);
-      $stmCost->bind_param('i',$company);
-      $stmCost->execute();
-      
-      $result = $stmCost->get_result();;
-      $fuelCost =$result->fetch_assoc();
-      $fetchCost = $fuelCost['cost'];
-      $live = 1;
-      $kmcounQuery = " SELECT fluid_car.plaque,fluid_booking.start_time,fluid_booking.end_time,startp.name as startPlace,fluid_km_count.id_booking ,startp.id_sector0,endp.name,endp.id_sector0 
-      ,kilometers,fluid_car.fuel_consumption ,sum(kilometers) as totalKM from fluid_km_count
-       inner join fluid_place as startp on  startp.id = fluid_km_count.id_place0
-       inner join fluid_place  as endp  on endp.id=fluid_km_count.id_placef
-       inner join fluid_distance on (fluid_distance.id_sector0 = startp.id_sector0 and endp.id_sector0 = fluid_distance.id_sectorf) 
-       inner join fluid_booking on fluid_km_count.id_booking = fluid_booking.id 
-       inner join fluid_driver_logs on fluid_driver_logs.driver_id = fluid_booking.driver_id 
-       inner join fluid_car on fluid_driver_logs.car_id = fluid_car.id 
-       WHERE date(start_time) between ?  and ? and fluid_km_count.live = ? AND fluid_car.plaque = ?  group by fluid_km_count.id_booking ; ";
-      $stmt = $GLOBALS['conn']->prepare($kmcounQuery);
-      $stmt->bind_param('ssis',$today,$tomorrow,$live,$carId);
-      $stmt->execute();
-      $fetch = $stmt->get_result();      
-      $kmst  = 0;
-      $v = 24 ;
-      $lt = 0;
-      $cost = 00;
-     
+ //count cost fuel_consuption ($fuelInfo['fuel'])
+ $cost =  getCost($kmSpent,$fuelInfo['fuel']);    
+ //====
       
       echo '
       
@@ -126,18 +212,13 @@ function carsInfo($carId,$today,$tomorrow){
            </div>
       </div>
       <div class="card border shadow mt-3 ml-2" >' ;   
-      while($fetchCar = $fetch->fetch_assoc()){
-        $kmst += $fetchCar['totalKM'];
-        $lt   = $kmst/$carConsuption;
-        $cost = round($fetchCost *($lt));
-      } 
-
-      echo '
-      <div class="card-header" >'.$carId.'  Fuel consumption from  '.$today.' until '.$tomorrow.'</div>
+  
+      echo  '
+      <div class="card-header" >'.$carId.'  Fuel consumption from  '.$from.' until '.$to.'</div>
         <div class="card-body" >
            <div class="row">
             <div class="col p-2" >
-             KM = '.$kmst.'
+             KM = '.$kmSpent.'
              </div>
              <div class="col p-2 text-info" >
              Cost = '.$cost .' rwf 
@@ -149,23 +230,11 @@ function carsInfo($carId,$today,$tomorrow){
         </div>
         <div class="card-footer" >
              <div class="col p-2 " >
-              confirmed and  complited , active bookings
-            
+             complited bookings            
              </div>
              </div>
       </div> ';
      
-      
-
-
-
-    }else{
-      echo'<div class="card ml-2 mt-3">   <div class="card-header" > there is no booking record of this '.$carId.' today '.$today.' </div> </div>';
-    }
-
-  // }else{
-  //   echo 'no book was made today '.$today.' until tomorrow '.$tomorrow ;
-  // }
 }
 
 
@@ -203,11 +272,9 @@ function Booking(){
         width="100%">
      <thead>
          <tr>
-         <th>#</th>
-             <th>StartTime</th>
-             <th>EndTime</th>
-             
              <th>Passenger(m)</th>
+             <th>StartTime</th>
+             <th>EndTime</th> 
              <th>Depature</th>
              <th>Destination</th>
              <th>Action</th>
@@ -229,22 +296,19 @@ function Booking(){
 
                 <tr '.$active.' >'.
 
-                '<td>'.$fetchBooking["bookId"].'</td>'.
+                   '<td>'.$fetchBooking["passenger"].'</td>'.             
                     '<td>'.$fetchBooking["start_time"].'</td>'.
-                    '<td>'.$fetchBooking["end_time"].'</td>'.
-                   
-                    '<td>'.$fetchBooking["passenger"].'</td>'. 
-            
+                    '<td>'.$fetchBooking["end_time"].'</td>'.  
                     '<td>'.$fetchBooking["departure"].'</td>'.
                     '<td>'.$fetchBooking["destination"].'</td>';
                    
                   if($rank == 'pending'){
                   echo  '<td>'.'<span id="bl546'.$i.'23"  dta-b ="'.$fetchBooking["bookId"].'"  onClick ="action(this.id)" class="btn btn-primary btn-sm">Yes</span>
-                       <span id="bl5ji564'.$i.'j256jk-3"  dta-b ="'.$fetchBooking["bookId"].'" onClick ="dismiss(this.id)" class="btn btn-danger btn-sm">NO</span>
+                       <span id="bl5ji564'.$i.'j256jk-3"  dta-b ="'.$fetchBooking["bookId"].'" onClick ="reject(this.id)"  data-toggle="modal" class="btn btn-danger btn-sm" data-target="#reject">NO</span>
                     
                     ';
                   }else{
-                  echo  '<td>'.'<span id="bl546'.$i.'23"  dta-b ="'.$fetchBooking["bookId"].'"  onClick ="restore(this.id)" class="btn btn-primary btn-sm">send to yego</span>
+                  echo  '<td>'.'<span id="bl546'.$i.'23"  dta-b ="'.$fetchBooking["bookId"].'"  onClick =" class="btn btn-primary btn-sm">send to yego</span>
                     
                     
                     ';
@@ -280,11 +344,8 @@ function Booking(){
 function BookingRe($rank){
   $now = date('Y-m-d');
   $tomorrow = date('Y-m-d',strtotime('tomorrow'));
-
-
   //my car
-  $DriverId = $_SESSION['id'];
-  
+  $DriverId = $_SESSION['id']; 
   
   $i = 1;
   $sql = "SELECT p.username as passenger,fluid_booking.rank,fluid_booking.id as bookId,fluid_booking.start_time, 
@@ -309,7 +370,7 @@ function BookingRe($rank){
         width="100%">
      <thead>
          <tr>
-         <th>#</th>
+      
              <th>StartTime</th>
              <th>EndTime</th>
              
@@ -331,7 +392,7 @@ function BookingRe($rank){
 
                 <tr  >'.
 
-                '<td>'.$fetchBooking["bookId"].'</td>'.
+             
                     '<td>'.$fetchBooking["start_time"].'</td>'.
                     '<td>'.$fetchBooking["end_time"].'</td>'.
                    
@@ -346,7 +407,7 @@ function BookingRe($rank){
                     
                     ';
                   }else{
-                  echo  '<td>'.'<span id="bl546'.$i.'23"  dta-b ="'.$fetchBooking["bookId"].'"  onClick ="restore(this.id)" class="btn btn-primary btn-sm">Restore</span>
+                  echo  '<td>'.'<span id="bl546'.$i.'23"  dta-b ="'.$fetchBooking["bookId"].'"  onClick ="restore(this.id)" class="btn btn-primary btn-sm">send to yego</span>
                     
                     
                     ';
@@ -449,7 +510,7 @@ function BookingCo($conf){
     width="100%">
  <thead>
      <tr>
-     <th>#</th>
+   
          <th>StartTime</th>
          <th>EndTime</th>
          
@@ -474,7 +535,7 @@ function BookingCo($conf){
 
              <tr '.$active.' >'.
 
-             '<td>'.$fetchBooking["bookId"].'</td>'.
+    
                  '<td>'.$fetchBooking["start_time"].'</td>'.
                  '<td>'.$fetchBooking["end_time"].'</td>'.
                 
@@ -485,17 +546,20 @@ function BookingCo($conf){
                 
                if($fetchBooking["rank"] == 'active'){
                 echo  '<td>'.'
-                <span class="btn btn-primary btn-icon-split" id="be15546'.$i.'23"  dta-b ="'.$fetchBooking["bookId"].'"  onClick ="endTrip(this.id)">  
+                <span class="btn btn-primary btn-icon-split m-2" id="be15546'.$i.'23"  dta-b ="'.$fetchBooking["bookId"].'"  onClick ="endTrip(this.id)">  
                 <span class="icon text-white-70">
                     <i class="fas fa-check"></i>
                   </span>              
                    <span  class="text">complete</span>             
                  </span>
+                 '.'<span id="bl4554'.$i.'22"  dta-b="'.$fetchBooking["bookId"].'"  onClick ="cancel(this.id)" class="btn btn-warning btn-sm m-2"  data-toggle="modal"  data-target="#diss">Cancel</span> 
+                 
                  ';
                }
                
                if($fetchBooking["rank"] == 'confirmed'){
-               echo  '<td>'.'<span id="bl546'.$i.'23"  dta-b="'.$fetchBooking["bookId"].'"  onClick ="startTrip(this.id)" class="btn btn-primary btn-sm">Start</span>              
+               echo  '<td>'.'<span id="bl546'.$i.'23"  dta-b="'.$fetchBooking["bookId"].'"  onClick ="startTrip(this.id)" class="btn btn-success btn-sm m-2">Start</span>  
+                    '.'<span id="bl4546'.$i.'22"  dta-b="'.$fetchBooking["bookId"].'"  onClick ="cancel(this.id)" class="btn btn-warning btn-sm m-2"  data-toggle="modal"  data-target="#diss" >Cancel</span> 
                  
                  ';
                } 
@@ -518,9 +582,12 @@ function BookingCo($conf){
 
 }
 //=====end of confirmed book
-if(isset($_POST['carListOnly']) and $_SESSION['role'] == 20 ){
+if(isset($_POST['carListOnly'])  and $_SESSION['role'] == 20 ){
   carlistOnly();
 }
+
+
+
 if(isset($_POST['dataSent']) and isset($_POST['carIdentity']) and $_SESSION['role'] == 20){
   $today = date('Y-m-d');
   $tomorrow = date("Y-m-d H:m:s",strtotime("tomorrow"));
@@ -688,16 +755,41 @@ if(isset($_POST['s']) && isset($_POST['d']) && isset($_POST['r'])){
 //========================
 //book confirmation
 if(isset($_POST['u']) && isset($_POST['dp']) && $_SESSION['role'] == 30){
- 
-  if($_POST['re'] != 1){
-    //send email
-   
+  $id = $_POST['dp'];
+  $color = '';
+  
+
+  if($_POST['re'] == 0){
+    //send email   
     $confirmed = 'confirmed';
-  }else{
+    $color = 'green';
+  }
+  elseif($_POST['re'] == 2){
+    $confirmed = 'canceled';
+    $color = 'brown';
+  }
+  else{
     //send email
     $confirmed = 'rejected';
+    $color = 'red';
   }
-  $id = $_POST['dp'];
+  if($confirmed == 'rejected' || $confirmed == 'canceled' ){
+    
+    if(!isset($_POST['ks']) || trim($_POST['ks']) == ''){     
+      echo '<div class="alert alert-danger mt-3" style="margin:auto">Please mention your reason</div>';
+      exit(BookingCo('confirmed'));
+    }else{
+      $ks = $_POST['ks'];
+      $now = new DateTime;
+      $rejDate = $now->format('Y-m-d H:m');
+      $stmt = $connection->prepare('INSERT INTO fluid_rejection(bookid,reason,rejectDate) values (?,?,?)');
+      $stmt->bind_param('iss',$id,$ks,$rejDate);
+      $stmt->execute();
+      $stmt->close();
+    }
+    
+  }
+ 
   $updatedAt = date('Y-m-d'); 
   $driver = $_SESSION['id'];
   $sql  = "UPDATE fluid_booking set rank = ?, updated_at = ?,driver_id =? where id = ?";
@@ -705,26 +797,64 @@ if(isset($_POST['u']) && isset($_POST['dp']) && $_SESSION['role'] == 30){
   $stmt->bind_param('ssii',$confirmed,$updatedAt,$driver,$id);
   $stmt->execute();
   $updated = $stmt->affected_rows;
-  if($updated){ 
+  if($updated > 0){ 
      //notification
-     $bookiID = $_POST['dp'];
-   $bootOwener = $connection->prepare('SELECT username,fluid_user.id as "owner" from fluid_booking inner join fluid_user on fluid_user.id = fluid_booking.id_user where fluid_booking.id = ?');
+    $bookiID = $_POST['dp'];
+   
+    $bootOwener = $connection->prepare('SELECT username,fluid_user.id as "owner",email,start_time,end_time,startP.name as nameFrom,endP.name as nameto from fluid_booking 
+    inner join fluid_place as startP on startP.id = fluid_booking.id_place0 inner join fluid_place as endP on endP.id = fluid_booking.id_placef   
+    inner join fluid_user on fluid_user.id = fluid_booking.id_user where fluid_booking.id = ?');
    $bootOwener->bind_param('i',$bookiID);   
    $bootOwener->execute();
    $result  = $bootOwener->get_result();
    $row = $result->fetch_assoc();
-   $date = date('Y-m-d  h:m:s');
+   $date = date('Y-m-d h:m:s');
    $boOwner = $row['owner'];
    $username =  $row['username'];
-   $msg = $username.', your booking have been '.$confirmed.'  by '.$_SESSION['username'].' :) ';
+   $email =  $row['email'];
+   $from =  $row['nameFrom'];
+   $to =  $row['nameto'];
+   $start =  $row['start_time'];
+   $end =  $row['end_time'];
+   $msg = $username.', your booking have been '.$confirmed.'  by '.$_SESSION['username'].' ';
 
    $note = $connection->prepare('INSERT INTO fluid_notification_lead(note,userId,created_at) values (?,?,?) ');
    $note->bind_param('sss',$msg,$boOwner,$date);
    $note->execute();
+   if($note->affected_rows > 0){
+       include '../include/deplicatSolver/emailSender.php';
+       $sender = "ishyigasoftware900@gmail.com";
+       $sender_name = "Booking activation";
+       $msg .= "
+       <table >
+     
+       <tbody>
+           
+       <tr><span style='font-size:16px;font-size:bold;color:".$color .";' >Driver: </span> ". $_SESSION['username'] ."</td> </tr>
+       <tr><span style='font-size:16px;font-size:bold;color:".$color .";'>From: </span>". $from ."</td> </tr>
+       <tr><span style='font-size:16px;font-size:bold;color:".$color .";'>To</span>: ". $to ." </td> </tr>
+       <tr><span style='font-size:16px;font-size:bold;color:".$color .";'>start time</span>: ". $start ."</td>  </tr>        
+       <tr><span style='font-size:16px;font-size:bold;color:".$color .";'>End time</span>: ". $end ."</td>  </tr>
+          
+       </tbody>
+   </table>
+       ";
+       sendEmail($username,$sender,$sender_name,$email,'<h2 color='.$color .'; >Your trip is '.$confirmed.' </h2> <br> '.$msg.'');
+   }
+   //===== notification =====
    $bootOwener->close();
    $note->close();
-   //===== notification =====   
-    Booking('confirmed');
+   
+   if($_POST['re'] == 0){     
+    Booking();
+  }
+  elseif($_POST['re'] == 2){
+    BookingCo('confirmed');
+  }
+  else{    
+    Booking();
+  }
+
   }else{    
     echo'<div class="alert alert-danger">Booking was not confirmed</div>';
   }
@@ -752,7 +882,7 @@ function carProgress($date){
     $stmtu->execute();
     $results = $stmtu->get_result();
     if(  $results->num_rows < 1){
-     echo $id_comany;
+    
     }else{
       echo '<div class="col-9  m-2">
       <div class="row">
@@ -778,7 +908,21 @@ function carProgress($date){
            </div>
       </div>';
       
-     
+        //bookin should be done 
+        $done = 'done';
+        $rejected = 'rejected';
+        $i = 1;
+        $ran = rand(5000,10000);
+        echo '<div class="col-12  m-2">
+        <div class="card shadow">
+                  <div class="card-header">
+                    Progress of  ('.$now.') 
+                  </div>
+                  <div class="card-body">
+               <div class="row">
+               
+                  
+             ';
       while($fetchDriver = $results->fetch_assoc()){
         $diverid = $fetchDriver['id'];
         $stmtp = $GLOBALS['conn']->prepare('SELECT count(fluid_booking.id) as num FROM fluid_booking where date(start_time) = date(?)  and driver_id = ?');
@@ -786,10 +930,17 @@ function carProgress($date){
         $stmtp->execute();
         $result = $stmtp->get_result();
         $fecthBprog = $result->fetch_assoc();
-          $progress = round(($fecthBprog['num'] * 100) / $returnedRow);
-          echo '<div class="col-xl-3 col-md-6 m-4">
-          <div class="card border-left-info shadow h-100 py-2">
-            <div class="card-body">
+         
+        $re = 'SELECT id from fluid_booking where driver_id = ? and rank = ?';
+        $stmtRe =  $GLOBALS['conn']->prepare($re);
+        $stmtRe->bind_param('is',$diverid,$rejected); 
+        $driverRejects = $stmtRe->num_rows;
+
+          $progress = round((($fecthBprog['num'] - $driverRejects) * 100) / $returnedRow);
+
+          echo '<div class="col-xl-3 col-md-6 mb-2">
+          <div class="card border-left-info shadow h-100 py-2"   >
+            <div class="card-body" dt-y="'.$now.'" data-tank="'.$diverid  .'" onClick="prog(this.id)" id="'.$i.'jks'.$i++.$ran.'">
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">'. $fetchDriver['username'] .' -('.$now.')- </div>
@@ -814,6 +965,12 @@ function carProgress($date){
       
      
       } 
+      echo'
+      </div>
+      </div>
+      </div>
+      </div>
+      ';
     }
  
 
@@ -846,7 +1003,7 @@ function carProgress($date){
               </div>
          </div>
     </div>';
-    echo '<div class="col-xl-3 col-md-6 m-4">
+    echo '<div class="col-12 m-4">
     <div class="card border-left-warning shadow h-100 py-2">
       <div class="card-body">
         <div class="row no-gutters align-items-center">
@@ -873,20 +1030,13 @@ function carProgress($date){
   }
  
 
-
-
- 
-
- 
-
 }
 
 //modified date 
 
 function carProgressMod($from,$to){
-  $id_comany = $_SESSION['sub_company'];
- 
   
+  $id_comany = $_SESSION['sub_company'];
   $now = $from;
   $rank = 'done'; 
   $stmt = $GLOBALS['conn']->prepare('SELECT fluid_booking.id FROM fluid_booking inner join fluid_user on fluid_user.id  = fluid_booking.id_user  where date(start_time) between date(?) and date(?) and fluid_user.id_subcompany = ? ');
@@ -904,12 +1054,12 @@ function carProgressMod($from,$to){
     $stmtu->execute();
     $results = $stmtu->get_result();
     if(  $results->num_rows < 1){
-     echo $id_comany;
+    
     }else{
       echo '<div class="col-12  m-2">
       <div class="card shadow">
                 <div class="card-header">
-                  from  ('.$now.') until ('.$to.')
+                 Progress from  ('.$now.') until ('.$to.')
                 </div>
                 <div class="card-body">
              <div class="row">
@@ -917,17 +1067,28 @@ function carProgressMod($from,$to){
                 
            ';
       
-     
+      //bookin should be done 
+      $done = 'done';
+      $rejected = 'rejected';
+      $i = 1;
+      $ran = rand(5000,10000);
       while($fetchDriver = $results->fetch_assoc()){
+        $i++;
         $diverid = $fetchDriver['id'];
-        $stmtp = $GLOBALS['conn']->prepare('SELECT count(fluid_booking.id) as num FROM fluid_booking where date(start_time) between date(?) and (?)  and driver_id = ?');
-        $stmtp->bind_param('ssi',$now,$to,$diverid);
+        $stmtp = $GLOBALS['conn']->prepare('SELECT count(fluid_booking.id) as num FROM fluid_booking where date(start_time) between date(?) and (?) and rank = ?  and driver_id = ?');
+        $stmtp->bind_param('sssi',$now,$to,$done,$diverid);
         $stmtp->execute();
         $result = $stmtp->get_result();
         $fecthBprog = $result->fetch_assoc();
-          $progress = round(($fecthBprog['num'] * 100) / $returnedRow);
-          echo '<div class="col-xl-3 col-md-6 m-1">
-          <div class="card border-left-info shadow h-100 py-2">
+
+        $re = 'SELECT id from fluid_booking where driver_id = ? and rank = ?';
+        $stmtRe =  $GLOBALS['conn']->prepare($re);
+        $stmtRe->bind_param('is',$diverid,$rejected); 
+        $driverRejects = $stmtRe->num_rows;
+
+          $progress = round((($fecthBprog['num'] - $driverRejects) * 100) / $returnedRow);
+          echo '<div class="col-xl-3 col-md-6 mb-2"  ">
+          <div class="card border-left-info shadow h-100 py-2" dt-y="'.$from.'"   data-tank="'. $diverid  .'" onClick="prog(this.id)" id="'.$i.'jks'.$i++.$ran.'">
             <div class="card-body">
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
@@ -973,7 +1134,7 @@ function carProgressMod($from,$to){
       <div class="card-body">
         <div class="row no-gutters align-items-center">
           <div class="col mr-2">
-            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">NO BOOKINGS IS DONE ON '.$now.'</div>
+            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">NO BOOKINGS was made ON '.$now.' which is done</div>
             <div class="row no-gutters align-items-center">
               <div class="col-auto">
                 <div class="h5 mb-0 mr-3 font-weight-bold text-warning">0 </div>
@@ -993,12 +1154,6 @@ function carProgressMod($from,$to){
     </div>
   </div>';
   }
- 
-
-
-
- 
-
  
 
 }

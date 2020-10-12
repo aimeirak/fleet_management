@@ -2,6 +2,46 @@
 session_start();
 include '../connexion.php';
 
+if(isset($_SESSION['role'])){ 
+  $now = new DateTime();
+  $id = $_SESSION['id'];
+$stmt = $connection->prepare('SELECT last_login from fluid_user where id = ?');
+$stmt->bind_param('i',$id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$lastLogin = new DateTime($row['last_login']);
+// echo ;
+// echo '<br>';
+// echo ;
+if($lastLogin->format('Y m d') < $now->format('Y m d')){
+  $msg = '
+  <div class="container">
+  <div class="card shadow mt-5">
+  <div class=" alert alert-warning text-center m-5"><div class" p-5">Please login again </div> </div>
+  </div>
+  </div>
+ ';
+  session_destroy();
+  exit($msg);
+ 
+}
+
+}else{
+  $msg = '
+  <div class="container">
+  <div class="card shadow mt-5">
+  <div class=" alert alert-warning text-center m-5"><div class" p-5">Please login again </div> </div>
+  </div>
+  </div>
+ ';
+ 
+ exit($msg);
+
+ 
+}
+
+
 if(isset($_SESSION['id']) && isset($_POST['d']) && $_POST['u'] == 1){
 
     $id = $_POST['d']; 
@@ -73,6 +113,38 @@ if(isset($_POST['cr']) && isset($_POST['r']) && isset($_POST['d'])&& isset($_POS
      }else{
         echo "<span class='text-white-50 btn btn-danger' >  Your are not a driver </span> ";
      }
+
+}
+
+if($_SESSION['role'] == 20 and isset($_POST['lo'])){
+  $car = array();
+  $id_company =  $_SESSION['sub_company'];
+  $sql  =  "SELECT * FROM fluid_car where id_subcompany = ? ";
+  $stmt = $connection->prepare($sql);
+  $stmt->bind_param('i',$id_company); 
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $i = 0 ;
+    while($row = $result->fetch_assoc()){
+      $car[$i] = '';  
+      $carid = $row['id'];
+      $carlocSql = "SELECT * from fluid_endtrack WHERE carId = ? order by id desc limit 1";
+      $loc = $connection->prepare($carlocSql); 
+      $loc->bind_param('i',$carid);
+      $loc->execute();
+      $locResult = $loc->get_result();
+      $rowLoc = $locResult->fetch_assoc();
+      $lat = floatval($rowLoc['la']);
+      $lng = floatval($rowLoc['lo']);
+      $car[$i] = array(
+        'plate' => $row['plaque'],
+        'coords' => array('lat'=>$lat,'lng' => $lng ),
+        'mrk' => 'assets/img/location3.png'                
+      );
+      $i++;
+
+    }
+   echo json_encode($car); 
 }
 
 ?>

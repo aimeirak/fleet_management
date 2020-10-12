@@ -1,4 +1,5 @@
-<?php ob_start();
+<?php 
+ob_start();
 include('connexion.php');
 header("Location: login.php");
 ?>

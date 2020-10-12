@@ -3,6 +3,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <meta name="description" content="  transport in rwanda ">
+    <meta name="keywords" content="rwanda transport , ishyiga , urugendo, chrisostome">
+    <meta name="author" content="sezerano jean chrisostome" >
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -240,4 +245,43 @@
     background-color:  #28a745;
     border-color: #28a745;
    }
+   .loader{
+  position: fixed;
+  z-index:99;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader > img {
+  width: 60%;
+  height: 60%;
+} 
+.loader.lodh{
+  animation: loadmeout 1s;
+  animation-fill-mode: forwards;
+}
+@keyframes loadmeout {
+  100% {
+    opacity: 0;
+    visibility: hidden;
+      }
+}
+
+
+@media screen and (max-width:760px){
+  .loader > img {
+    width: 100%;
+    height: 50%;
+  }
+   }
+   #ajax-loader{
+        display:none;
+        margin:0 auto;
+  }
    </style>

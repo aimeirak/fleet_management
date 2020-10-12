@@ -1,6 +1,11 @@
 <?php ob_start();
 session_start();
-include 'include/header.php' ; ?>
+include 'include/header.php' ;
+
+if(!isset($_SESSION["username"])){
+    header("Location: uiupdate.php");
+    exit(); }
+ ?>
 
 <?php include('connexion.php');
 error_reporting(E_ALL);

@@ -2,8 +2,10 @@
 
 <?php
 session_start();
+
 if(!isset($_SESSION["username"])){
-}
+    header("Location: uiupdate.php");
+    exit(); }
 ?>
 
 <?php $id_subcompany = $_SESSION['sub_company']; ?>
