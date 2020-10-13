@@ -9,3 +9,5 @@ if (!$select_db){
     die("Database Selection Failed" . mysqli_error($select_db));
 }
 
+$GLOBALS['conn'] = $connection;
+date_default_timezone_set("Africa/Kigali");

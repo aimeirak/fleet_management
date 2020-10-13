@@ -109,7 +109,7 @@
                         <!--<img src="assets/img/logo.png" style="width:160px; border-radius: 3px;"/>-->
                     </a>
                 <?php else:?>
-                    <a class="navbar-brand" href="ui.php">
+                    <a class="navbar-brand" href="uiupdate.php">
                         <img src="assets/img/logo.png" style="width:160px; border-radius: 3px;"/>
                     </a>
                 <?php endif;?>
