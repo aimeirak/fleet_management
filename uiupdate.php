@@ -409,7 +409,7 @@ else{
   </div>
   </div>
  ';
-  echo '<script> window.open("login.php") </script>';
+  echo '<script>  window.open("login.php","_self") </script>';
   exit($msg);
 }
 ?>

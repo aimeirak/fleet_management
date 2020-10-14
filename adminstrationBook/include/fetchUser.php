@@ -1,7 +1,7 @@
 <?php 
 
 include 'connexion.php';
-$select = 'SELECT id,username,role,status,live from fluid_user order by username asc';
+$select = 'SELECT id,username,role,status,live,email from fluid_user order by username asc';
 $stmt = $connection->prepare($select);
 $stmt->execute();
 $result = $stmt->get_result();

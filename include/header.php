@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta name="description" content="  transport in rwanda ">
+    <meta name="description" content=" transport in rwanda ">
     <meta name="keywords" content="rwanda transport , ishyiga , urugendo, chrisostome">
     <meta name="author" content="sezerano jean chrisostome" >
 
@@ -21,14 +21,12 @@
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-    
-  <!-- BOOTSTRAP STYLES-->
   <link rel="shortcut icon" href="assets/img/icon.png" />
   <link href="assets/css/jquery-ui.min.css" rel="stylesheet"/>
    
 
 
-   <!-- GOOGLE FONTS-->
+
    <link href="assets/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 
        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
@@ -39,7 +37,6 @@
 
 
    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css"/>
-   <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.css" rel="stylesheet"/>-->
   
    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
    <link href="assets/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
@@ -68,10 +65,10 @@
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.full.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-    <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.full.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+<link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
 
    <style>
      .pagination > li:first-child > a, .pagination > li:first-child > span{

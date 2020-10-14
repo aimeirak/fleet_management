@@ -202,10 +202,9 @@ ini_set('display_errors', 'On');
             
                             echo
             
-                                '
+                                '            
             
-            
-                 <tr>' .
+                             <tr>' .
                                 '<td>' . $row["from"] . ' (' . $row["fromname"] . ')</td>' .
                                 '<td>' . $row["to"] . ' (' . $row["toname"] . ')</td>' .
                                 '<td>' . $row["km"] . '</td>';   
@@ -215,7 +214,7 @@ ini_set('display_errors', 'On');
                                                     
                                 };
                               
-                            echo   '</tr>';
+                            echo'</tr>';
                            
             
                         }

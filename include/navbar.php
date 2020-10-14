@@ -69,6 +69,26 @@ if($lastLogin->format('Y m d') < $now->format('Y m d')){
 
 <!-- Divider -->
 <hr class="sidebar-divider">
+
+<?php //master report
+if($_SESSION['userStatus'] == 'MASTER'){
+  ?>
+
+
+<div class="sidebar-heading">
+  Reports
+</div>
+
+<!-- Nav Item - company  -->
+<li class="nav-item mb-2">
+  <a class="nav-link" href="repoter.php"  >
+    <i class="fas fa-fw fa-list " ></i>
+    <span>reports</span></a>
+</li>
+<hr class="sidebar-divider d-md-block">
+<?php //end master report 
+}?>
+
 <?php  if($_SESSION['role'] === 30 ){ ?>
 <div class="sidebar-heading">
   Cars

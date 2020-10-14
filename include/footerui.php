@@ -70,10 +70,7 @@ $json = json_encode($data);
   <!-- Core plugin JavaScript-->
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-  <!-- Custom scripts for all pages-->
-  <script src="assets/js/sb-admin-2.min.js"></script>
-
-
+ 
     <script src="assets/js/jquery-1.10.2.js"></script>
     <script src="assets/js/jquery-ui.min.js"></script>
     <script src="assets/js/moment.min.js"></script>
