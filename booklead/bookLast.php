@@ -2,6 +2,7 @@
 session_start();
 
 include('../connexion.php');
+include('../include/smsender/smssender.php');
 if(isset($_SESSION['role'])){ 
     $now = new DateTime();
     $id = $_SESSION['id'];
@@ -77,6 +78,42 @@ if(isset($_POST['send']) && isset($_SESSION['id']) && $_SESSION['role'] == 20 ||
         $stmt->execute();
         $booked = $stmt->affected_rows;
         if($booked){
+            //================getting direction ===================================]]
+            $sqlfrom  = "SELECT name  FROM fluid_place where id  = ?";
+            $stmtfrom = $connection->prepare($sqlfrom);
+            $stmtfrom->bind_param('i',$departure);
+            $stmtfrom->execute();
+            $result = $stmtfrom->get_result();
+            $from = $result->fetch_assoc();
+            $nameFrom = $from['name'];
+            //====== start to =====]]
+            $sqlto  = "SELECT name  FROM fluid_place where id  = ?";
+            $stmtto= $connection->prepare($sqlto);
+            $stmtto->bind_param('i',$destination);
+            $stmtto->execute();
+            $result = $stmtto->get_result();
+            $to = $result->fetch_assoc();
+            $nameTo = $to['name'];
+            //======= end to =====]]
+
+            //=======================end  direction fetch ========================]]  
+
+            //================fetching drivers ===================================]]
+            //  $_SESSION['phoneNumber'] 
+            $apiRuner = new apiHander();
+            $enterntained = 1;
+            $driver = 30;
+            $company = $_SESSION['sub_company'];
+            $sql  =  'SELECT  * FROM  fluid_user where live = ? and role = ? and id_subcompany = ? ';
+            $stmt =  $connection->prepare($sql); 
+            $stmt->bind_param('iii',$enterntained,$driver,$company);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            while($fetchedDriver = $result->fetch_assoc()){
+              $smsSent = $apiRuner->sendmessage($fetchedDriver['phone_number'],'New book is pending from www.urugendo.com .'.$_SESSION['username'].' booked from '.$nameFrom.' to  '.$nameTo.'. will start on '.$start_time.' until '. $_POST['et'].' ');
+            }
+           //=======================end  of driver===============================]]  
+           
            //km count
            $kmd  = "SELECT * FROM fluid_booking where id_user = ? order by id desc ";
            $stmtcount = $connection->prepare($kmd);
@@ -91,8 +128,8 @@ if(isset($_POST['send']) && isset($_SESSION['id']) && $_SESSION['role'] == 20 ||
            $kmi    = $connection->prepare($insert);
            $kmi->bind_param('iii',$bookId,$startPlace,$endPlace);
            $kmi->execute();
-
            //end_km
+
             echo'<div class="alert alert-success"> booked '.$start_time.' until '. $_POST['et'] .' </div>';
             $stmt->close();
         }else{
