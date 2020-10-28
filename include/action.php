@@ -75,17 +75,16 @@ function validateUser($userName,$password){
                                 $fetchCompany = $result->fetch_assoc(); 
                                 //===initilizing session===     
                                 //user sessions 
-                                $_SESSION['id']         = $fetchUser['id']; 
-                                $_SESSION['userStatus'] = $fetchUser['status']; 
-                                $_SESSION['role']       = $fetchUser['role']; 
-                                $_SESSION['username']   = $fetchUser['username']; 
-                                $_SESSION['email']      = $fetchUser['email']; 
-                                $_SESSION['role']      = $fetchUser['role']; 
-                                //user compony and subcamp sessions                                    
+                                $_SESSION['id']          = $fetchUser['id']; 
+                                $_SESSION['userStatus']  = $fetchUser['status']; 
+                                $_SESSION['role']        = $fetchUser['role']; 
+                                $_SESSION['username']    = $fetchUser['username']; 
+                                $_SESSION['email']       = $fetchUser['email']; 
+                                $_SESSION['role']        = $fetchUser['role']; 
+                                $_SESSION['phoneNumber'] = $fetchUser['phone_number'];
+                                //user company and subcamp sessions                                    
                                 $_SESSION['blancName']  = $fetchCompany['subcompany_name']; 
-                                
-                                                  
-                         
+
                                 if($_SESSION['username'] && $_SESSION['blancName']){
                                     $date = date("Y-m-d h:i:s");
                                     $setLogInStatusQuery = "UPDATE fluid_user set  last_login = ? where id = ?  ";

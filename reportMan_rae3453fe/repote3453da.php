@@ -39,7 +39,7 @@ echo json_encode($cars);
 function getDriverInfo(){
    $driver = 30 ; 
    $driverInfo = array();
-   $sql  = "SELECT username,id,live from fluid_user where role = ? ";
+   $sql  = "SELECT email,username,id,live from fluid_user where role = ? ";
    $stmt = $GLOBALS['conn']->prepare($sql);
    $stmt->bind_param('i',$driver);
    $stmt->execute();
